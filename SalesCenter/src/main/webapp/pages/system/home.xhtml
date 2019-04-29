@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/pages/template/main/main.xhtml">
+	<ui:define name="content">
+		<f:metadata>
+			<f:event type="preRenderView" listener="#{themeService.recoverUserTheme()}" />
+			<f:event type="preRenderView" listener="#{languageController.recoverUserLanguage()}" />
+		</f:metadata>
+
+		<f:view locale="#{languageController.language}" contentType="text/html; charset=UTF-8" encoding="UTF-8">
+			<h:form id="homeContent" styleClass="pageContent">
+				<p:growl id="messages" showDetail="true" />
+
+				<h:body>
+					<p:remoteCommand id="runInitProceduresCommand" name="runInitProcedures" update="@all" immediate="true" autoRun="#{loginController.runInitProcedures}" actionListener="#{loginController.welcome()}" />
+				</h:body>
+			</h:form>
+		</f:view>
+
+		<h:form>
+			<p:spacer />
+			<h:panelGrid id="noticeGridTop" columns="4" cellpadding="20" styleClass="noticeGroupTop">
+				<p:panel id="topNotice1" styleClass="noticeInternal">
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignLeft">
+							<h2>Setembro Amarelo</h2>
+							<h4>Sabe aquele apoio nas questões diárias que você e sua família mais necessitam? Benefício SVA - Serviço de Valor Agregado Utilize 24h gratuitamente: 0800-778-8866</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:panel id="topNotice2" styleClass="noticeInternal">
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignLeft">
+							<h2>Descredenciamento</h2>
+							<h4>Prezados colaboradores, Segundo a corretora Brasil Insurance a operadora Sompo Saúde declarou que o Hospital Santa Paula segue com alguma questão pontual que “suspendeu o atendimento
+								aos seguros Sompo”. Tão logo tenhamos outras orientações comunicaremos. Antes de utilizar qualquer local dentre as opções da rede credenciada consulte o site ou o APP Sompo. Atenciosamente,
+								Recursos Humanos Desenvolvimento Organizacional.</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:panel id="topNotice3" styleClass="noticeInternal">
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignLeft">
+							<h2>Exames Médicos</h2>
+							<h4>Contaremos com o médico do trabalho para a realização de exames médicos periódicos. Um email informativo será enviado. Pedimos atenção aos prazos.</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:panel id="topNotice4" styleClass="noticeInternal">
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignLeft">
+							<h2>Carterinha do SESC</h2>
+							<h4>Prezados colaboradores, buscando manter boas oportunidades de benefícios e parcerias anunciamos: Teremos a vinda dos representantes do SESC para a ação de renovação anual da
+								carteirinha de associados e também, cadastro de primeiro acesso para aqueles que ainda não possuem a credencial. Os colaboradores poderão fazer a credencial de sócio para si e seus
+								“dependentes” (cônjuge, filhos/enteados em idade escolar e seus pais).</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:panel id="topNotice5" styleClass="noticeInternal">
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignLeft">
+							<h2>Aumento de despesas</h2>
+							<h4>Alerta: Assistência Médica Prezados colaboradores - sigamos atentos ao indicador da sinistralidade do plano de saúde. Acompanhe e use com atenção. Recursos Humanos Desenvolvimento
+								Organizacional.</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:panel id="topNotice6" styleClass="noticeInternal">
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignLeft">
+							<h2>Indicação Premiada</h2>
+							<h4>A cada indicação que se tornar uma você ganha um jantar grátis! Temos Vagas para: Analista Desenvolvedor JAVA, Analista Desenvolvedor Mobile, Arquiteto JAVA: São Paulo/SP e Analista
+								Programador (Script Case, PHP e MySQL). Ambas em São Paulo - SP.</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+
+
+				<p:panel id="topNotice7" styleClass="noticeInternal">
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignLeft">
+							<h2>Solicitação de Férias</h2>
+							<h4>Para solicitar férias, um email deve ser enviado para o seu gestor, com no mínimo 6 meses de antecedência. Informe o período de férias desejada.</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:panel id="topNotice8" styleClass="noticeInternal">
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignLeft">
+							<h2>Ajuste de valores</h2>
+							<h4>Conforme acordo realizado no mês de julho/2018. Serão realizados acrescimos de 4,8% no valor do VR. O dissidio também sofrerá um reajuste de 5,3% para 8,7%.</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

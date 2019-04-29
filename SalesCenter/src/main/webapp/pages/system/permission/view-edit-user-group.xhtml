@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<ui:composition template="/pages/template/main/main.xhtml">
+	<ui:define name="content">
+		<h:form id="viewEdit" styleClass="pageContent">
+			<p:growl id="messages" showDetail="true" />
+
+			<p:breadCrumb id="breadCrumb">
+				<p:menuitem value="#{m['menu.home']}" icon="fa fa-home" outcome="home" />
+				<p:menuitem value="#{m['menu.searchUserGroup']}" outcome="search-user-group" styleClass="textAction" />
+			</p:breadCrumb>
+
+			<p:spacer />
+			<p:fieldset id="title" styleClass="textScreenTitle">
+				<h1>#{m['title.userGroupViewEdit']}</h1>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="basicInfo" legend="#{m['title.basicInformation']}">
+				<h:panelGrid id="panelBasicInfo" columns="2" columnClasses="ui-grid-col-8, ui-grid-col-4" styleClass="widthOneHundred">
+					<h:panelGrid id="pName" columns="1" cellpadding="10" styleClass="fieldInsertText">
+						<p:inplace id="iName" label="#{m['inplace.name']} #{viewEditUserGroupController.orm.name}" editor="true" styleClass="textViewStrong">
+							<p:inputText id="name" value="#{viewEditUserGroupController.orm.name}" maxlength="50" placeholder="#{m['placeHolder.name']}" required="true" requiredMessage="#{m['requiered.name']}"
+								styleClass="fieldInsertText" />
+						</p:inplace>
+					</h:panelGrid>
+					<h:panelGrid id="pStatus" columns="1" cellpadding="10" styleClass="fieldInsertText">
+						<p:inplace id="iStatus" label="#{m['inplace.status']} #{viewEditUserGroupController.translateEnumValue(viewEditUserGroupController.orm.status.description)}" editor="true"
+							styleClass="textViewStrong">
+							<p:selectOneMenu id="status" value="#{viewEditUserGroupController.orm.status}" styleClass="fieldInsertCombo">
+								<f:selectItems value="#{viewEditUserGroupController.status}" var="status" itemLabel="#{viewEditUserGroupController.translateEnumValue(status.description)}" />
+							</p:selectOneMenu>
+						</p:inplace>
+					</h:panelGrid>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="table" legend="#{m['title.permissions']}">
+				<h:panelGrid id="screenInfo" layout="grid" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" cellpadding="10" styleClass="widthOneHundred">
+					<p:panel id="treePanel">
+						<f:facet name="header">
+							<p:row>
+								<p:column>#{m['title.screens']}</p:column>
+							</p:row>
+						</f:facet>
+						<p:tree id="treeScreen" value="#{viewEditUserGroupController.root}" var="tree" dynamic="true" datakey="tree.id" selection="#{viewEditUserGroupController.selectedNodes}" selectionMode="checkbox"
+							styleClass="noBorder">
+							<p:treeNode>
+								<h:outputText value="#{viewEditUserGroupController.translateEnumValue(tree.description)}" />
+							</p:treeNode>
+							<p:ajax event="select" listener="#{viewEditUserGroupController.permissionController.onNodeSelect}" update=":viewEdit:permissionsPanel" />
+							<p:ajax event="unselect" listener="#{viewEditUserGroupController.permissionController.onNodeUnSelect}" update=":viewEdit:permissionsPanel" />
+						</p:tree>
+					</p:panel>
+					<p:panel id="permissionsPanel" styleClass="widthOneHundred">
+						<f:facet name="header">
+							<p:row>
+								<p:column>#{m['title.permissions']}</p:column>
+							</p:row>
+						</f:facet>
+						<p:dataTable id="tablePermission" var="permission" value="#{viewEditUserGroupController.permissionController.permissions}" paginator="false" rows="500" lazy="false" emptyMessage=""
+							styleClass="borderless">
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="#{m['title.screen']}" />
+								</f:facet>
+								<h:outputText value="#{viewEditUserGroupController.translateEnumValue(permission.screen.description)}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="#{m['title.create']}" />
+								</f:facet>
+								<p:selectBooleanCheckbox value="#{permission.create}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="#{m['title.update']}" />
+								</f:facet>
+								<p:selectBooleanCheckbox value="#{permission.update}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="#{m['title.read']}" />
+								</f:facet>
+								<p:selectBooleanCheckbox value="#{permission.read}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="#{m['title.delete']}" />
+								</f:facet>
+								<p:selectBooleanCheckbox value="#{permission.delete}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="#{m['title.enable']}" />
+								</f:facet>
+								<p:selectBooleanCheckbox value="#{permission.enable}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="#{m['title.disable']}" />
+								</f:facet>
+								<p:selectBooleanCheckbox value="#{permission.disable}" />
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="generalButtons" rendered="#{showHideController.showHide(4, 'update')}">
+				<h:panelGrid id="formButtonsRight" columns="2" cellpadding="10" styleClass="onTheRight">
+					<p:commandButton id="cancel" value="#{m['button.cancel']}" immediate="true" action="#{viewEditUserGroupController.cancel()}" icon="fa fa-close" />
+
+					<p:commandButton id="update" value="#{m['button.update']}" validateClient="true" ajax="false" icon="fa fa-refresh" action="#{viewEditUserGroupController.update}"
+						rendered="#{showHideController.showHide(4, 'update')}" update="messages basicInfo table" />
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

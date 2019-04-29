@@ -1,0 +1,482 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<ui:composition template="/pages/template/main/main.xhtml">
+	<ui:define name="content">
+		<h:form id="register" styleClass="pageContent">
+			<p:growl id="messages" showDetail="true" />
+
+			<p:breadCrumb id="breadCrumb">
+				<p:menuitem value="#{m['menu.home']}" icon="fa fa-home" outcome="home" />
+				<p:menuitem value="#{m['menu.searchClient']}" outcome="search-client" styleClass="textAction" />
+			</p:breadCrumb>
+
+			<p:spacer />
+			<p:fieldset id="title" styleClass="textScreenTitle">
+				<h1>#{m['title.clientRegistration']}</h1>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="basicInfo" legend="#{m['title.basicInformation']}" toggleable="true" tabindex="0">
+				<h:panelGrid id="panelBasicInfo1" columns="3" columnClasses="ui-grid-col-4, ui-grid-col-4, ui-grid-col-4" cellpadding="10" styleClass="widthOneHundred">
+					<p:inputText id="social" value="#{insertClientController.orm.social}" maxlength="255" placeholder="#{m['placeHolder.social']}" required="true"
+						requiredMessage="#{m['requiered.social']}" styleClass="fieldInsertText" />
+
+					<p:inputText id="fantasy" value="#{insertClientController.orm.fantasy}" maxlength="255" placeholder="#{m['placeHolder.fantasy']}" required="true"
+						requiredMessage="#{m['requiered.fantasy']}" styleClass="fieldInsertText" />
+
+					<p:inputMask id="cnpj" value="#{insertClientController.orm.cnpj}" placeholder="#{m['placeHolder.cnpj']}" mask="99.999.999/9999-99" required="true"
+						requiredMessage="#{m['requiered.cnpj']}" styleClass="fieldInsertText">
+						<f:converter converterId="cnpjConverter" />
+						<f:validator validatorId="cnpjValidator" />
+					</p:inputMask>
+
+					<p:inputText id="site" value="#{insertClientController.orm.site}" maxlength="255" placeholder="#{m['placeHolder.site']}" styleClass="fieldInsertText" />
+
+					<p:inputMask id="stateRegistration" value="#{insertClientController.orm.stateRegistration}" placeholder="#{m['placeHolder.stateRegistration']}"
+						mask="999.999.999.999" required="true" requiredMessage="#{m['requiered.stateRegistration']}" styleClass="fieldInsertText">
+					</p:inputMask>
+
+					<p:calendar id="opening" value="#{insertClientController.orm.opening}" placeholder="#{m['placeHolder.opening']}" pattern="dd/MM/yyyy" mask="true"
+						converter="localDateConverter" maxdate="#{insertClientController.today()}" navigator="true" readonlyInput="true" required="true"
+						requiredMessage="#{m['requiered.opening']}" styleClass="dateTimeField" />
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="segmentInfo" legend="#{m['title.segmentInfo']}" toggleable="true" tabindex="1" collapsed="true">
+				<h:panelGrid id="panelSegmentsPick" columns="1" styleClass="onTheCenter">
+					<p:pickList id="segmentPickList" converter="entityConverter" value="#{insertClientController.segmentController.dualSegments}" var="segment" itemValue="#{segment}"
+						itemLabel="#{insertClientController.translateEnumValue(segment.description)}" showSourceControls="true" showTargetControls="true" responsive="true"
+						showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains">
+
+						<f:facet name="sourceCaption">#{m['title.available']}</f:facet>
+						<f:facet name="targetCaption">#{m['title.selected']}</f:facet>
+					</p:pickList>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="EmailInfo" legend="#{m['title.email']}" toggleable="true" tabindex="2" collapsed="true">
+				<h:panelGrid id="panelEmailFields" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+					<p:inputText id="email" value="#{insertClientController.emailController.orm.email}" placeholder="#{m['placeHolder.email']}" maxlength="100" required="true"
+						requiredMessage="#{m['requiered.email']}" validatorMessage="#{m['requiered.emailInvalid']}" styleClass="fieldInsertText">
+						<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+					</p:inputText>
+
+					<p:inputText id="description" value="#{insertClientController.emailController.orm.description}" maxlength="255" placeholder="#{m['placeHolder.description']}"
+						styleClass="fieldInsertText" />
+
+					<p:commandButton id="emailAdd" value="#{m['button.add']}" update="emails messages" process="@parent" action="#{insertClientController.emailController.reinit}"
+						icon="fa fa-plus">
+						<p:collector value="#{insertClientController.emailController.orm}" addTo="#{insertClientController.emailController.orms}" unique="true" />
+					</p:commandButton>
+				</h:panelGrid>
+
+				<p:spacer />
+				<p:outputPanel id="emails">
+					<p:dataTable id="dataTableEmails" value="#{insertClientController.emailController.orms}" var="email" reflow="true" resizableColumns="true" scrollable="true"
+						emptyMessage="" rendered="#{insertClientController.emailController.orms.size() > 0}" styleClass="borderless">
+						<f:facet name="header">
+							<h:panelGrid id="panelEmailExport" columns="2" cellpadding="10">
+								<p:outputPanel id="exporters">
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/excel.png" width="24" />
+										<p:dataExporter type="xls" target="dataTableEmails" fileName="client emails" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/pdf.png" width="24" />
+										<p:dataExporter type="pdf" target="dataTableEmails" fileName="client emails" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/csv.png" width="24" />
+										<p:dataExporter type="csv" target="dataTableEmails" fileName="client emails" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/xml.png" width="24" />
+										<p:dataExporter type="xml" target="dataTableEmails" fileName="client emails" pageOnly="true" />
+									</h:commandLink>
+								</p:outputPanel>
+
+								<p:outputPanel id="toggleColumns">
+									<p:commandButton id="toggler" type="button" value="#{m['button.show']}" icon="ui-icon-calculator" styleClass="onTheRight" />
+									<p:columnToggler datasource="dataTableEmails" trigger="toggler" />
+								</p:outputPanel>
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column sortBy="#{email.email}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.email']}" />
+							</f:facet>
+							<h:outputText value="#{email.email}" />
+						</p:column>
+						<p:column sortBy="#{email.description}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.description']}" />
+							</f:facet>
+							<h:outputText value="#{email.description}" />
+						</p:column>
+						<p:column exportable="false">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.action']}" />
+							</f:facet>
+							<p:commandLink value="#{m['button.remove']}" update=":register:emails" process=":register:emails" styleClass="textAction">
+								<p:collector value="#{email}" removeFrom="#{insertClientController.emailController.orms}" unique="true" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
+			</p:fieldset>
+			
+			<p:spacer />
+			<p:fieldset id="contactInfo" legend="#{m['title.contact']}" toggleable="true" tabindex="3" collapsed="true">
+				<h:panelGrid id="panelContactFields" columns="3" columnClasses="ui-grid-col-4, ui-grid-col-1, ui-grid-col-3" cellpadding="10" styleClass="widthFifty">
+					<p:selectOneMenu id="phoneType" value="#{insertClientController.phoneController.orm.phoneType}" requiredMessage="#{m['requiered.phoneType']}"
+						styleClass="fieldInsertMediumCombo">
+						<f:selectItems value="#{insertClientController.phoneController.phoneTypes}" var="phoneType"
+							itemLabel="#{insertClientController.translateEnumValue(phoneType.description)}" />
+						<p:ajax event="change" update=":register:phoneNumber" listener="#{insertClientController.setPhoneType}" />
+					</p:selectOneMenu>
+
+					<p:inputMask id="ddd" value="#{insertClientController.phoneController.orm.ddd}" placeholder="#{m['placeHolder.ddd']}" mask="(99)" converter="phoneConverter"
+						required="true" requiredMessage="#{m['requiered.ddd']}" styleClass="fieldInsertText" />
+
+					<p:inputMask id="phoneNumber" value="#{insertClientController.phoneController.orm.number}" placeholder="#{m['placeHolder.number']}"
+						mask="#{insertClientController.phoneType.mask}" required="true" requiredMessage="#{m['requiered.phoneNumber']}" styleClass="fieldInsertText" />
+
+					<p:commandButton id="contactAdd" value="#{m['button.add']}" update="phones messages" process="@parent" action="#{insertClientController.phoneController.reinit}"
+						icon="fa fa-plus">
+						<p:collector value="#{insertClientController.phoneController.orm}" addTo="#{insertClientController.phoneController.orms}" unique="true" />
+					</p:commandButton>
+				</h:panelGrid>
+
+				<p:spacer />
+				<p:outputPanel id="phones">
+					<p:dataTable id="dataTablePhones" value="#{insertClientController.phoneController.orms}" var="phone" reflow="true" resizableColumns="true" scrollable="true"
+						emptyMessage="" rendered="#{insertClientController.phoneController.orms.size() > 0}" styleClass="borderless">
+						<f:facet name="header">
+							<h:panelGrid id="panelPhoneExport" columns="2" cellpadding="10">
+								<p:outputPanel id="exporters">
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/excel.png" width="24" />
+										<p:dataExporter type="xls" target="dataTablePhones" fileName="client phones" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/pdf.png" width="24" />
+										<p:dataExporter type="pdf" target="dataTablePhones" fileName="client phones" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/csv.png" width="24" />
+										<p:dataExporter type="csv" target="dataTablePhones" fileName="client phones" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/xml.png" width="24" />
+										<p:dataExporter type="xml" target="dataTablePhones" fileName="client phones" pageOnly="true" />
+									</h:commandLink>
+								</p:outputPanel>
+
+								<p:outputPanel id="toggleColumns">
+									<p:commandButton id="toggler" type="button" value="#{m['button.show']}" icon="ui-icon-calculator" styleClass="onTheRight" />
+									<p:columnToggler datasource="dataTablePhones" trigger="toggler" />
+								</p:outputPanel>
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column sortBy="#{phone.phoneType.description}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.type']}" />
+							</f:facet>
+							<h:outputText value="#{insertClientController.translateEnumValue(phone.phoneType.description)}" />
+						</p:column>
+						<p:column sortBy="#{phone.ddd}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.ddd']}" />
+							</f:facet>
+							<h:outputText value="#{phone.ddd}" />
+						</p:column>
+						<p:column sortBy="#{phone.number}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.number']}" />
+							</f:facet>
+							<h:outputText value="#{phone.number}" />
+						</p:column>
+						<p:column exportable="false">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.action']}" />
+							</f:facet>
+							<p:commandLink value="#{m['button.remove']}" update=":register:phones" process=":register:phones" styleClass="textAction">
+								<p:collector value="#{phone}" removeFrom="#{insertClientController.phoneController.orms}" unique="true" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="addressInfo" legend="#{m['title.address']}" toggleable="true" tabindex="4" collapsed="true">
+				<h:panelGrid id="panelAddressFields" columns="4" columnClasses="ui-grid-col-2, ui-grid-col-6, ui-grid-col-1, ui-grid-col-3" cellpadding="10"
+					styleClass="widthOneHundred">
+					<p:selectOneMenu id="streetType" value="#{insertClientController.addressController.orm.streetType}" filter="true" styleClass="fieldInsertMediumCombo">
+						<f:selectItems value="#{insertClientController.addressController.streetTypes}" var="streetType"
+							itemLabel="#{insertClientController.translateEnumValue(streetType.description)}" />
+					</p:selectOneMenu>
+
+					<p:inputText id="street" value="#{insertClientController.addressController.orm.street}" placeholder="#{m['placeHolder.street']}" maxlength="200" required="true"
+						requiredMessage="#{m['requiered.street']}" styleClass="fieldInsertText" />
+
+					<p:inputMask id="streetNumber" value="#{insertClientController.addressController.orm.number}" placeholder="#{m['placeHolder.number']}" mask="9?9999" required="true"
+						requiredMessage="#{m['requiered.streetNumber']}" styleClass="fieldInsertText">
+						<f:converter converterId="streetNumberConveter" />
+					</p:inputMask>
+
+					<p:inputText id="compliment" value="#{insertClientController.addressController.orm.compliment}" placeholder="#{m['placeHolder.compliment']}" maxlength="50"
+						styleClass="fieldInsertText" />
+				</h:panelGrid>
+				<h:panelGrid id="panelAddressFields2" columns="4" columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-4, ui-grid-col-2" cellpadding="10"
+					styleClass="widthOneHundred">
+					<p:inputMask id="cep" value="#{insertClientController.addressController.orm.cep}" placeholder="#{m['placeHolder.cep']}" mask="99999-999" required="true"
+						requiredMessage="#{m['requiered.cep']}" styleClass="fieldInsertText">
+						<f:converter converterId="cepConverter" />
+					</p:inputMask>
+
+					<p:inputText id="neighborhood" value="#{insertClientController.addressController.orm.neighborhood}" placeholder="#{m['placeHolder.neighborhood']}" maxlength="50"
+						required="true" requiredMessage="#{m['requiered.neighborhood']}" styleClass="fieldInsertText" />
+
+					<p:inputText id="city" value="#{insertClientController.addressController.orm.city}" placeholder="#{m['placeHolder.city']}" maxlength="50" required="true"
+						requiredMessage="#{m['requiered.city']}" styleClass="fieldInsertText" />
+
+					<p:selectOneMenu id="state" value="#{insertClientController.addressController.orm.state}" filter="true" styleClass="fieldInsertMediumCombo">
+						<f:selectItems value="#{insertClientController.addressController.states}" var="state" itemLabel="#{insertClientController.translateEnumValue(state.description)}" />
+					</p:selectOneMenu>
+
+					<p:commandButton id="addressAdd" value="#{m['button.add']}" icon="fa fa-plus" update="addresses messages"
+						process=":register:panelAddressFields :register:panelAddressFields2" action="#{insertClientController.addressController.reinit}">
+						<p:collector value="#{insertClientController.addressController.orm}" addTo="#{insertClientController.addressController.orms}" unique="true" />
+					</p:commandButton>
+				</h:panelGrid>
+
+				<p:spacer />
+				<p:outputPanel id="addresses">
+					<p:dataTable id="dataTableAddresses" value="#{insertClientController.addressController.orms}" var="address" reflow="true" resizableColumns="true" scrollable="true"
+						emptyMessage="" rendered="#{insertUserController.addressController.orms.size() > 0}" styleClass="borderless">
+						<f:facet name="header">
+							<h:panelGrid id="panelBasicSearch" columns="2" cellpadding="10">
+								<p:outputPanel id="exporters">
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/excel.png" width="24" />
+										<p:dataExporter type="xls" target="dataTableAddresses" fileName="client addresses" pageOnly="true" selectionOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/pdf.png" width="24" />
+										<p:dataExporter type="pdf" target="dataTableAddresses" fileName="client addresses" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/csv.png" width="24" />
+										<p:dataExporter type="csv" target="dataTableAddresses" fileName="client addresses" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/xml.png" width="24" />
+										<p:dataExporter type="xml" target="dataTableAddresses" fileName="client addresses" pageOnly="true" />
+									</h:commandLink>
+								</p:outputPanel>
+
+								<p:outputPanel id="toggleColumns">
+									<p:commandButton id="toggler" type="button" value="#{m['button.show']}" icon="ui-icon-calculator" styleClass="onTheRight" />
+									<p:columnToggler datasource="dataTableAddresses" trigger="toggler" />
+								</p:outputPanel>
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column sortBy="#{address.streetType.description}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.type']}" />
+							</f:facet>
+							<h:outputText value="#{insertClientController.translateEnumValue(address.streetType.description)}" />
+						</p:column>
+						<p:column sortBy="#{address.street}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.street']}" />
+							</f:facet>
+							<h:outputText value="#{address.street}" />
+						</p:column>
+						<p:column sortBy="#{address.number}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.number']}" />
+							</f:facet>
+							<h:outputText value="#{address.number}" converter="streetNumberConveter" />
+						</p:column>
+						<p:column sortBy="#{address.compliment}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.compliment']}" />
+							</f:facet>
+							<h:outputText value="#{address.compliment}" />
+						</p:column>
+						<p:column sortBy="#{address.cep}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.cep']}" />
+							</f:facet>
+							<h:outputText value="#{address.cep}" converter="cepConverter" />
+						</p:column>
+						<p:column sortBy="#{address.neighborhood}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.neighborhood']}" />
+							</f:facet>
+							<h:outputText value="#{address.neighborhood}" />
+						</p:column>
+						<p:column sortBy="#{address.city}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.city']}" />
+							</f:facet>
+							<h:outputText value="#{address.city}" />
+						</p:column>
+						<p:column sortBy="#{address.state.description}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.state']}" />
+							</f:facet>
+							<h:outputText value="#{insertClientController.translateEnumValue(address.state.description)}" />
+						</p:column>
+						<p:column exportable="false">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.action']}" />
+							</f:facet>
+							<p:commandLink value="#{m['button.remove']}" update=":register:addresses" process=":register:addresses" styleClass="textAction">
+								<p:collector value="#{address}" removeFrom="#{insertClientController.addressController.orms}" unique="true" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="representativeInfo" legend="#{m['title.representative']}" toggleable="true" tabindex="5" collapsed="true">
+				<h:panelGrid id="panelRepresentativeFields" columns="5" columnClasses="ui-grid-col-3, ui-grid-col-3, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2" cellpadding="10"
+					styleClass="widthOneHundred">
+					<p:inputText id="name" value="#{insertClientController.representativeController.orm.name}" maxlength="50" placeholder="#{m['placeHolder.name']}" required="true"
+						requiredMessage="#{m['requiered.name']}" styleClass="fieldInsertText" />
+
+					<p:inputText id="lastName" value="#{insertClientController.representativeController.orm.lastName}" maxlength="100" placeholder="#{m['placeHolder.lastName']}"
+						required="true" requiredMessage="#{m['requiered.lastName']}" styleClass="fieldInsertText" />
+
+					<p:selectOneMenu id="gender" value="#{insertClientController.representativeController.orm.gender}" styleClass="fieldInsertMediumCombo">
+						<f:selectItems value="#{insertClientController.representativeController.genders}" var="gender"
+							itemLabel="#{insertClientController.translateEnumValue(gender.description)}" />
+					</p:selectOneMenu>
+
+					<p:inputMask id="cpf" value="#{insertClientController.representativeController.orm.cpf}" placeholder="#{m['placeHolder.cpf']}" mask="999.999.999-99" required="true"
+						requiredMessage="#{m['requiered.cpf']}" styleClass="fieldInsertText">
+						<f:converter converterId="cpfConverter" />
+						<f:validator validatorId="cpfValidator" />
+					</p:inputMask>
+
+					<p:inputText id="position" value="#{insertClientController.representativeController.orm.position}" maxlength="100" placeholder="#{m['placeHolder.position']}"
+						required="true" requiredMessage="#{m['requiered.position']}" styleClass="fieldInsertText" />
+
+					<p:commandButton id="representativeAdd" value="#{m['button.add']}" update="representatives messages" process="@parent"
+						action="#{insertClientController.representativeController.reinit}" icon="fa fa-plus">
+						<p:collector value="#{insertClientController.representativeController.orm}" addTo="#{insertClientController.representativeController.orms}" unique="true" />
+					</p:commandButton>
+				</h:panelGrid>
+
+				<p:spacer />
+				<p:outputPanel id="representatives">
+					<p:dataTable id="dataTableRepresentative" value="#{insertClientController.representativeController.orms}" var="representative" reflow="true" resizableColumns="true"
+						scrollable="true" emptyMessage="" rendered="#{insertClientController.representativeController.orms.size() > 0}" styleClass="borderless">
+						<f:facet name="header">
+							<h:panelGrid id="panelRepresentativeExport" columns="2" cellpadding="10">
+								<p:outputPanel id="exporters">
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/excel.png" width="24" />
+										<p:dataExporter type="xls" target="dataTableRepresentative" fileName="representative" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/pdf.png" width="24" />
+										<p:dataExporter type="pdf" target="dataTableRepresentative" fileName="representative" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/csv.png" width="24" />
+										<p:dataExporter type="csv" target="dataTableRepresentative" fileName="representative" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/xml.png" width="24" />
+										<p:dataExporter type="xml" target="dataTableRepresentative" fileName="representative" pageOnly="true" />
+									</h:commandLink>
+								</p:outputPanel>
+
+								<p:outputPanel id="toggleColumns">
+									<p:commandButton id="toggler" type="button" value="#{m['button.show']}" icon="ui-icon-calculator" styleClass="onTheRight" />
+									<p:columnToggler datasource="dataTableRepresentative" trigger="toggler" />
+								</p:outputPanel>
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column sortBy="#{representative.name}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.name']}" />
+							</f:facet>
+							<h:outputText value="representative.name" />
+						</p:column>
+						<p:column sortBy="#{representative.lastName}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.lastName']}" />
+							</f:facet>
+							<h:outputText value="#{representative.lastName}" />
+						</p:column>
+						<p:column sortBy="#{representative.gender}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.gender']}" />
+							</f:facet>
+							<h:outputText value="#{insertClientController.translateEnumValue(representative.gender.description)}" />
+						</p:column>
+						<p:column sortBy="#{representative.cpf}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.cpf']}" />
+							</f:facet>
+							<h:outputText value="#{representative.cpf}" converter="cpfConverter" />
+						</p:column>
+						<p:column sortBy="#{representative.position}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.position']}" />
+							</f:facet>
+							<h:outputText value="#{representative.position}" />
+						</p:column>
+						<p:column exportable="false">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.action']}" />
+							</f:facet>
+							<p:commandLink value="#{m['button.remove']}" update=":register:representatives" process=":register:representatives" styleClass="textAction">
+								<p:collector value="#{representative}" removeFrom="#{insertClientController.representativeController.orms}" unique="true" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="situationInfo" legend="#{m['title.situation']}" toggleable="true" tabindex="6" collapsed="true">
+				<h:panelGrid id="panelSituationFields" columns="1" columnClasses="ui-grid-col-12" cellpadding="10">
+					<p:selectOneMenu id="status" value="#{insertClientController.orm.status}" styleClass="fieldInsertCombo">
+						<f:selectItems value="#{insertClientController.status}" var="status" itemLabel="#{insertClientController.translateEnumValue(status.description)}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="generalButtons" tabindex="7">
+				<h:panelGrid id="formButtons" columns="2" cellpadding="10" styleClass="onTheRight">
+					<p:commandButton id="cancel" value="#{m['button.cancel']}" immediate="true" action="#{insertClientController.cancel()}" icon="fa fa-close" />
+
+					<p:commandButton id="save" value="#{m['button.save']}" validateClient="true" ajax="false" icon="fa fa-save" actionListener="#{insertClientController.save}"
+						update="messages basicInfo segmentInfo EmailInfo contactInfo addressInfo representativeInfo" rendered="#{showHideController.showHide(3, 'create')}"/>
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

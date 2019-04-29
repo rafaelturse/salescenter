@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<ui:composition template="/pages/template/main/main.xhtml">
+	<ui:define name="content">
+		<h:form id="search" styleClass="pageContent">
+			<p:growl id="messages" showDetail="true" />
+
+			<p:spacer />
+			<p:fieldset id="title" styleClass="textScreenTitle">
+				<h1>#{m['title.userSearch']}</h1>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="generalButtons" tabindex="0">
+				<h:panelGrid id="buttons" columns="6" cellpadding="10" styleClass="onTheRight">
+					<p:outputLabel id="oFrom" for="from" value="#{m['label.from']}" styleClass="textSearchDate" />
+					<p:calendar id="from" value="#{searchUserController.filter.from}" pattern="dd/MM/yyyy" mask="true" converter="localDateConverter" navigator="true"
+						mindate="#{searchUserController.maximumSearchDate()}" maxdate="#{searchUserController.today()}" yearRange="#{searchUserController.rangeInYearSearch()}"
+						readonlyInput="true" />
+
+					<p:outputLabel id="oTo" for="to" value="#{m['label.to']}" styleClass="textSearchDate" />
+					<p:calendar id="to" value="#{searchUserController.filter.to}" pattern="dd/MM/yyyy" mask="true" converter="localDateConverter" navigator="true"
+						mindate="#{searchUserController.maximumSearchDate()}" maxdate="#{searchUserController.today()}" yearRange="#{searchUserController.rangeInYearSearch()}"
+						readonlyInput="true" />
+
+					<p:commandButton id="search" value="#{m['button.search']}" update="dataTableUsers messages" icon="fa fa-search" action="#{searchUserController.search()}" />
+
+					<p:commandButton id="new" value="#{m['button.new']}" action="#{searchUserController.insertUser()}" update="messages" icon="fa fa-plus" rendered="#{showHideController.showHide(2, 'create')}"/>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="fields" legend="#{m['title.filters']}" tabindex="1" styleClass="filters">
+				<h:panelGrid id="panelBasicInfo" columns="4" cellpadding="10">
+					<p:inputText id="name" value="#{searchUserController.filter.name}" maxlength="50" placeholder="#{m['placeHolder.search.name']}" styleClass="fieldSearchFilterText" />
+
+					<p:inputText id="lastName" value="#{searchUserController.filter.lastName}" maxlength="100" placeholder="#{m['placeHolder.search.lastName']}"
+						styleClass="fieldSearchFilterText" />
+
+					<p:selectOneMenu id="gender" value="#{searchUserController.filter.gender}" placeholder="#{m['placeHolder.search.gender']}" styleClass="fieldSearchFilterCombo">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{searchUserController.genders}" var="gender" itemLabel="#{searchUserController.translateEnumValue(gender.description)}" />
+					</p:selectOneMenu>
+
+					<p:inputMask id="rg" value="#{searchUserController.filter.rg}" placeholder="#{m['placeHolder.search.rg']}" mask="?99-999-999-*" styleClass="fieldSearchFilterText" />
+
+					<p:inputMask id="cpf" value="#{searchUserController.filter.cpf}" placeholder="#{m['placeHolder.search.cpf']}" mask="?999.999.999-99"
+						styleClass="fieldSearchFilterText" />
+
+					<p:inputText id="email" value="#{searchUserController.filter.email}" placeholder="#{m['placeHolder.search.email']}" maxlength="100"
+						styleClass="fieldSearchFilterText" />
+
+					<p:inputMask id="login" value="#{searchUserController.filter.login}" placeholder="#{m['placeHolder.search.login']}" mask="?aaaaaaaaaaaaaaaaaaaa" maxlength="20"
+						styleClass="fieldSearchFilterText" />
+
+					<p:selectOneMenu id="position" value="#{searchUserController.filter.position}" placeholder="#{m['placeHolder.search.position']}" filter="true"
+						styleClass="fieldSearchFilterCombo">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{searchUserController.positions}" var="position" itemLabel="#{searchUserController.translateEnumValue(position.description)}" />
+					</p:selectOneMenu>
+
+					<p:inputMask id="employeeNumber" value="#{searchUserController.filter.employeeNumber}" placeholder="#{m['placeHolder.search.employeeNumber']}" mask="?999999"
+						styleClass="fieldSearchFilterText" />
+
+					<p:selectOneMenu id="status" value="#{searchUserController.filter.status}" placeholder="#{m['placeHolder.search.status']}" styleClass="fieldSearchFilterCombo">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{searchUserController.status}" var="status" itemLabel="#{searchUserController.translateEnumValue(status.description)}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:outputPanel id="users">
+				<p:dataTable id="dataTableUsers" value="#{searchUserController.results}" var="result" rowKey="#{result.id}" rows="10" lazy="true" paginator="true"
+					resizableColumns="true" reflow="true" scrollable="true" paginatorPosition="bottom" selectionMode="single" scrollHeight="250" emptyMessage="Nenhum registro"
+					styleClass="borderless">
+					<f:facet name="header">
+						<h:panelGrid id="panelBasicSearch" columns="2" cellpadding="10">
+							<p:outputPanel id="exporters">
+								<h:commandLink styleClass="onTheLeft">
+									<p:graphicImage name="/img/exporter/excel.png" width="24" />
+									<p:dataExporter type="xls" target="dataTableUsers" fileName="user" pageOnly="true" />
+								</h:commandLink>
+								<h:commandLink styleClass="onTheLeft">
+									<p:graphicImage name="/img/exporter/pdf.png" width="24" />
+									<p:dataExporter type="pdf" target="dataTableUsers" fileName="user" pageOnly="true" />
+								</h:commandLink>
+								<h:commandLink styleClass="onTheLeft">
+									<p:graphicImage name="/img/exporter/csv.png" width="24" />
+									<p:dataExporter type="csv" target="dataTableUsers" fileName="user" pageOnly="true" />
+								</h:commandLink>
+								<h:commandLink styleClass="onTheLeft">
+									<p:graphicImage name="/img/exporter/xml.png" width="24" />
+									<p:dataExporter type="xml" target="dataTableUsers" fileName="user" pageOnly="true" />
+								</h:commandLink>
+							</p:outputPanel>
+
+							<p:outputPanel id="toggleColumns">
+								<p:commandButton id="toggler" type="button" value="#{m['button.show']}" icon="ui-icon-calculator" styleClass="onTheRight" />
+								<p:columnToggler datasource="dataTableUsers" trigger="toggler" />
+							</p:outputPanel>
+						</h:panelGrid>
+					</f:facet>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{m['title.name']}" />
+						</f:facet>
+						<h:outputText value="#{result.name}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{m['title.lastName']}" />
+						</f:facet>
+						<h:outputText value="#{result.lastName}" />
+					</p:column>
+					<p:column width="6%">
+						<f:facet name="header">
+							<h:outputText value="#{m['title.gender']}" />
+						</f:facet>
+						<h:outputText value="#{searchUserController.translateEnumValue(result.gender.description)}" />
+					</p:column>
+					<p:column width="7%">
+						<f:facet name="header">
+							<h:outputText value="#{m['title.rg']}" />
+						</f:facet>
+						<h:outputText value="#{result.rg}" converter="rgConverter" />
+					</p:column>
+					<p:column width="8%">
+						<f:facet name="header">
+							<h:outputText value="#{m['title.cpf']}" />
+						</f:facet>
+						<h:outputText value="#{result.cpf}" converter="cpfConverter" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{m['title.email']}" />
+						</f:facet>
+						<h:outputText value="#{result.email}" />
+					</p:column>
+					<p:column width="5%">
+						<f:facet name="header">
+							<h:outputText value="#{m['title.login']}" />
+						</f:facet>
+						<h:outputText value="#{result.user.login}" />
+					</p:column>
+					<p:column width="7%">
+						<f:facet name="header">
+							<h:outputText value="#{m['title.position']}" />
+						</f:facet>
+						<h:outputText value="#{searchUserController.translateEnumValue(result.user.position.description)}" />
+					</p:column>
+					<p:column width="5%">
+						<f:facet name="header">
+							<h:outputText value="#{m['title.employeeNumber']}" />
+						</f:facet>
+						<h:outputText value="#{result.user.employeeNumber}" />
+					</p:column>
+					<p:column width="5%">
+						<f:facet name="header">
+							<h:outputText value="#{m['title.status']}" />
+						</f:facet>
+						<h:outputText value="#{searchUserController.translateEnumValue(result.user.status.description)}" />
+					</p:column>
+					<p:column width="7%">
+						<f:facet name="header">
+							<h:outputText value="#{m['title.action']}" />
+						</f:facet>
+						<h:link id="view" outcome="#{searchUserController.viewEditUser()}" value="#{m['button.view']}" includeViewParams="true" styleClass="textAction">
+							<f:param name="viewId" value="#{result.id}" />
+						</h:link>
+					</p:column>
+				</p:dataTable>
+			</p:outputPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

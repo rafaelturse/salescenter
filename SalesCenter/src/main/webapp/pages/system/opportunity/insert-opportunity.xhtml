@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/pages/template/main/main.xhtml">
+	<ui:define name="content">
+		<h:form id="register" styleClass="pageContent">
+			<p:growl id="messages" showDetail="true" />
+
+			<p:breadCrumb id="breadCrumb">
+				<p:menuitem value="#{m['menu.home']}" icon="fa fa-home" outcome="home" />
+				<p:menuitem value="#{m['menu.searchOpportunity']}" outcome="search-opportunity" styleClass="textAction" />
+			</p:breadCrumb>
+
+			<p:spacer />
+			<p:fieldset id="title" styleClass="textScreenTitle">
+				<h1>#{m['title.opportunityRegistration']}</h1>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="basicInfo" legend="#{m['title.basicInformation']}" toggleable="true" tabindex="0">
+				<h:panelGrid id="panelBasicInfo" cellpadding="10" columns="2" columnClasses="ui-grid-col-8, ui-grid-col-4" styleClass="widthOneHundred">
+					<p:inputText id="name" value="#{insertOpportunityController.orm.name}" maxlength="50" placeholder="#{m['placeHolder.name']}" required="true" requiredMessage="#{m['requiered.name']}"
+						styleClass="fieldInsertText" />
+
+					<p:calendar id="closeDate" value="#{insertOpportunityController.orm.closeDate}" pattern="dd/MM/yyyy" mask="true" converter="localDateConverter" navigator="true"
+						placeholder="#{m['placeHolder.search.closeDate']}" mindate="#{insertOpportunityController.today()}" readonlyInput="true" styleClass="dateTimeField" />
+				</h:panelGrid>
+
+				<h:panelGrid id="panelBasicDescription" columns="1" cellpadding="10" styleClass="widthOneHundred">
+					<p:inputTextarea id="description" value="#{insertOpportunityController.orm.description}" rows="5" counter="descriptionDisplay" maxlength="1000" placeholder="#{m['placeHolder.description']}"
+						counterTemplate="#{m['message.charactersRemaining']}" autoResize="true" styleClass="widthOneHundred" />
+					<h:outputText id="descriptionDisplay" />
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="opportunity" legend="#{m['title.opportunity']}" toggleable="true" tabindex="1" collapsed="true">
+				<h:panelGrid id="panelOpportunity" columns="3" columnClasses="ui-grid-col-4, ui-grid-col-4, ui-grid-col-4" cellpadding="10" styleClass="widthOneHundred">
+					<p:inputNumber id="amount" value="#{insertOpportunityController.orm.amount}" placeholder="#{m['placeHolder.amount']}" required="true" requiredMessage="#{m['requiered.amount']}"
+						inputStyle="width:100%" />
+
+					<p:inputText id="manufacturerRegistration" value="#{insertOpportunityController.orm.manufacturerRegistration}" maxlength="255" placeholder="#{m['placeHolder.manufacturerRegistration']}"
+						styleClass="fieldInsertText" />
+
+					<p:selectOneMenu id="businessType" value="#{insertOpportunityController.orm.businessType}" placeholder="#{m['placeHolder.businessType']}" required="true"
+						requiredMessage="#{m['requiered.businessType']}" styleClass="fieldInsertCombo">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{insertOpportunityController.bussinessTypes}" var="businessType" itemLabel="#{insertOpportunityController.translateEnumValue(businessType.description)}" />
+					</p:selectOneMenu>
+
+					<p:selectOneMenu id="salesType" value="#{insertOpportunityController.orm.salesType}" placeholder="#{m['placeHolder.salesType']}" required="true" requiredMessage="#{m['requiered.salesType']}"
+						styleClass="fieldInsertCombo">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{insertOpportunityController.salesTypes}" var="salesType" itemLabel="#{insertOpportunityController.translateEnumValue(salesType.description)}" />
+					</p:selectOneMenu>
+
+					<p:selectOneMenu id="salesStage" value="#{insertOpportunityController.orm.salesStage}" placeholder="#{m['placeHolder.salesStage']}" required="true" requiredMessage="#{m['requiered.salesStage']}"
+						styleClass="fieldInsertCombo">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{insertOpportunityController.salesStages}" var="salesStage" itemLabel="#{insertOpportunityController.translateEnumValue(salesStage.description)}" />
+					</p:selectOneMenu>
+
+					<p:selectOneMenu id="forecastCategory" value="#{insertOpportunityController.orm.forecastCategory}" placeholder="#{m['placeHolder.forecastCategory']}" required="true"
+						requiredMessage="#{m['requiered.forecastCategory']}" styleClass="fieldInsertCombo">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{insertOpportunityController.forecastCategories}" var="forecastCategory" itemLabel="#{insertOpportunityController.translateEnumValue(forecastCategory.description)}" />
+					</p:selectOneMenu>
+
+					<p:selectOneMenu id="reason" value="#{insertOpportunityController.orm.reason}" placeholder="#{m['placeHolder.reason']}" required="true" requiredMessage="#{m['requiered.reason']}"
+						styleClass="fieldInsertCombo">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{insertOpportunityController.reasons}" var="reason" itemLabel="#{insertOpportunityController.translateEnumValue(reason.description)}" />
+					</p:selectOneMenu>
+
+					<p:outputPanel>
+						<p:autoComplete id="seller" value="#{insertOpportunityController.seller}" completeMethod="#{insertUserController.searchPerson}" var="person"
+							itemLabel="#{person ne null ? (person.name).concat(' ').concat(person.lastName).concat(' | Login: ').concat(person.user.login) : ''}" itemValue="#{person}" converter="personConverter"
+							placeholder="#{m['placeHolder.seller']}" minQueryLength="3" maxlength="50" maxResults="5" cache="true" inputStyle="width:400px;" />
+						<p:tooltip id="toolTipSeller" for="seller" value="#{m['tip.searchPerson']}" position="bottom" />
+					</p:outputPanel>
+
+					<p:outputPanel>
+						<p:autoComplete id="client" value="#{insertOpportunityController.client}" completeMethod="#{insertClientController.searchClient}" var="client"
+							itemLabel="#{client ne null ? (client.social).concat(' | ').concat(client.fantasy) : ''}" itemValue="#{client}" converter="clientConverter" placeholder="#{m['placeHolder.client']}"
+							minQueryLength="3" maxlength="50" maxResults="5" cache="true" inputStyle="width:400px;" />
+						<p:tooltip id="toolTipClient" for="client" value="#{m['tip.searchClient']}" position="bottom" />
+					</p:outputPanel>
+				</h:panelGrid>
+
+				<p:spacer />
+				<h:panelGrid id="panelCurrentHistory" columns="1" cellpadding="10" styleClass="widthOneHundred">
+					<p:inputTextarea id="history" value="#{insertOpportunityController.orm.history}" rows="20" autoResize="true" placeholder="#{m['placeHolder.history']}" required="true"
+						requiredMessage="#{m['requiered.currentHistory']}" styleClass="widthOneHundred" />
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="productInfo" legend="#{m['title.product']}" toggleable="true" tabindex="2" collapsed="true">
+				<h:panelGrid id="panelContactFields" columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" cellpadding="10" styleClass="widthFifty">
+					<p:inputText id="product" value="#{insertOpportunityController.productController.orm.product}" placeholder="#{m['placeHolder.product']}" maxlength="100" required="true"
+						requiredMessage="#{m['requiered.product']}" styleClass="fieldInsertText" />
+
+					<p:inputText id="manufacturer" value="#{insertOpportunityController.productController.orm.manufacturer}" placeholder="#{m['placeHolder.manufacturer']}" maxlength="100" required="true"
+						requiredMessage="#{m['requiered.manufacturer']}" styleClass="fieldInsertText" />
+
+					<p:commandButton id="productAdd" value="#{m['button.add']}" update="products messages" process="@parent" action="#{insertOpportunityController.productController.reinit}" icon="fa fa-plus">
+						<p:collector value="#{insertOpportunityController.productController.orm}" addTo="#{insertOpportunityController.productController.orms}" unique="true" />
+					</p:commandButton>
+				</h:panelGrid>
+
+				<p:spacer />
+				<p:outputPanel id="products">
+					<p:dataTable id="dataTableProducts" value="#{insertOpportunityController.productController.orms}" var="product" reflow="true" resizableColumns="true" scrollable="true" emptyMessage=""
+						rendered="#{insertOpportunityController.productController.orms.size() > 0}" styleClass="borderless">
+						<f:facet name="header">
+							<h:panelGrid id="panelProductsExport" columns="2" cellpadding="10">
+								<p:outputPanel id="exporters">
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/excel.png" width="24" />
+										<p:dataExporter type="xls" target="dataTableProducts" fileName="opportunity products" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/pdf.png" width="24" />
+										<p:dataExporter type="pdf" target="dataTableProducts" fileName="opportunity products" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/csv.png" width="24" />
+										<p:dataExporter type="csv" target="dataTableProducts" fileName="opportunity products" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/xml.png" width="24" />
+										<p:dataExporter type="xml" target="dataTableProducts" fileName="opportunity products" pageOnly="true" />
+									</h:commandLink>
+								</p:outputPanel>
+
+								<p:outputPanel id="toggleColumns">
+									<p:commandButton id="toggler" type="button" value="#{m['button.show']}" icon="ui-icon-calculator" styleClass="onTheRight" />
+									<p:columnToggler datasource="dataTableProducts" trigger="toggler" />
+								</p:outputPanel>
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column sortBy="#{product.product}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.product']}" />
+							</f:facet>
+							<h:outputText value="#{product.product}" />
+						</p:column>
+						<p:column sortBy="#{product.manufacturer}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.manufacturer']}" />
+							</f:facet>
+							<h:outputText value="#{product.manufacturer}" />
+						</p:column>
+						<p:column exportable="false">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.action']}" />
+							</f:facet>
+							<p:commandLink value="#{m['button.remove']}" update=":register:products" process=":register:products" styleClass="textAction">
+								<p:collector value="#{product}" removeFrom="#{insertOpportunityController.productController.orms}" unique="true" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="CompetitorInfo" legend="#{m['title.competitor']}" toggleable="true" tabindex="3" collapsed="true">
+				<h:panelGrid id="panelCompetitorFields" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" cellpadding="10" styleClass="widthFifty">
+					<p:selectOneMenu id="competitorType" value="#{insertOpportunityController.competitorController.orm.competitorType}" styleClass="fieldInsertMediumCombo">
+						<f:selectItems value="#{insertOpportunityController.competitorController.competitorTypes}" var="competitorType" itemLabel="#{insertUserController.translateEnumValue(competitorType.description)}" />
+					</p:selectOneMenu>
+
+					<p:inputText id="competitor" value="#{insertOpportunityController.competitorController.orm.competitor}" placeholder="#{m['placeHolder.competitor']}" maxlength="100" required="true"
+						requiredMessage="#{m['requiered.competitor']}" styleClass="fieldInsertText" />
+
+					<p:commandButton id="competitorAdd" value="#{m['button.add']}" icon="fa fa-plus" update="competitors messages" process=":register:panelCompetitorFields :register:panelCompetitorFields"
+						action="#{insertOpportunityController.competitorController.reinit}">
+						<p:collector value="#{insertOpportunityController.competitorController.orm}" addTo="#{insertOpportunityController.competitorController.orms}" unique="true" />
+					</p:commandButton>
+				</h:panelGrid>
+
+				<p:spacer />
+				<p:outputPanel id="competitors">
+					<p:dataTable id="dataTableCompetitor" value="#{insertOpportunityController.competitorController.orms}" var="competitor" reflow="true" resizableColumns="true" scrollable="true" emptyMessage=""
+						rendered="#{insertOpportunityController.competitorController.orms.size() > 0}" styleClass="borderless">
+						<f:facet name="header">
+							<h:panelGrid id="panelBasicSearch" columns="2" cellpadding="10">
+								<p:outputPanel id="exporters">
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/excel.png" width="24" />
+										<p:dataExporter type="xls" target="dataTableCompetitor" fileName="opportunity competitors" pageOnly="true" selectionOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/pdf.png" width="24" />
+										<p:dataExporter type="pdf" target="dataTableCompetitor" fileName="opportunity competitors" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/csv.png" width="24" />
+										<p:dataExporter type="csv" target="dataTableCompetitor" fileName="opportunity competitors" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/xml.png" width="24" />
+										<p:dataExporter type="xml" target="dataTableCompetitor" fileName="opportunity competitors" pageOnly="true" />
+									</h:commandLink>
+								</p:outputPanel>
+
+								<p:outputPanel id="toggleColumns">
+									<p:commandButton id="toggler" type="button" value="#{m['button.show']}" icon="ui-icon-calculator" styleClass="onTheRight" />
+									<p:columnToggler datasource="dataTableCompetitor" trigger="toggler" />
+								</p:outputPanel>
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column sortBy="#{competitor.competitorType.description}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.competitorType']}" />
+							</f:facet>
+							<h:outputText value="#{insertOpportunityController.translateEnumValue(competitor.competitorType.description)}" />
+						</p:column>
+						<p:column sortBy="#{competitor.competitor}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.competitor']}" />
+							</f:facet>
+							<h:outputText value="#{competitor.competitor}" />
+						</p:column>
+						<p:column exportable="false">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.action']}" />
+							</f:facet>
+							<p:commandLink value="#{m['button.remove']}" update=":register:competitors" process=":register:competitors" styleClass="textAction">
+								<p:collector value="#{competitor}" removeFrom="#{insertOpportunityController.competitorController.orms}" unique="true" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="InvolvedInfo" legend="#{m['title.involved']}" toggleable="true" tabindex="4" collapsed="true">
+				<h:panelGrid id="panelInvolvedFields" cellpadding="10" styleClass="widthFifty">
+					<p:outputPanel>
+						<p:autoComplete id="involved" value="#{insertOpportunityController.involvedTeamController.orm.involved}" completeMethod="#{insertUserController.searchPerson}" var="involved"
+							itemLabel="#{involved ne null ? (involved.name).concat(' ').concat(involved.lastName).concat(' | Login: ').concat(involved.user.login) : ''}" itemValue="#{involved}" converter="personConverter"
+							placeholder="#{m['placeHolder.involved']}" minQueryLength="3" maxlength="50" maxResults="5" cache="true" required="true" requiredMessage="#{m['requiered.involved']}" inputStyle="width:600px;" />
+						<p:tooltip id="toolTipInvolved" for="involved" value="#{m['tip.searchPerson']}" position="bottom" />
+					</p:outputPanel>
+
+					<p:commandButton id="involvedAdd" value="#{m['button.add']}" icon="fa fa-plus" update="involveds messages" process=":register:panelInvolvedFields :register:panelInvolvedFields"
+						action="#{insertOpportunityController.involvedTeamController.reinit}">
+						<p:collector value="#{insertOpportunityController.involvedTeamController.orm}" addTo="#{insertOpportunityController.involvedTeamController.orms}" unique="true" />
+					</p:commandButton>
+				</h:panelGrid>
+
+				<p:spacer />
+				<p:outputPanel id="involveds">
+					<p:dataTable id="dataTableInvolved" value="#{insertOpportunityController.involvedTeamController.orms}" var="involved" reflow="true" resizableColumns="true" scrollable="true" emptyMessage=""
+						rendered="#{insertOpportunityController.involvedTeamController.orms.size() > 0}" styleClass="borderless">
+						<f:facet name="header">
+							<h:panelGrid id="panelBasicSearch" columns="2" cellpadding="10">
+								<p:outputPanel id="exporters">
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/excel.png" width="24" />
+										<p:dataExporter type="xls" target="dataTableInvolved" fileName="opportunity involveds" pageOnly="true" selectionOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/pdf.png" width="24" />
+										<p:dataExporter type="pdf" target="dataTableInvolved" fileName="opportunity involveds" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/csv.png" width="24" />
+										<p:dataExporter type="csv" target="dataTableInvolved" fileName="opportunity involveds" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/xml.png" width="24" />
+										<p:dataExporter type="xml" target="dataTableInvolved" fileName="opportunity involveds" pageOnly="true" />
+									</h:commandLink>
+								</p:outputPanel>
+
+								<p:outputPanel id="toggleColumns">
+									<p:commandButton id="toggler" type="button" value="#{m['button.show']}" icon="ui-icon-calculator" styleClass="onTheRight" />
+									<p:columnToggler datasource="dataTableInvolved" trigger="toggler" />
+								</p:outputPanel>
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column sortBy="#{involved.involved}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.involved']}" />
+							</f:facet>
+							<h:outputText value="#{involved.involved.name} #{involved.involved.lastName }" />
+						</p:column>
+
+						<p:column exportable="false">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.action']}" />
+							</f:facet>
+							<p:commandLink value="#{m['button.remove']}" update=":register:involveds" process=":register:involveds" styleClass="textAction">
+								<p:collector value="#{competitor}" removeFrom="#{insertOpportunityController.involvedTeamController.orms}" unique="true" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="situationInfo" legend="#{m['title.situation']}" toggleable="true" tabindex="6" collapsed="true">
+				<h:panelGrid id="panelSituationFields" cellpadding="10" styleClass="widthOneHundred">
+					<p:selectOneMenu id="status" value="#{insertOpportunityController.orm.status}" styleClass="fieldInsertCombo">
+						<f:selectItems value="#{insertOpportunityController.status}" var="status" itemLabel="#{insertOpportunityController.translateEnumValue(status.description)}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="generalButtons" tabindex="7">
+				<h:panelGrid id="formButtons" columns="2" cellpadding="10" styleClass="onTheRight">
+					<p:commandButton id="cancel" value="#{m['button.cancel']}" immediate="true" action="#{insertOpportunityController.cancel()}" icon="fa fa-close" />
+
+					<p:commandButton id="save" value="#{m['button.save']}" validateClient="true" ajax="false" icon="fa fa-save" actionListener="#{insertOpportunityController.save}"
+						update="messages basicInfo opportunityInfo productInfo competitorInfo involvedInfo upLoadInfo situationInfo" rendered="#{showHideController.showHide(9, 'create')}" />
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

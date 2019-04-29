@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd"
+	version="2.1">
+
+	<entity name="ClientORM" class="br.com.salescenter.orm.client.ClientORM">
+
+		<named-query name="ClientORM.existsCNPJ">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			ClientORM root
+            WHERE 
+                root.cnpj = :cnpj 
+            ]]> 
+	        </query>
+		</named-query>
+
+		<named-query name="ClientORM.existsIDAndCNPJ">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			ClientORM root
+            WHERE 
+            	root.id <> :id
+            	AND
+                root.cnpj = :cnpj 
+            ]]> 
+	        </query>
+		</named-query>
+
+		<named-query name="ClientORM.existsSocial">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			ClientORM root
+            WHERE 
+                root.social = :social 
+            ]]> 
+	        </query>
+		</named-query>
+
+		<named-query name="ClientORM.existsIDAndSocial">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			ClientORM root
+            WHERE 
+            	root.id <> :id
+            	AND
+                root.social = :social
+            ]]> 
+	        </query>
+		</named-query>
+
+		<named-query name="ClientORM.existsFantasy">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			ClientORM root
+            WHERE 
+                root.fantasy = :fantasy 
+            ]]> 
+	        </query>
+		</named-query>
+
+		<named-query name="ClientORM.existsIDAndFantasy">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			ClientORM root
+            WHERE 
+            	root.id <> :id
+            	AND
+                root.fantasy = :fantasy 
+            ]]> 
+	        </query>
+		</named-query>
+		
+		<named-query name="ClientORM.listAll">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			root 
+    		FROM 
+    			ClientORM root
+            ]]> 
+	        </query>
+		</named-query>
+	</entity>
+</entity-mappings>

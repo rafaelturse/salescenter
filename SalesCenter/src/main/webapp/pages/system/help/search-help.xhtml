@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<ui:composition template="/pages/template/main/main.xhtml">
+	<ui:define name="content">
+		<h:form id="search" styleClass="pageContent">
+			<p:growl id="messages" showDetail="true" />
+
+			<p:spacer />
+			<p:fieldset id="title" styleClass="textScreenTitle">
+				<h1>#{m['title.help']}</h1>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="generalButtons" tabindex="0">
+				<h:panelGrid id="buttons" columns="3" cellpadding="10" styleClass="onTheRight">
+					<p:inputText id="help" value="#{searchHelpController.filter.doubt}" maxlength="50" placeholder="#{m['placeHolder.search.doubt']}" styleClass="fieldSearchFilterText" />
+
+					<p:commandButton id="search" value="#{m['button.search']}" update="dataTableHelps messages" icon="fa fa-search" actionListener="#{searchHelpController.search()}" />
+
+					<p:commandButton id="new" value="#{m['button.new']}" action="#{searchHelpController.insertHelp()}" update="messages" icon="fa fa-plus" rendered="#{showHideController.showHide(7, 'create')}" />
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:outputPanel id="helps">
+				<p:dataTable id="dataTableHelps" value="#{searchHelpController.results}" var="result" rowKey="#{result.id}" lazy="true" rows="10" paginator="true" paginatorPosition="bottom"
+					resizableColumns="true" selectionMode="single" scrollable="true" scrollHeight="250" reflow="true" emptyMessage="Nenhum registro" styleClass="borderless">
+					<f:facet name="header">
+						<h:panelGrid id="panelBasicSearch" columns="2" cellpadding="10">
+							<p:outputPanel id="exporters">
+								<h:commandLink styleClass="onTheLeft">
+									<p:graphicImage name="/img/exporter/excel.png" width="24" />
+									<p:dataExporter type="xls" target="dataTableHelps" fileName="helps" pageOnly="true" selectionOnly="true" />
+								</h:commandLink>
+								<h:commandLink styleClass="onTheLeft">
+									<p:graphicImage name="/img/exporter/pdf.png" width="24" />
+									<p:dataExporter type="pdf" target="dataTableHelps" fileName="helps" pageOnly="true" />
+								</h:commandLink>
+								<h:commandLink styleClass="onTheLeft">
+									<p:graphicImage name="/img/exporter/csv.png" width="24" />
+									<p:dataExporter type="csv" target="dataTableHelps" fileName="helps" pageOnly="true" />
+								</h:commandLink>
+								<h:commandLink styleClass="onTheLeft">
+									<p:graphicImage name="/img/exporter/xml.png" width="24" />
+									<p:dataExporter type="xml" target="dataTableHelps" fileName="helps" pageOnly="true" />
+								</h:commandLink>
+							</p:outputPanel>
+
+							<p:outputPanel id="toggleColumns">
+								<p:commandButton id="toggler" type="button" value="#{m['button.show']}" icon="ui-icon-calculator" styleClass="onTheRight" />
+								<p:columnToggler datasource="dataTableHelps" trigger="toggler" />
+							</p:outputPanel>
+						</h:panelGrid>
+					</f:facet>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{m['title.name']}" />
+						</f:facet>
+						<h:outputText value="#{result.name}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{m['title.action']}" />
+						</f:facet>
+						<h:link id="view" outcome="#{searchHelpController.viewEditHelp()}" value="#{m['button.view']}" includeViewParams="true" styleClass="textAction">
+							<f:param name="viewId" value="#{result.id}" />
+						</h:link>
+					</p:column>
+				</p:dataTable>
+			</p:outputPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

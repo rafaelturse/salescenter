@@ -1,0 +1,242 @@
+/*****************************
+--> Buttons
+*****************************/
+.buttonsExport {
+	border: 0px;
+	float: left;
+}
+
+/*****************************
+--> Components
+*****************************/
+.g-recaptcha {
+	width: 380px;
+	height: 98px;
+}
+
+.maps {
+	height: 600px;
+	width: 400px;
+}
+
+/*****************************
+--> Dashboards
+*****************************/
+.ui-dashboard-column {
+	padding: 10px;
+}
+
+.ui-panel.dashBoardPanel {
+    margin: 10px;
+    width: 385px;   
+}
+
+/*****************************
+--> Fields
+*****************************/
+.fieldInsertSmallMediumText {
+	width: 100px;
+}
+
+.fieldInsertSmallText {
+	width: 30px;
+}
+
+.fieldInsertText {
+	width: 100%;
+	max-width: 1000px;
+}
+
+.fieldSearchFilterText {
+	width: 280px;
+}
+
+.ui-selectonemenu.fieldInsertMediumCombo {
+	width: 100%;
+	max-width: 170px;
+}
+
+.ui-selectonemenu.fieldInsertCombo {
+	width: 100%;
+	max-width: 380px;
+}
+
+.ui-selectonemenu.fieldSearchFilterCombo {
+	width: 265px;
+}
+
+.dateTimeField input {
+	width: 100%;
+	max-width: 400px;
+}
+
+/*****************************
+--> Grids
+*****************************/
+.ui-datatable.borderless thead th, .ui-datatable.borderless tbody,
+	.ui-datatable.borderless tbody tr, .ui-datatable.borderless tbody td {
+	border-style: none;
+}
+
+.ui-grid-col-description {
+	background-color: #242122;
+	width: 95%;
+}
+
+.ui-grid-col-field {
+	background-color: #242122;
+	width: 100%;
+}
+
+.ui-grid-col-icon {
+	background-color: #242122;
+	width: 5%;
+}
+
+/*****************************
+--> images
+*****************************/
+.imageCenter {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/*****************************
+--> Panels
+*****************************/
+.filters {
+	border: 1px solid #DDD;
+}
+
+.footerPanel {
+	margin-left: auto; ! important;
+	margin-right: auto;
+}
+
+.footerTextField {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #A1A1A1;
+}
+
+.footerText {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	color: #C1C1C1;
+}
+
+.footerTitle {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	color: #C1C1C1;
+}
+
+.footerField {
+	width: 100%;
+}
+
+.generalButtons {
+	border: 1px solid #DDD;
+}
+
+.groupTitle {
+	background-color: #242122;
+	color: #f4f4f9;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 6px;
+	text-align: center;
+}
+
+.noticeFooter {
+	height: 600px;
+}
+
+.noticeFooter .ui-widget-content {
+	border: 0px;
+	background-color: #242122;
+	width: 400px;
+}
+
+.noticeGroup {
+	background-color: #f1f1f1;
+	padding: 0px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.noticeGroup2 {
+	background-color: #919191;
+	padding: 0px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.noticeGroupTop {
+	padding: 0px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.noticeInternal {
+	height: 300px;
+	margin-bottom: 20px;
+	width: 250px;
+}
+
+.noticeTop {
+	margin-bottom: 20px;
+}
+
+.noticeUnit {
+	border: 0px;
+	margin-bottom: 20px;
+}
+
+.rights {
+	background-color: #0f0d0e;
+	padding: 1px;
+	text-align: center;
+	width: 100%;
+}
+
+.pageFooterUserInfo {
+	background-color: #141113;
+	padding: 1px;
+	width: 100%;
+}
+
+/*****************************
+--> Texts
+*****************************/
+.textAction {
+	text-decoration: none
+}
+
+.textAlignCenter {
+	text-align: center;
+}
+
+.textAlignJustify {
+	text-align: justify;
+}
+
+.textAlignLeft {
+	text-align: left;
+}
+
+.textAlignRight {
+	text-align: right;
+}
+
+.textScreenTitle {
+	border: 0px;
+}
+
+.textSearchDate {
+	font-weight: bold;
+}
+
+.textViewStrong {
+	font-weight: bold;
+}

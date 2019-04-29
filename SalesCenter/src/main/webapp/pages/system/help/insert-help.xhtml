@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<ui:composition template="/pages/template/main/main.xhtml">
+	<ui:define name="content">
+		<h:form id="register" styleClass="pageContent">
+			<p:growl id="messages" showDetail="true" />
+
+			<p:breadCrumb id="breadCrumb">
+				<p:menuitem value="#{m['menu.home']}" icon="fa fa-home" outcome="home" />
+				<p:menuitem value="#{m['title.help']}" outcome="search-help" styleClass="textAction" />
+			</p:breadCrumb>
+
+			<p:spacer />
+			<p:fieldset id="title" styleClass="textScreenTitle">
+				<h1>#{m['title.helpRegistration']}</h1>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="basicInfo" legend="#{m['title.basicInformation']}">
+				<h:panelGrid id="panelBasicInfo1" columns="2" columnClasses="ui-grid-col-8, ui-grid-col-4" cellpadding="10" styleClass="widthOneHundred">
+					<p:inputText id="name" value="#{insertHelpController.orm.name}" maxlength="255" placeholder="#{m['placeHolder.name']}" required="true" requiredMessage="#{m['requiered.name']}"
+						styleClass="fieldInsertText" />
+
+					<p:selectOneMenu id="status" value="#{insertHelpController.orm.status}" styleClass="fieldInsertCombo">
+						<f:selectItems value="#{insertHelpController.status}" var="status" itemLabel="#{insertHelpController.translateEnumValue(status.description)}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+
+				<h:panelGrid id="panelBasicDescription" columns="1" cellpadding="10" styleClass="widthOneHundred">
+					<p:inputTextarea id="description" value="#{insertHelpController.orm.description}" rows="5" counter="descriptionDisplay" maxlength="8000" placeholder="#{m['placeHolder.description']}"
+						counterTemplate="#{m['message.charactersRemaining']}" autoResize="true" styleClass="widthOneHundred" />
+					<h:outputText id="descriptionDisplay" />
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="generalButtons" tabindex="7">
+				<h:panelGrid id="formButtons" columns="2" cellpadding="10" styleClass="onTheRight">
+					<p:commandButton id="cancel" value="#{m['button.cancel']}" immediate="true" action="#{insertHelpController.cancel()}" icon="fa fa-close" />
+
+					<p:commandButton id="save" value="#{m['button.save']}" validateClient="true" ajax="false" icon="fa fa-save" actionListener="#{insertHelpController.save}" update="messages basicInfo"
+						rendered="#{showHideController.showHide(7, 'create')}" />
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

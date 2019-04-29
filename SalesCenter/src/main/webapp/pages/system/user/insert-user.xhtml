@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<ui:composition template="/pages/template/main/main.xhtml">
+	<ui:define name="content">
+		<h:form id="register" styleClass="pageContent">
+			<p:growl id="messages" showDetail="true" />
+
+			<p:breadCrumb id="breadCrumb">
+				<p:menuitem value="#{m['menu.home']}" icon="fa fa-home" outcome="home" />
+				<p:menuitem value="#{m['menu.searchUser']}" outcome="search-user" styleClass="textAction" />
+			</p:breadCrumb>
+
+			<p:spacer />
+			<p:fieldset id="title" styleClass="textScreenTitle">
+				<h1>#{m['title.userRegistration']}</h1>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="basicInfo" legend="#{m['title.basicInformation']}" toggleable="true" tabindex="0">
+				<h:panelGrid id="panelBasicInfo" columns="4" columnClasses="ui-grid-col-4, ui-grid-col-4, ui-grid-col-2, ui-grid-col-2" cellpadding="10" styleClass="widthOneHundred">
+					<p:inputText id="name" value="#{insertUserController.orm.name}" maxlength="50" placeholder="#{m['placeHolder.name']}" required="true" requiredMessage="#{m['requiered.name']}"
+						styleClass="fieldInsertText" />
+
+					<p:inputText id="lastName" value="#{insertUserController.orm.lastName}" maxlength="100" placeholder="#{m['placeHolder.lastName']}" required="true" requiredMessage="#{m['requiered.lastName']}"
+						styleClass="fieldInsertText" />
+
+					<p:selectOneMenu id="gender" value="#{insertUserController.orm.gender}" styleClass="fieldInsertMediumCombo">
+						<f:selectItems value="#{insertUserController.genders}" var="gender" itemLabel="#{insertUserController.translateEnumValue(gender.description)}" />
+					</p:selectOneMenu>
+
+					<p:calendar id="birth" value="#{insertUserController.orm.birth}" placeholder="#{m['placeHolder.birth']}" pattern="dd/MM/yyyy" mask="true" converter="localDateConverter"
+						mindate="#{insertUserController.maximumHireDate()}" maxdate="#{insertUserController.minimumHireDate()}" navigator="true" yearRange="#{insertUserController.rangeInYearMinimumMaximum()}"
+						readonlyInput="true" required="true" requiredMessage="#{m['requiered.birth']}" styleClass="dateTimeField" />
+				</h:panelGrid>
+				<h:panelGrid id="panelBasicInfo2" columns="3" columnClasses="ui-grid-col-4, ui-grid-col-4, ui-grid-col-4" cellpadding="10" styleClass="widthOneHundred">
+					<p:inputMask id="rg" value="#{insertUserController.orm.rg}" mask="99-999-999-*" placeholder="#{m['placeHolder.rg']}" requiredMessage="#{m['requiered.rg']}" required="true"
+						styleClass="fieldInsertText">
+						<f:converter converterId="rgConverter" />
+					</p:inputMask>
+
+					<p:inputMask id="cpf" value="#{insertUserController.orm.cpf}" placeholder="#{m['placeHolder.cpf']}" mask="999.999.999-99" required="true" requiredMessage="#{m['requiered.cpf']}"
+						styleClass="fieldInsertText">
+						<f:converter converterId="cpfConverter" />
+						<f:validator validatorId="cpfValidator" />
+					</p:inputMask>
+
+					<p:inputText id="email" value="#{insertUserController.orm.email}" placeholder="#{m['placeHolder.email']}" maxlength="100" required="true" requiredMessage="#{m['requiered.email']}"
+						validatorMessage="#{m['requiered.emailInvalid']}" styleClass="fieldInsertText">
+						<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+					</p:inputText>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="contactInfo" legend="#{m['title.contact']}" toggleable="true" tabindex="1" collapsed="true">
+				<h:panelGrid id="panelContactFields" columns="3" columnClasses="ui-grid-col-4, ui-grid-col-1, ui-grid-col-3" cellpadding="10" styleClass="widthFifty">
+					<p:selectOneMenu id="phoneType" value="#{insertUserController.phoneController.orm.phoneType}" requiredMessage="#{m['requiered.phoneType']}" styleClass="fieldInsertMediumCombo">
+						<f:selectItems value="#{insertUserController.phoneController.phoneTypes}" var="phoneType" itemLabel="#{insertUserController.translateEnumValue(phoneType.description)}" />
+						<p:ajax event="change" update=":register:phoneNumber" listener="#{insertUserController.setPhoneType}" />
+					</p:selectOneMenu>
+
+					<p:inputMask id="ddd" value="#{insertUserController.phoneController.orm.ddd}" placeholder="#{m['placeHolder.ddd']}" mask="(99)" converter="phoneConverter" required="true"
+						requiredMessage="#{m['requiered.ddd']}" styleClass="fieldInsertText" />
+
+					<p:inputMask id="phoneNumber" value="#{insertUserController.phoneController.orm.number}" placeholder="#{m['placeHolder.number']}" mask="#{insertUserController.phoneType.mask}" required="true"
+						requiredMessage="#{m['requiered.phoneNumber']}" styleClass="fieldInsertText" />
+
+					<p:commandButton id="contactAdd" value="#{m['button.add']}" update="phones messages" process="@parent" action="#{insertUserController.phoneController.reinit}" icon="fa fa-plus">
+						<p:collector value="#{insertUserController.phoneController.orm}" addTo="#{insertUserController.phoneController.orms}" unique="true" />
+					</p:commandButton>
+				</h:panelGrid>
+
+				<p:spacer />
+				<p:outputPanel id="phones">
+					<p:dataTable id="dataTablePhones" value="#{insertUserController.phoneController.orms}" var="phone" reflow="true" resizableColumns="true" scrollable="true" emptyMessage=""
+						rendered="#{insertUserController.phoneController.orms.size() > 0}" styleClass="borderless">
+						<f:facet name="header">
+							<h:panelGrid id="panelPhoneExport" columns="2" cellpadding="10">
+								<p:outputPanel id="exporters">
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/excel.png" width="24" />
+										<p:dataExporter type="xls" target="dataTablePhones" fileName="person phones" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/pdf.png" width="24" />
+										<p:dataExporter type="pdf" target="dataTablePhones" fileName="person phones" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/csv.png" width="24" />
+										<p:dataExporter type="csv" target="dataTablePhones" fileName="person phones" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/xml.png" width="24" />
+										<p:dataExporter type="xml" target="dataTablePhones" fileName="person phones" pageOnly="true" />
+									</h:commandLink>
+								</p:outputPanel>
+
+								<p:outputPanel id="toggleColumns">
+									<p:commandButton id="toggler" type="button" value="#{m['button.show']}" icon="ui-icon-calculator" styleClass="onTheRight" />
+									<p:columnToggler datasource="dataTablePhones" trigger="toggler" />
+								</p:outputPanel>
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column sortBy="#{phone.phoneType.description}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.type']}" />
+							</f:facet>
+							<h:outputText value="#{insertUserController.translateEnumValue(phone.phoneType.description)}" />
+						</p:column>
+						<p:column sortBy="#{phone.ddd}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.ddd']}" />
+							</f:facet>
+							<h:outputText value="#{phone.ddd}" />
+						</p:column>
+						<p:column sortBy="#{phone.number}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.number']}" />
+							</f:facet>
+							<h:outputText value="#{phone.number}" />
+						</p:column>
+						<p:column exportable="false">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.action']}" />
+							</f:facet>
+							<p:commandLink value="#{m['button.remove']}" update=":register:phones" process=":register:phones" styleClass="textAction">
+								<p:collector value="#{phone}" removeFrom="#{insertUserController.phoneController.orms}" unique="true" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="addressInfo" legend="#{m['title.address']}" toggleable="true" tabindex="2" collapsed="true">
+				<h:panelGrid id="panelAddressFields" columns="4" columnClasses="ui-grid-col-2, ui-grid-col-6, ui-grid-col-1, ui-grid-col-3" cellpadding="10" styleClass="widthOneHundred">
+					<p:selectOneMenu id="streetType" value="#{insertUserController.addressController.orm.streetType}" filter="true" styleClass="fieldInsertMediumCombo">
+						<f:selectItems value="#{insertUserController.addressController.streetTypes}" var="streetType" itemLabel="#{insertUserController.translateEnumValue(streetType.description)}" />
+					</p:selectOneMenu>
+
+					<p:inputText id="street" value="#{insertUserController.addressController.orm.street}" placeholder="#{m['placeHolder.street']}" maxlength="200" required="true"
+						requiredMessage="#{m['requiered.street']}" styleClass="fieldInsertText" />
+
+					<p:inputMask id="streetNumber" value="#{insertUserController.addressController.orm.number}" placeholder="#{m['placeHolder.number']}" mask="9?9999" required="true"
+						requiredMessage="#{m['requiered.streetNumber']}" styleClass="fieldInsertText">
+						<f:converter converterId="streetNumberConveter" />
+					</p:inputMask>
+
+					<p:inputText id="compliment" value="#{insertUserController.addressController.orm.compliment}" placeholder="#{m['placeHolder.compliment']}" maxlength="50" styleClass="fieldInsertText" />
+				</h:panelGrid>
+				<h:panelGrid id="panelAddressFields2" columns="4" columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-4, ui-grid-col-2" cellpadding="10" styleClass="widthOneHundred">
+					<p:inputMask id="cep" value="#{insertUserController.addressController.orm.cep}" placeholder="#{m['placeHolder.cep']}" mask="99999-999" required="true" requiredMessage="#{m['requiered.cep']}"
+						styleClass="fieldInsertText">
+						<f:converter converterId="cepConverter" />
+					</p:inputMask>
+
+					<p:inputText id="neighborhood" value="#{insertUserController.addressController.orm.neighborhood}" placeholder="#{m['placeHolder.neighborhood']}" maxlength="50" required="true"
+						requiredMessage="#{m['requiered.neighborhood']}" styleClass="fieldInsertText" />
+
+					<p:inputText id="city" value="#{insertUserController.addressController.orm.city}" placeholder="#{m['placeHolder.city']}" maxlength="50" required="true" requiredMessage="#{m['requiered.city']}"
+						styleClass="fieldInsertText" />
+
+					<p:selectOneMenu id="state" value="#{insertUserController.addressController.orm.state}" filter="true" styleClass="fieldInsertMediumCombo">
+						<f:selectItems value="#{insertUserController.addressController.states}" var="state" itemLabel="#{insertUserController.translateEnumValue(state.description)}" />
+					</p:selectOneMenu>
+
+					<p:commandButton id="addressAdd" value="#{m['button.add']}" icon="fa fa-plus" update="addresses messages" process=":register:panelAddressFields :register:panelAddressFields2"
+						action="#{insertUserController.addressController.reinit}">
+						<p:collector value="#{insertUserController.addressController.orm}" addTo="#{insertUserController.addressController.orms}" unique="true" />
+					</p:commandButton>
+				</h:panelGrid>
+
+				<p:spacer />
+				<p:outputPanel id="addresses">
+					<p:dataTable id="dataTableAddresses" value="#{insertUserController.addressController.orms}" var="address" reflow="true" resizableColumns="true" scrollable="true" emptyMessage=""
+						rendered="#{insertUserController.addressController.orms.size() > 0}" styleClass="borderless">
+						<f:facet name="header">
+							<h:panelGrid id="panelBasicSearch" columns="2" cellpadding="10">
+								<p:outputPanel id="exporters">
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/excel.png" width="24" />
+										<p:dataExporter type="xls" target="dataTableAddresses" fileName="person addresses" pageOnly="true" selectionOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/pdf.png" width="24" />
+										<p:dataExporter type="pdf" target="dataTableAddresses" fileName="person addresses" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/csv.png" width="24" />
+										<p:dataExporter type="csv" target="dataTableAddresses" fileName="person addresses" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/xml.png" width="24" />
+										<p:dataExporter type="xml" target="dataTableAddresses" fileName="person addresses" pageOnly="true" />
+									</h:commandLink>
+								</p:outputPanel>
+
+								<p:outputPanel id="toggleColumns">
+									<p:commandButton id="toggler" type="button" value="#{m['button.show']}" icon="ui-icon-calculator" styleClass="onTheRight" />
+									<p:columnToggler datasource="dataTableAddresses" trigger="toggler" />
+								</p:outputPanel>
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column sortBy="#{address.streetType.description}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.type']}" />
+							</f:facet>
+							<h:outputText value="#{insertUserController.translateEnumValue(address.streetType.description)}" />
+						</p:column>
+						<p:column sortBy="#{address.street}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.street']}" />
+							</f:facet>
+							<h:outputText value="#{address.street}" />
+						</p:column>
+						<p:column sortBy="#{address.number}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.number']}" />
+							</f:facet>
+							<h:outputText value="#{address.number}" converter="streetNumberConveter" />
+						</p:column>
+						<p:column sortBy="#{address.compliment}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.compliment']}" />
+							</f:facet>
+							<h:outputText value="#{address.compliment}" />
+						</p:column>
+						<p:column sortBy="#{address.cep}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.cep']}" />
+							</f:facet>
+							<h:outputText value="#{address.cep}" converter="cepConverter" />
+						</p:column>
+						<p:column sortBy="#{address.neighborhood}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.neighborhood']}" />
+							</f:facet>
+							<h:outputText value="#{address.neighborhood}" />
+						</p:column>
+						<p:column sortBy="#{address.city}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.city']}" />
+							</f:facet>
+							<h:outputText value="#{address.city}" />
+						</p:column>
+						<p:column sortBy="#{address.state.description}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.state']}" />
+							</f:facet>
+							<h:outputText value="#{insertUserController.translateEnumValue(address.state.description)}" />
+						</p:column>
+						<p:column exportable="false">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.action']}" />
+							</f:facet>
+							<p:commandLink value="#{m['button.remove']}" update=":register:addresses" process=":register:addresses" styleClass="textAction">
+								<p:collector value="#{address}" removeFrom="#{insertUserController.addressController.orms}" unique="true" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="userInfo" legend="#{m['title.user']}" toggleable="true" tabindex="3" collapsed="true">
+				<h:panelGrid id="panelUserFields" columns="4" columnClasses="ui-grid-col-4, ui-grid-col-3, ui-grid-col-3, ui-grid-col-2" cellpadding="10" styleClass="widthOneHundred">
+					<p:inputMask id="login" value="#{insertUserController.orm.user.login}" placeholder="#{m['placeHolder.login']}" mask="aaa?aaaaaaaaaaaaaaaaa" maxlength="20" required="true"
+						requiredMessage="#{m['requiered.login']}" styleClass="fieldInsertText" />
+
+					<p:password id="password" value="#{insertUserController.orm.user.password}" placeholder="#{m['placeHolder.password']}" feedback="true" match="passwordConfirm"
+						promptLabel="#{m['label.enterPassword']}" weakLabel="#{m['label.passwordWeak']}" goodLabel="#{m['label.passwordMedium']}" strongLabel="#{m['label.passwordStrong']}" maxlength="20"
+						required="true" requiredMessage="#{m['requiered.password']}" validatorMessage="#{m['label.passwordWrong']}" styleClass="fieldInsertText" />
+
+					<p:password id="passwordConfirm" placeholder="#{m['placeHolder.confirmPassword']}" feedback="true" promptLabel="#{m['label.enterPassword']}" weakLabel="#{m['label.passwordWeak']}"
+						goodLabel="#{m['label.passwordMedium']}" strongLabel="#{m['label.passwordStrong']}" maxlength="20" styleClass="fieldInsertText" />
+
+					<p:selectOneMenu id="position" value="#{insertUserController.orm.user.position}" filter="true" styleClass="fieldInsertMediumCombo">
+						<f:selectItems value="#{insertUserController.positions}" var="position" itemLabel="#{insertUserController.translateEnumValue(position.description)}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid id="panelUserFields2" columns="3" columnClasses="ui-grid-col-4, ui-grid-col-4, ui-grid-col-4" cellpadding="10" styleClass="widthOneHundred">
+					<p:autoComplete id="topUser" value="#{insertUserController.topUser}" completeMethod="#{insertUserController.searchTopUser}" var="topUser"
+						itemLabel="#{topUser ne null ? (topUser.name).concat(' ').concat(topUser.lastName).concat(' | Login: ').concat(topUser.user.login) : ''}" itemValue="#{topUser}" converter="personConverter"
+						placeholder="#{m['placeHolder.topUser']}" minQueryLength="3" maxlength="50" maxResults="5" cache="true" inputStyle="width:400px;" />
+
+					<p:autoComplete id="userGroup" value="#{insertUserController.userGroup}" completeMethod="#{insertUserGroupController.searchUserGroup}" var="userGroup"
+						itemLabel="#{userGroup ne null ? userGroup.name : ''}" itemValue="#{userGroup}" converter="userGroupConverter" placeholder="#{m['placeHolder.userGroup']}" minQueryLength="3" maxlength="50"
+						maxResults="5" cache="true" inputStyle="width:400px;" />
+
+					<p:selectOneMenu id="status" value="#{insertUserController.orm.user.status}" styleClass="fieldInsertCombo">
+						<f:selectItems value="#{insertUserController.status}" var="status" itemLabel="#{insertUserController.translateEnumValue(status.description)}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="generalButtons" tabindex="4">
+				<h:panelGrid id="formButtons" columns="2" cellpadding="10" styleClass="onTheRight">
+					<p:commandButton id="cancel" value="#{m['button.cancel']}" immediate="true" action="#{insertUserController.cancel()}" icon="fa fa-close" />
+
+					<p:commandButton id="save" value="#{m['button.save']}" validateClient="true" ajax="false" icon="fa fa-save" actionListener="#{insertUserController.save}"
+						update="messages basicInfo contactInfo addressInfo userInfo" rendered="#{showHideController.showHide(2, 'create')}" />
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd"
+	version="2.1">
+
+	<entity name="UserORM" class="br.com.salescenter.orm.user.UserORM">
+
+		<named-query name="UserORM.findByLoginAndPassword">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			root
+    		FROM 
+    			UserORM root
+    		WHERE 
+    			root.login = :login 
+    			AND 
+    			root.password = :password
+    			AND
+    			root.status = 1
+            ]]> 
+	        </query>
+		</named-query>
+
+		<named-query name="UserORM.existsEmployeeNumber">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			UserORM root
+            WHERE 
+                root.employeeNumber = :employeeNumber 
+            ]]> 
+	        </query>
+		</named-query>
+
+		<named-query name="UserORM.existsLogin">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			UserORM root
+            WHERE 
+                root.login = :login 
+            ]]> 
+	        </query>
+		</named-query>
+
+		<named-query name="UserORM.existsIDAndLogin">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			UserORM root
+            WHERE 
+            	root.id <> :id
+            	AND
+                root.login = :login 
+            ]]> 
+	        </query>
+		</named-query>
+
+		<named-query name="UserORM.updateTheme">
+			<query>
+            <![CDATA[
+            UPDATE 
+                UserORM root 
+            SET 
+                root.theme = :theme
+            WHERE 
+                root.id = :id
+            ]]>
+            </query>
+		</named-query>
+		
+		<named-query name="UserORM.updateLanguage">
+			<query>
+            <![CDATA[
+            UPDATE 
+                UserORM root 
+            SET 
+                root.language = :language
+            WHERE 
+                root.id = :id
+            ]]>
+            </query>
+		</named-query>
+
+	</entity>
+</entity-mappings>

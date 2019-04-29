@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd"
+	version="2.1">
+
+	<entity name="PersonORM" class="br.com.salescenter.orm.user.PersonORM">
+
+		<named-query name="PersonORM.findById">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			root 
+    		FROM 
+    			PersonORM root
+    		WHERE 
+    			root.id = :id
+    			AND
+    			root.user.status = 1 
+            ]]> 
+	        </query>
+		</named-query>
+
+		<named-query name="PersonORM.findByIdUser">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			root 
+    		FROM 
+    			PersonORM root
+    		WHERE 
+    			root.user.id = :id 
+            ]]> 
+	        </query>
+		</named-query>
+		
+		<named-query name="PersonORM.listAll">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			root 
+    		FROM 
+    			PersonORM root
+            ]]> 
+	        </query>
+		</named-query>
+
+		<!-- <named-query name="PersonORM.updateStatus"> -->
+		<!-- <query> -->
+		<!-- <![CDATA[ -->
+		<!-- UPDATE -->
+		<!-- PersonORM root -->
+		<!-- SET -->
+		<!-- root.status = :status -->
+		<!-- WHERE -->
+		<!-- root.id = :id -->
+		<!-- ]]> -->
+		<!-- </query> -->
+		<!-- </named-query> -->
+
+		<named-query name="PersonORM.existsRG">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			PersonORM root
+            WHERE 
+                root.rg = :rg 
+            ]]> 
+	        </query>
+		</named-query>
+
+		<named-query name="PersonORM.existsIDAndRG">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			PersonORM root
+            WHERE 
+            	root.id <> :id
+            	AND
+                root.rg = :rg 
+            ]]> 
+	        </query>
+		</named-query>
+
+		<named-query name="PersonORM.existsCPF">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			PersonORM root
+            WHERE 
+                root.cpf = :cpf
+            ]]>
+	        </query>
+		</named-query>
+
+		<named-query name="PersonORM.existsIDAndCPF">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			PersonORM root
+            WHERE
+            	root.id <> :id
+            	AND 
+                root.cpf = :cpf
+            ]]> 
+	        </query>
+		</named-query>
+
+		<named-query name="PersonORM.existsEmail">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			PersonORM root
+            WHERE 
+                root.email = :email
+            ]]> 
+	        </query>
+		</named-query>
+
+		<named-query name="PersonORM.existsIDAndEmail">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			PersonORM root
+            WHERE
+            	root.id <> :id
+            	AND 
+                root.email = :email
+            ]]> 
+	        </query>
+		</named-query>
+		
+		<named-query name="PersonORM.amountPersonByGender">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			PersonORM root
+            WHERE 
+                root.gender = :gender
+                AND
+    			root.user.status = 1
+            ]]> 
+	        </query>
+		</named-query>
+	</entity>
+</entity-mappings>

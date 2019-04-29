@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<ui:composition template="/pages/template/main/main.xhtml">
+	<ui:define name="content">
+		<h:form id="search" styleClass="pageContent">
+			<p:growl id="messages" showDetail="true" />
+
+			<p:spacer />
+			<p:fieldset id="title" styleClass="textScreenTitle">
+				<h1>#{m['title.userGroupSearch']}</h1>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="generalButtons" tabindex="0">
+				<h:panelGrid id="buttons" columns="6" cellpadding="10" styleClass="onTheRight">
+					<p:outputLabel id="oFrom" for="from" value="#{m['label.from']}" styleClass="textSearchDate" />
+					<p:calendar id="from" value="#{searchUserGroupController.filter.from}" pattern="dd/MM/yyyy" mask="true" converter="localDateConverter" navigator="true"
+						mindate="#{searchUserGroupController.maximumSearchDate()}" maxdate="#{searchUserGroupController.today()}" yearRange="#{searchUserGroupController.rangeInYearSearch()}" readonlyInput="true" />
+
+					<p:outputLabel id="oTo" for="to" value="#{m['label.to']}" styleClass="textSearchDate" />
+					<p:calendar id="to" value="#{searchUserGroupController.filter.to}" pattern="dd/MM/yyyy" mask="true" converter="localDateConverter" navigator="true"
+						mindate="#{searchUserGroupController.maximumSearchDate()}" maxdate="#{searchUserGroupController.today()}" yearRange="#{searchUserGroupController.rangeInYearSearch()}" readonlyInput="true" />
+
+					<p:commandButton id="search" value="#{m['button.search']}" update="dataTableUserGroups messages" icon="fa fa-search" action="#{searchUserGroupController.search()}" />
+
+					<p:commandButton id="new" value="#{m['button.new']}" action="#{searchUserGroupController.insertUser()}" update="messages" icon="fa fa-plus" rendered="#{showHideController.showHide(4, 'create')}" />
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="fields" legend="#{m['title.filters']}" tabindex="1" styleClass="filters">
+				<h:panelGrid id="panelBasicInfo" columns="2" columnClasses="ui-grid-col-8, ui-grid-col-4" cellpadding="10">
+					<p:inputText id="name" value="#{searchUserGroupController.filter.name}" maxlength="50" placeholder="#{m['placeHolder.search.name']}" styleClass="fieldSearchFilterText" />
+
+					<p:selectOneMenu id="status" value="#{searchUserGroupController.filter.status}" placeholder="#{m['placeHolder.search.status']}" styleClass="fieldSearchFilterCombo">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{searchUserGroupController.status}" var="status" itemLabel="#{searchUserGroupController.translateEnumValue(status.description)}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:outputPanel id="userGroups">
+				<p:dataTable id="dataTableUserGroups" value="#{searchUserGroupController.results}" var="result" rowKey="#{result.id}" rows="10" lazy="true" paginator="true" resizableColumns="true" reflow="true"
+					scrollable="true" paginatorPosition="bottom" selectionMode="single" scrollHeight="250" emptyMessage="Nenhum registro" styleClass="borderless">
+					<f:facet name="header">
+						<h:panelGrid id="panelBasicSearch" columns="2" cellpadding="10">
+							<p:outputPanel id="exporters">
+								<h:commandLink styleClass="onTheLeft">
+									<p:graphicImage name="/img/exporter/excel.png" width="24" />
+									<p:dataExporter type="xls" target="dataTableUserGroups" fileName="user groups" pageOnly="true" />
+								</h:commandLink>
+								<h:commandLink styleClass="onTheLeft">
+									<p:graphicImage name="/img/exporter/pdf.png" width="24" />
+									<p:dataExporter type="pdf" target="dataTableUserGroups" fileName="user groups" pageOnly="true" />
+								</h:commandLink>
+								<h:commandLink styleClass="onTheLeft">
+									<p:graphicImage name="/img/exporter/csv.png" width="24" />
+									<p:dataExporter type="csv" target="dataTableUserGroups" fileName="user groups" pageOnly="true" />
+								</h:commandLink>
+								<h:commandLink styleClass="onTheLeft">
+									<p:graphicImage name="/img/exporter/xml.png" width="24" />
+									<p:dataExporter type="xml" target="dataTableUserGroups" fileName="user groups" pageOnly="true" />
+								</h:commandLink>
+							</p:outputPanel>
+
+							<p:outputPanel id="toggleColumns">
+								<p:commandButton id="toggler" type="button" value="#{m['button.show']}" icon="ui-icon-calculator" styleClass="onTheRight" />
+								<p:columnToggler datasource="dataTableUserGroups" trigger="toggler" />
+							</p:outputPanel>
+						</h:panelGrid>
+					</f:facet>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{m['title.name']}" />
+						</f:facet>
+						<h:outputText value="#{result.name}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{m['title.status']}" />
+						</f:facet>
+						<h:outputText value="#{searchUserGroupController.translateEnumValue(result.status.description)}" />
+					</p:column>
+					<p:column width="7%">
+						<f:facet name="header">
+							<h:outputText value="#{m['title.action']}" />
+						</f:facet>
+						<h:link id="view" outcome="#{searchUserGroupController.viewEditUser()}" value="#{m['button.view']}" includeViewParams="true" styleClass="textAction">
+							<f:param name="viewId" value="#{result.id}" />
+						</h:link>
+					</p:column>
+				</p:dataTable>
+			</p:outputPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

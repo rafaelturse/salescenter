@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<ui:composition template="/pages/template/main/main.xhtml">
+	<ui:define name="content">
+		<div class="pageContent">
+			<h:form id="dashbaord">
+				<p:growl id="messages" showDetail="true" />
+
+				<p:spacer />
+				<p:fieldset id="title" styleClass="textScreenTitle">
+					<h1>#{m['title.dashboard']}</h1>
+				</p:fieldset>
+
+				<p:dashboard id="bar" model="#{dashboardController.model2}" style="width:1200px">
+					<p:panel id="sellerXSalesPanel" header="#{m['title.sellerXSales']}" style="width:1250px">
+						<h:panelGrid id="panelSellerxSales" cellpadding="10" styleClass="widthOneHundred">
+							<h:panelGrid id="panelSearchSellerxSales" columns="2" columnClasses="ui-grid-col-2, ui-grid-col-1" cellpadding="10" styleClass="widthOneHundred">
+								<p:inputMask id="year" value="#{chartController.year}" mask="9999" styleClass="widthOneHundred" />
+								<p:commandButton id="search" value="#{m['button.search']}" update="bar" icon="fa fa-search" action="#{chartController.setSellerXSales()}" />
+							</h:panelGrid>
+
+							<p:chart id="sellerXSales" type="bar" model="#{chartController.sellerXSalesChart}" style="width:1200px" />
+						</h:panelGrid>
+					</p:panel>
+
+					<p:panel id="salesAmountPanel" header="#{m['title.salesAmount']}" style="width:1250px">
+						<h:panelGrid id="panelSalesAmount" cellpadding="10" styleClass="widthOneHundred">
+							<h:panelGrid id="panelSearchSalesAmount" columns="2" columnClasses="ui-grid-col-2, ui-grid-col-1" cellpadding="10" styleClass="widthOneHundred">
+								<p:inputMask id="yearSalesAmount" value="#{chartController.yearSalesAmount}" mask="9999" styleClass="widthOneHundred" />
+								<p:commandButton id="searchSalesAmount" value="#{m['button.search']}" update="bar" icon="fa fa-search" action="#{chartController.setSalesAmount()}" />
+							</h:panelGrid>
+
+							<p:chart id="salesAmount" type="bar" model="#{chartController.salesAmountChart}" style="width:1200px" />
+						</h:panelGrid>
+					</p:panel>
+
+					<p:panel id="pendingForecastCategoryPanel" header="#{m['title.pendingForecastCategory']}" style="width:1250px">
+						<h:panelGrid id="panelPendingForecastCategory" cellpadding="10" styleClass="widthOneHundred">
+							<p:chart id="pendingForecastCategory" type="bubble" model="#{chartController.pendingForecastCategoryChart}" style="width:1200px" />
+						</h:panelGrid>
+					</p:panel>
+				</p:dashboard>
+
+				<p:dashboard id="pie" model="#{dashboardController.model1}" styleClass="dashboard">
+					<p:panel id="genderPanel" header="#{m['title.gender']}" styleClass="dashBoardPanel">
+						<p:chart id="gender" type="pie" model="#{chartController.genderChart}" responsive="true" />
+					</p:panel>
+
+					<p:panel id="businessTypePanel" header="#{m['title.businessType']}" styleClass="dashBoardPanel">
+						<p:chart id="businessType" type="pie" model="#{chartController.businessTypeChart}" responsive="true" />
+					</p:panel>
+
+					<p:panel id="salesTypePanel" header="#{m['title.salesType']}" styleClass="dashBoardPanel">
+						<p:chart id="salesType" type="pie" model="#{chartController.salesTypeChart}" responsive="true" />
+					</p:panel>
+
+					<p:panel id="salesStagePanel" header="#{m['title.salesStage']}" styleClass="dashBoardPanel">
+						<p:chart id="salesStage" type="pie" model="#{chartController.salesStageChart}" responsive="true" />
+					</p:panel>
+
+					<p:panel id="foreCastCategoryPanel" header="#{m['title.forecastCategory']}" styleClass="dashBoardPanel">
+						<p:chart id="foreCastCategory" type="pie" model="#{chartController.forecastCategoryChart}" responsive="true" />
+					</p:panel>
+
+					<p:panel id="reasonPanel" header="#{m['title.reason']}" styleClass="dashBoardPanel">
+						<p:chart id="reason" type="pie" model="#{chartController.reasonChart}" responsive="true" style="height:360px" />
+					</p:panel>
+
+					<p:panel id="statusOpportunitiesPanel" header="#{m['title.statusOpportunities']}" styleClass="dashBoardPanel">
+						<p:chart id="statusOpportunities" type="pie" model="#{chartController.statusOpportunitiesChart}" responsive="true" />
+					</p:panel>
+					
+					<p:panel id="wonXLostPanel" header="#{m['title.wonXLost']}" styleClass="dashBoardPanel">
+						<p:chart id="wonXLost" type="pie" model="#{chartController.wonXLostChart}" responsive="true" />
+					</p:panel>
+					
+					<p:panel id="middleTiketPanel" header="#{m['title.middleTiket']}" styleClass="dashBoardPanel">
+						<p:chart id="middleTiket" type="pie" model="#{chartController.middleTiketChart}" responsive="true" />
+					</p:panel>
+				</p:dashboard>
+
+				<div style="clear: both" />
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

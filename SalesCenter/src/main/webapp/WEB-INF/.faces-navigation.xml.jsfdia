@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="login::#index.xhtml" NAME="output"
+    PATH="/index.xhtml" TARGET="rules:#index.xhtml" TITLE="login" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="logout::#index.xhtml" NAME="output1"
+    PATH="/index.xhtml" TARGET="rules:#index.xhtml" TITLE="logout" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="home::#pages#system#home.xhtml"
+    NAME="output2" PATH="/pages/system/home.xhtml"
+    TARGET="rules:#pages#system#home.xhtml" TITLE="home" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="search-user::#pages#system#user#search-user.xhtml"
+    NAME="output3" PATH="/pages/system/user/search-user.xhtml"
+    TARGET="rules:#pages#system#user#search-user.xhtml"
+    TITLE="search-user" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="insert-user::#pages#system#user#insert-user.xhtml"
+    NAME="output4" PATH="/pages/system/user/insert-user.xhtml"
+    TARGET="rules:#pages#system#user#insert-user.xhtml"
+    TITLE="insert-user" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="view-edit-user::#pages#system#user#view-edit-user.xhtml"
+    NAME="output5" PATH="/pages/system/user/view-edit-user.xhtml"
+    TARGET="rules:#pages#system#user#view-edit-user.xhtml"
+    TITLE="view-edit-user" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="search-client::#pages#system#client#search-client.xhtml"
+    NAME="output6" PATH="/pages/system/client/search-client.xhtml"
+    TARGET="rules:#pages#system#client#search-client.xhtml"
+    TITLE="search-client" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="insert-client::#pages#system#client#insert-client.xhtml"
+    NAME="output7" PATH="/pages/system/client/insert-client.xhtml"
+    TARGET="rules:#pages#system#client#insert-client.xhtml"
+    TITLE="insert-client" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="view-edit-client::#pages#system#client#view-edit-client.xhtml"
+    NAME="output8" PATH="/pages/system/client/view-edit-client.xhtml"
+    TARGET="rules:#pages#system#client#view-edit-client.xhtml"
+    TITLE="view-edit-client" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="theme::#pages#system#preferences#theme.xhtml" NAME="output9"
+    PATH="/pages/system/preferences/theme.xhtml"
+    TARGET="rules:#pages#system#preferences#theme.xhtml" TITLE="theme" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="language::#pages#system#preferences#language.xhtml"
+    NAME="output10" PATH="/pages/system/preferences/language.xhtml"
+    TARGET="rules:#pages#system#preferences#language.xhtml"
+    TITLE="language" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#index.xhtml" PATH="/index.xhtml"
+  SHAPE="240,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#system#home.xhtml"
+  PATH="/pages/system/home.xhtml" SHAPE="256,177,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#system#user#insert-user.xhtml"
+  PATH="/pages/system/user/insert-user.xhtml" SHAPE="288,353,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#system#user#search-user.xhtml"
+  PATH="/pages/system/user/search-user.xhtml" SHAPE="288,353,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#system#user#view-edit-user.xhtml"
+  PATH="/pages/system/user/view-edit-user.xhtml" SHAPE="304,417,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#system#preferences#theme.xhtml"
+  PATH="/pages/system/preferences/theme.xhtml" SHAPE="304,449,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#system#client#search-client.xhtml"
+  PATH="/pages/system/client/search-client.xhtml" SHAPE="304,449,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#system#client#insert-client.xhtml"
+  PATH="/pages/system/client/insert-client.xhtml" SHAPE="304,545,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#system#client#view-edit-client.xhtml"
+  PATH="/pages/system/client/view-edit-client.xhtml" SHAPE="304,881,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#system#preferences#language.xhtml"
+  PATH="/pages/system/preferences/language.xhtml" SHAPE="304,577,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

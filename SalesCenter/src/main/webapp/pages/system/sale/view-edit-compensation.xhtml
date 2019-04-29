@@ -1,0 +1,245 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<ui:composition template="/pages/template/main/main.xhtml">
+	<ui:define name="content">
+		<h:form id="viewEdit" styleClass="pageContent">
+			<p:growl id="messages" showDetail="true" />
+
+			<p:breadCrumb id="breadCrumb">
+				<p:menuitem value="#{m['menu.home']}" icon="fa fa-home" outcome="home" />
+				<p:menuitem value="#{m['menu.searchCompensation']}" outcome="search-compensation" styleClass="textAction" />
+			</p:breadCrumb>
+
+			<p:spacer />
+			<p:fieldset id="title" styleClass="textScreenTitle">
+				<h1>#{m['title.compensationViewEdit']}</h1>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="basicInfo" legend="#{m['title.basicInformation']}">
+				<h:panelGrid id="panelBasicInfo" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-1" cellpadding="10" styleClass="widthOneHundred">
+					<p:outputPanel>
+						<p:outputLabel id="oSeller" value="#{m['inplace.seller']} #{viewEditCompensationController.orm.seller.name} #{viewEditCompensationController.orm.seller.lastName}"
+							rendered="#{!showHideController.showHide(10, 'update')}" />
+						<p:inplace id="iSeller" label="#{m['inplace.seller']} #{viewEditCompensationController.orm.seller.name} #{viewEditCompensationController.orm.seller.lastName}" editor="true"
+							rendered="#{showHideController.showHide(10, 'update')}" styleClass="textViewStrong">
+							<p:outputPanel>
+								<p:autoComplete id="seller" value="#{viewEditCompensationController.seller}" completeMethod="#{insertUserController.searchPerson}" var="person"
+									itemLabel="#{person ne null ? (person.name).concat(' ').concat(person.lastName).concat(' | Login: ').concat(person.user.login) : ''}" itemValue="#{person}" converter="personConverter"
+									placeholder="#{m['placeHolder.seller']}" minQueryLength="3" maxlength="50" maxResults="5" cache="true" inputStyle="width:400px;" />
+								<p:tooltip id="toolTipSeller" for="seller" value="#{m['tip.searchPerson']}" position="bottom" />
+							</p:outputPanel>
+						</p:inplace>
+					</p:outputPanel>
+
+					<p:outputLabel id="oYear" value="#{m['inplace.year']} #{viewEditCompensationController.orm.year}" rendered="#{!showHideController.showHide(10, 'update')}" />
+					<p:inplace id="iYear" label="#{m['inplace.year']} #{viewEditCompensationController.orm.year}" editor="true" rendered="#{showHideController.showHide(10, 'update')}" styleClass="textViewStrong">
+						<p:inputMask id="year" value="#{viewEditCompensationController.orm.year}" mask="9999" styleClass="widthOneHundred" />
+					</p:inplace>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="goalInfo" legend="#{m['title.goal']}">
+				<p:outputPanel id="goalsView" rendered="#{viewEditCompensationController.renderedGoalView}">
+					<h:panelGrid id="panelGoalView" columns="4" columnClasses="ui-grid-col-3, ui-grid-col-3, ui-grid-col-3, ui-grid-col-3" cellpadding="10" styleClass="widthOneHundred">
+						<h:panelGrid cellpadding="10" styleClass="widthOneHundred">
+							<p:outputLabel id="vJanuary" value="#{m['inplace.month.january']} #{viewEditCompensationController.orm.january}" />
+							<p:outputLabel id="vFebruary" value="#{m['inplace.month.february']} #{viewEditCompensationController.orm.february}" />
+							<p:outputLabel id="vMarch" value="#{m['inplace.month.march']} #{viewEditCompensationController.orm.march}" />
+						</h:panelGrid>
+
+						<h:panelGrid cellpadding="10" styleClass="widthOneHundred">
+							<p:outputLabel id="vApril" value="#{m['inplace.month.april']} #{viewEditCompensationController.orm.april}" />
+							<p:outputLabel id="vMay" value="#{m['inplace.month.may']} #{viewEditCompensationController.orm.may}" />
+							<p:outputLabel id="vJune" value="#{m['inplace.month.june']} #{viewEditCompensationController.orm.june}" />
+						</h:panelGrid>
+
+						<h:panelGrid cellpadding="10" styleClass="widthOneHundred">
+							<p:outputLabel id="vJuly" value="#{m['inplace.month.july']} #{viewEditCompensationController.orm.july}" />
+							<p:outputLabel id="vAugust" value="#{m['inplace.month.august']} #{viewEditCompensationController.orm.august}" />
+							<p:outputLabel id="vSeptember" value="#{m['inplace.month.september']} #{viewEditCompensationController.orm.september}" />
+						</h:panelGrid>
+
+						<h:panelGrid cellpadding="10" styleClass="widthOneHundred">
+							<p:outputLabel id="vOctober" value="#{m['inplace.month.october']} #{viewEditCompensationController.orm.october}" />
+							<p:outputLabel id="vNovember" value="#{m['inplace.month.november']} #{viewEditCompensationController.orm.november}" />
+							<p:outputLabel id="vDecember" value="#{m['inplace.month.december']} #{viewEditCompensationController.orm.december}" />
+						</h:panelGrid>
+					</h:panelGrid>
+				</p:outputPanel>
+
+				<p:outputPanel id="goalsEdit" rendered="#{!viewEditCompensationController.renderedGoalView}">
+					<h:panelGrid id="panelGoalInfo" columns="4" columnClasses="ui-grid-col-3, ui-grid-col-3, ui-grid-col-3, ui-grid-col-3" cellpadding="10" styleClass="widthOneHundred">
+						<p:outputPanel>
+							<p:outputPanel>
+								<h:panelGrid id="pJanuary" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+									<p:outputLabel id="oJanuary" value="#{m['label.month.january']}" for="january" />
+									<p:inputNumber id="january" value="#{viewEditCompensationController.orm.january}" inputStyle="width:100%" />
+								</h:panelGrid>
+							</p:outputPanel>
+							<p:outputPanel>
+								<h:panelGrid id="pFebruary" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+									<p:outputLabel id="oFebruary" value="#{m['label.month.february']}" for="february" />
+									<p:inputNumber id="february" value="#{viewEditCompensationController.orm.february}" inputStyle="width:100%" />
+								</h:panelGrid>
+							</p:outputPanel>
+							<p:outputPanel>
+								<h:panelGrid id="pMarch" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+									<p:outputLabel id="oMarch" value="#{m['label.month.march']}" for="march" />
+									<p:inputNumber id="march" value="#{viewEditCompensationController.orm.march}" inputStyle="width:100%" />
+								</h:panelGrid>
+							</p:outputPanel>
+						</p:outputPanel>
+
+						<p:outputPanel>
+							<p:outputPanel>
+								<h:panelGrid id="pApril" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+									<p:outputLabel id="oApril" value="#{m['label.month.april']}" for="april" />
+									<p:inputNumber id="april" value="#{viewEditCompensationController.orm.april}" inputStyle="width:100%" />
+								</h:panelGrid>
+							</p:outputPanel>
+							<p:outputPanel>
+								<h:panelGrid id="pMay" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+									<p:outputLabel id="oMay" value="#{m['label.month.january']}" for="may" />
+									<p:inputNumber id="may" value="#{viewEditCompensationController.orm.may}" inputStyle="width:100%" />
+								</h:panelGrid>
+							</p:outputPanel>
+							<p:outputPanel>
+								<h:panelGrid id="pJune" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+									<p:outputLabel id="oJune" value="#{m['label.month.june']}" for="june" />
+									<p:inputNumber id="june" value="#{viewEditCompensationController.orm.june}" inputStyle="width:100%" />
+								</h:panelGrid>
+							</p:outputPanel>
+						</p:outputPanel>
+						<p:outputPanel>
+							<h:panelGrid id="pJuly" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+								<p:outputLabel id="oJuly" value="#{m['label.month.july']}" for="july" />
+								<p:inputNumber id="july" value="#{viewEditCompensationController.orm.july}" inputStyle="width:100%" />
+							</h:panelGrid>
+							<p:outputPanel>
+								<h:panelGrid id="pAugust" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+									<p:outputLabel id="oAugust" value="#{m['label.month.august']}" for="august" />
+									<p:inputNumber id="august" value="#{viewEditCompensationController.orm.august}" inputStyle="width:100%" />
+								</h:panelGrid>
+							</p:outputPanel>
+							<p:outputPanel>
+								<h:panelGrid id="pSeptember" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+									<p:outputLabel id="oSeptember" value="#{m['label.month.september']}" for="september" />
+									<p:inputNumber id="september" value="#{viewEditCompensationController.orm.september}" inputStyle="width:100%" />
+								</h:panelGrid>
+							</p:outputPanel>
+						</p:outputPanel>
+						<p:outputPanel>
+							<p:outputPanel>
+								<h:panelGrid id="pOctober" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+									<p:outputLabel id="oOctober" value="#{m['label.month.october']}" for="october" />
+									<p:inputNumber id="october" value="#{viewEditCompensationController.orm.october}" inputStyle="width:100%" />
+								</h:panelGrid>
+							</p:outputPanel>
+							<p:outputPanel>
+								<h:panelGrid id="pNovember" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+									<p:outputLabel id="oNovember" value="#{m['label.month.november']}" for="november" />
+									<p:inputNumber id="november" value="#{viewEditCompensationController.orm.november}" inputStyle="width:100%" />
+								</h:panelGrid>
+							</p:outputPanel>
+							<p:outputPanel>
+								<h:panelGrid id="pDecember" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+									<p:outputLabel id="oDecember" value="#{m['label.month.december']}" for="december" />
+									<p:inputNumber id="december" value="#{viewEditCompensationController.orm.december}" inputStyle="width:100%" />
+								</h:panelGrid>
+							</p:outputPanel>
+						</p:outputPanel>
+					</h:panelGrid>
+				</p:outputPanel>
+
+				<h:panelGrid id="panelGoalsButtons" columns="1" rendered="#{showHideController.showHide(10, 'update')}" styleClass="onTheRight">
+					<p:spacer />
+					<p:commandButton id="goalShowEdit" value="#{m['button.edit']}" action="#{viewEditCompensationController.setRenderedGoalView(false)}" update=":viewEdit:goalInfo" process="@this" icon="fa fa-edit"
+						rendered="#{viewEditCompensationController.renderedGoalView}" />
+					<p:commandButton id="goalShowView" value="#{m['button.save']}" action="#{viewEditCompensationController.setRenderedGoalView(true)}" update=":viewEdit:goalInfo" process="@this" icon="fa fa-save"
+						rendered="#{!viewEditCompensationController.renderedGoalView}" />
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="chartInfo">
+				<p:dashboard id="bar" model="#{dashboardController.model3}" style="width:1200px">
+					<p:panel id="sellerCompensationPanel" header="#{m['title.sellerXCompensation']}" style="width:1250px">
+						<h:panelGrid id="pChart" cellpadding="10" styleClass="fieldInsertText">
+							<h:panelGrid id="chartUpdateForm" columns="2" cellpadding="10" styleClass="onTheRight">
+								<p:commandButton id="updateChart" value="#{m['button.update']}" icon="fa fa-refresh" action="#{viewEditCompensationController.setSellerCompensation}" update="chartInfo"
+									rendered="#{showHideController.showHide(10, 'update')}" />
+							</h:panelGrid>
+							<p:chart id="sellerCompensation" type="bar" model="#{viewEditCompensationController.sellerCompensationChart}" style="width:1200px" />
+						</h:panelGrid>
+					</p:panel>
+				</p:dashboard>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="commissionInfo" legend="#{m['title.commission']}">
+				<p:outputPanel id="commissionView" rendered="#{viewEditCompensationController.renderedCommissionView}">
+					<h:panelGrid id="panelCommissionView" columns="4" columnClasses="ui-grid-col-3, ui-grid-col-3, ui-grid-col-3, ui-grid-col-3" cellpadding="10" styleClass="widthOneHundred">
+						<h:panelGrid cellpadding="10" styleClass="widthOneHundred">
+							<p:outputLabel id="cJanuary" value="#{m['inplace.month.january']} #{viewEditCompensationController.commission(1)}" />
+							<p:outputLabel id="cFebruary" value="#{m['inplace.month.february']} #{viewEditCompensationController.commission(2)}" />
+							<p:outputLabel id="cMarch" value="#{m['inplace.month.march']} #{viewEditCompensationController.commission(3)}" />
+						</h:panelGrid>
+
+						<h:panelGrid cellpadding="10" styleClass="widthOneHundred">
+							<p:outputLabel id="cApril" value="#{m['inplace.month.april']} #{viewEditCompensationController.commission(4)}" />
+							<p:outputLabel id="cMay" value="#{m['inplace.month.may']} #{viewEditCompensationController.commission(5)}" />
+							<p:outputLabel id="cJune" value="#{m['inplace.month.june']} #{viewEditCompensationController.commission(6)}" />
+						</h:panelGrid>
+
+						<h:panelGrid cellpadding="10" styleClass="widthOneHundred">
+							<p:outputLabel id="cJuly" value="#{m['inplace.month.july']} #{viewEditCompensationController.commission(7)}" />
+							<p:outputLabel id="cAugust" value="#{m['inplace.month.august']} #{viewEditCompensationController.commission(8)}" />
+							<p:outputLabel id="cSeptember" value="#{m['inplace.month.september']} #{viewEditCompensationController.commission(9)}" />
+						</h:panelGrid>
+
+						<h:panelGrid cellpadding="10" styleClass="widthOneHundred">
+							<p:outputLabel id="cOctober" value="#{m['inplace.month.october']} #{viewEditCompensationController.commission(10)}" />
+							<p:outputLabel id="cNovember" value="#{m['inplace.month.november']} #{viewEditCompensationController.commission(11)}" />
+							<p:outputLabel id="cDecember" value="#{m['inplace.month.december']} #{viewEditCompensationController.commission(12)}" />
+						</h:panelGrid>
+					</h:panelGrid>
+				</p:outputPanel>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="situationInfo" legend="#{m['title.situation']}">
+				<h:panelGrid id="pStatus" cellpadding="10" styleClass="fieldInsertText">
+					<p:outputLabel id="oStatus" value="#{m['inplace.status']} #{viewEditCompensationController.translateEnumValue(viewEditCompensationController.orm.status.description)}"
+						rendered="#{!showHideController.showHide(10, 'update') or !showHideController.showHide(10, 'enable')}" />
+					<p:inplace id="iStatus" label="#{m['inplace.status']} #{viewEditCompensationController.translateEnumValue(viewEditCompensationController.orm.status.description)}" editor="true"
+						rendered="#{showHideController.showHide(10, 'update') and showHideController.showHide(10, 'enable')}" styleClass="textViewStrong">
+						<p:selectOneMenu id="status" value="#{viewEditCompensationController.orm.status}" styleClass="fieldInsertCombo">
+							<f:selectItems value="#{viewEditCompensationController.status}" var="status" itemLabel="#{viewEditCompensationController.translateEnumValue(status.description)}" />
+						</p:selectOneMenu>
+					</p:inplace>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="generalButtons">
+				<h:panelGrid id="formButtonsRight" columns="2" cellpadding="10" styleClass="onTheRight">
+					<p:commandButton id="cancel" value="#{m['button.cancel']}" immediate="true" action="#{viewEditCompensationController.cancel()}" icon="fa fa-close" />
+
+					<p:commandButton id="update" value="#{m['button.update']}" validateClient="true" ajax="false" icon="fa fa-refresh" action="#{viewEditCompensationController.update}"
+						update="messages basicInfo goalInfo chartInfo situationInfo" rendered="#{showHideController.showHide(10, 'update')}" />
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

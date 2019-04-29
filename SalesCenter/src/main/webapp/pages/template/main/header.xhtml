@@ -1,0 +1,42 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:form>
+	<div id="pageContent" class="pageContent">
+		<h:panelGrid id="top" cellpadding="10">
+			<p:outputPanel deferred="true">
+				<p:link id="idLink" outcome="home">
+					<p:graphicImage name="/img/logo/LogoSalesCenter.png" />
+				</p:link>
+			</p:outputPanel>
+		</h:panelGrid>
+
+		<p:menubar>
+			<p:menuitem value="#{m['menu.home']}" icon="fa fa-home" outcome="home" rendered="#{showHideController.showHide(1, 'read')}" />
+			<p:submenu label="#{m['menu.register']}" icon="fa fa-navicon"
+				rendered="#{showHideController.showHide(2, 'read') or showHideController.showHide(3, 'read') or showHideController.showHide(4, 'read')}">
+				<p:submenu label="#{m['menu.people']}" icon="fa fa-users">
+					<p:menuitem value="#{m['menu.client']}" icon="fa fa-user-md" outcome="search-client" rendered="#{showHideController.showHide(3, 'read')}" />
+					<p:menuitem value="#{m['menu.user']}" icon="fa fa-user" outcome="search-user" rendered="#{showHideController.showHide(2, 'read')}" />
+				</p:submenu>
+				<p:menuitem value="#{m['menu.userGroup']}" icon="fa fa-graduation-cap" outcome="search-user-group" rendered="#{showHideController.showHide(4, 'read')}" />
+			</p:submenu>
+			<p:submenu label="#{m['menu.sale']}" icon="fa fa-plug" rendered="#{showHideController.showHide(9, 'read') or showHideController.showHide(10, 'read')}">
+				<p:menuitem value="#{m['menu.compensation']}" icon="fa fa-trophy" outcome="search-compensation" rendered="#{showHideController.showHide(10, 'read')}" />
+				<p:menuitem value="#{m['menu.opportunity']}" icon="fa fa-anchor" outcome="search-opportunity" rendered="#{showHideController.showHide(9, 'read')}" />
+			</p:submenu>
+			<p:menuitem value="#{m['menu.report']}" icon="fa fa-file-text-o" rendered="false" />
+			<p:menuitem value="#{m['menu.dashBoard']}" icon="fa fa-tasks" outcome="dashboard" rendered="#{showHideController.showHide(8, 'read')}" />
+			<p:submenu label="#{m['menu.preferences']}" icon="fa fa-wrench" rendered="#{showHideController.showHide(5, 'read') or showHideController.showHide(6, 'read')}">
+				<p:menuitem value="#{m['menu.language']}" icon="fa fa-language" outcome="language" rendered="#{showHideController.showHide(5, 'read')}" />
+				<p:menuitem value="#{m['menu.theme']}" icon="fa fa-photo" outcome="theme" rendered="#{showHideController.showHide(6, 'read')}" />
+			</p:submenu>
+			<p:menuitem value="#{m['menu.help']}" icon="fa fa-book" outcome="search-help" rendered="#{showHideController.showHide(7, 'read')}" />
+
+			<f:facet name="options">
+				<p:commandButton value="#{m['button.logout']}" icon="fa fa-sign-out" action="#{loginController.logout}" />
+			</f:facet>
+		</p:menubar>
+	</div>
+</h:form>
+</html>

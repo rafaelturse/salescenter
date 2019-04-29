@@ -1,0 +1,455 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<ui:composition template="/pages/template/main/main.xhtml">
+	<ui:define name="content">
+		<h:form id="viewEdit" styleClass="pageContent">
+			<p:growl id="messages" showDetail="true" />
+
+			<p:breadCrumb id="breadCrumb">
+				<p:menuitem value="#{m['menu.home']}" icon="fa fa-home" outcome="home" />
+				<p:menuitem value="#{m['menu.searchUser']}" outcome="search-user" styleClass="textAction" />
+			</p:breadCrumb>
+
+			<p:spacer />
+			<p:fieldset id="title" styleClass="textScreenTitle">
+				<h1>#{m['title.userViewEdit']}</h1>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="basicInfo" legend="#{m['title.basicInformation']}">
+				<h:panelGrid id="panelBasicInfo" columns="4" columnClasses="ui-grid-col-4, ui-grid-col-4, ui-grid-col-2, ui-grid-col-2" styleClass="widthOneHundred">
+					<h:panelGrid id="pName" columns="1" styleClass="fieldInsertText">
+						<p:outputLabel id="oName" value="#{m['inplace.name']} #{viewEditUserController.orm.name}" rendered="#{!showHideController.showHide(2, 'update')}" />
+						<p:inplace id="iName" label="#{m['inplace.name']} #{viewEditUserController.orm.name}" editor="true" rendered="#{showHideController.showHide(2, 'update')}" styleClass="textViewStrong">
+							<p:inputText id="name" value="#{viewEditUserController.orm.name}" maxlength="50" placeholder="#{m['placeHolder.name']}" required="true" requiredMessage="#{m['requiered.name']}"
+								styleClass="fieldInsertText" />
+						</p:inplace>
+					</h:panelGrid>
+
+					<h:panelGrid id="pLastName" columns="1" styleClass="fieldInsertText">
+						<p:outputLabel id="oLastName" value="#{m['inplace.lastName']} #{viewEditUserController.orm.lastName}" rendered="#{!showHideController.showHide(2, 'update')}" />
+						<p:inplace id="iLastName" label="#{m['inplace.lastName']} #{viewEditUserController.orm.lastName}" editor="true" rendered="#{showHideController.showHide(2, 'update')}" styleClass="textViewStrong">
+							<p:inputText id="lastName" value="#{viewEditUserController.orm.lastName}" maxlength="100" placeholder="#{m['placeHolder.lastName']}" required="true" requiredMessage="#{m['requiered.lastName']}"
+								styleClass="fieldInsertText" />
+						</p:inplace>
+					</h:panelGrid>
+
+					<h:panelGrid id="pGender" columns="1" styleClass="fieldInsertText">
+						<p:outputLabel id="oGender" value="#{m['inplace.gender']} #{viewEditUserController.translateEnumValue(viewEditUserController.orm.gender.description)}"
+							rendered="#{!showHideController.showHide(2, 'update')}" />
+						<p:inplace id="iGender" label="#{m['inplace.gender']} #{viewEditUserController.translateEnumValue(viewEditUserController.orm.gender.description)}" editor="true"
+							rendered="#{showHideController.showHide(2, 'update')}" styleClass="textViewStrong">
+							<p:selectOneMenu id="gender" value="#{viewEditUserController.orm.gender}" required="true" styleClass="fieldInsertMediumCombo">
+								<f:selectItems value="#{viewEditUserController.genders}" var="gender" itemLabel="#{viewEditUserController.translateEnumValue(gender.description)}" />
+							</p:selectOneMenu>
+						</p:inplace>
+					</h:panelGrid>
+
+					<h:panelGrid id="pBirth" columns="1" styleClass="fieldInsertText">
+						<p:outputLabel id="oBirth" value="#{m['inplace.birth']} #{viewEditUserController.birthFormated()}" rendered="#{!showHideController.showHide(2, 'update')}" />
+						<p:inplace id="iBirth" label="#{m['inplace.birth']} #{viewEditUserController.birthFormated()}" editor="true" rendered="#{showHideController.showHide(2, 'update')}" styleClass="textViewStrong">
+							<p:calendar id="birth" value="#{viewEditUserController.orm.birth}" placeholder="#{m['placeHolder.birth']}" pattern="dd/MM/yyyy" mask="true" converter="localDateConverter"
+								mindate="#{viewEditUserController.maximumHireDate()}" maxdate="#{viewEditUserController.minimumHireDate()}" navigator="true" yearRange="#{viewEditUserController.rangeInYearMinimumMaximum()}"
+								readonlyInput="true" required="true" requiredMessage="#{m['requiered.birth']}" styleClass="dateTimeField" />
+							<p:ajax event="save" listener="#{viewEditUserController.birthFormated()}" />:
+						</p:inplace>
+					</h:panelGrid>
+
+					<h:panelGrid id="pRg" columns="1" styleClass="fieldInsertText">
+						<p:outputLabel id="oRg" value="#{m['inplace.rg']} #{viewEditUserController.rgFormated()}" rendered="#{!showHideController.showHide(2, 'update')}" />
+						<p:inplace id="iRg" label="#{m['inplace.rg']} #{viewEditUserController.rgFormated()}" editor="true" rendered="#{showHideController.showHide(2, 'update')}" styleClass="textViewStrong">
+							<p:inputMask id="rg" value="#{viewEditUserController.orm.rg}" mask="99-999-999-*" placeholder="#{m['placeHolder.rg']}" requiredMessage="#{m['requiered.rg']}" required="true"
+								styleClass="fieldInsertText">
+								<f:converter converterId="rgConverter" />
+							</p:inputMask>
+							<p:ajax event="save" listener="#{viewEditUserController.rgFormated()}" />:
+						</p:inplace>
+					</h:panelGrid>
+
+					<h:panelGrid id="pCpf" columns="1" styleClass="fieldInsertText">
+						<p:outputLabel id="oCpf" value="#{m['inplace.cpf']} #{viewEditUserController.cpfFormated()}" rendered="#{!showHideController.showHide(2, 'update')}" />
+						<p:inplace id="iCpf" label="#{m['inplace.cpf']} #{viewEditUserController.cpfFormated()}" editor="true" rendered="#{showHideController.showHide(2, 'update')}" styleClass="textViewStrong">
+							<p:inputMask id="cpf" value="#{viewEditUserController.orm.cpf}" placeholder="#{m['placeHolder.cpf']}" mask="999.999.999-99" required="true" requiredMessage="#{m['requiered.cpf']}"
+								styleClass="fieldInsertText">
+								<f:converter converterId="cpfConverter" />
+								<f:validator validatorId="cpfValidator" />
+							</p:inputMask>
+							<p:ajax event="save" listener="#{viewEditUserController.cpfFormated()}" />:
+						</p:inplace>
+					</h:panelGrid>
+
+					<h:panelGrid id="pEmail" columns="1" styleClass="fieldInsertText">
+						<p:outputLabel id="oEmail" value="#{m['inplace.email']} #{viewEditUserController.orm.email}" rendered="#{!showHideController.showHide(2, 'update')}" />
+						<p:inplace id="iEmail" label="#{m['inplace.email']} #{viewEditUserController.orm.email}" editor="true" rendered="#{showHideController.showHide(2, 'update')}" styleClass="textViewStrong">
+							<p:inputText id="email" value="#{viewEditUserController.orm.email}" placeholder="#{m['placeHolder.email']}" maxlength="100" required="true" requiredMessage="#{m['requiered.email']}"
+								styleClass="fieldInsertText">
+								<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+							</p:inputText>
+						</p:inplace>
+					</h:panelGrid>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="contactInfo" legend="#{m['title.contact']}">
+				<p:outputPanel id="panelContactView" rendered="#{viewEditUserController.renderedContactView}">
+					<p:repeat value="#{viewEditUserController.orm.phones}" var="phones">
+						<h:panelGrid id="panelContactFields" columns="3" columnClasses="ui-grid-col-3, ui-grid-col-2, ui-grid-col-3" styleClass="widthFifty">
+							<p:outputLabel id="phoneType" value="#{m['inplace.type']} #{viewEditUserController.translateEnumValue(phones.phoneType.description)}" rendered="#{viewEditUserController.renderedContactView}"
+								styleClass="textViewStrong" />
+							<p:outputLabel id="ddd" value="#{m['inplace.ddd']} #{phones.ddd}" styleClass="textViewStrong" />
+							<p:outputLabel id="phoneNumber" value="#{m['inplace.number']} #{phones.number}" styleClass="textViewStrong" />
+						</h:panelGrid>
+					</p:repeat>
+				</p:outputPanel>
+
+				<h:panelGrid id="panelContactFields" columns="3" columnClasses="ui-grid-col-4, ui-grid-col-1, ui-grid-col-3" cellpadding="10" rendered="#{!viewEditUserController.renderedContactView}"
+					styleClass="widthFifty">
+					<p:selectOneMenu id="phoneType" value="#{viewEditUserController.phoneController.orm.phoneType}" requiredMessage="#{m['requiered.phoneType']}" styleClass="fieldInsertMediumCombo">
+						<f:selectItems value="#{viewEditUserController.phoneTypes}" var="phoneType" itemLabel="#{viewEditUserController.translateEnumValue(phoneType.description)}" />
+						<p:ajax event="change" update=":viewEdit:phoneNumber" listener="#{viewEditUserController.setPhoneType}" />
+					</p:selectOneMenu>
+
+					<p:inputMask id="ddd" value="#{viewEditUserController.phoneController.orm.ddd}" placeholder="#{m['placeHolder.ddd']}" mask="(99)" converter="phoneConverter" required="true"
+						requiredMessage="#{m['requiered.ddd']}" styleClass="fieldInsertText" />
+
+					<p:inputMask id="phoneNumber" value="#{viewEditUserController.phoneController.orm.number}" placeholder="#{m['placeHolder.number']}" mask="#{viewEditUserController.phoneType.mask}" required="true"
+						requiredMessage="#{m['requiered.phoneNumber']}" styleClass="fieldInsertText" />
+
+					<p:commandButton id="contactAdd" value="#{m['button.add']}" update="phones messages" process="@parent" action="#{viewEditUserController.phoneController.reinit}" icon="fa fa-plus">
+						<p:collector value="#{viewEditUserController.phoneController.orm}" addTo="#{viewEditUserController.phoneController.orms}" unique="true" />
+					</p:commandButton>
+				</h:panelGrid>
+
+				<p:spacer />
+				<p:outputPanel id="phones">
+					<p:dataTable id="dataTablePhones" value="#{viewEditUserController.phoneController.orms}" var="phone" reflow="true" resizableColumns="true" scrollable="true" emptyMessage=""
+						rendered="#{!viewEditUserController.renderedContactView}" styleClass="borderless">
+						<f:facet name="header">
+							<h:panelGrid id="panelPhoneExport" columns="2" cellpadding="10">
+								<p:outputPanel id="exporters">
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/excel.png" width="24" />
+										<p:dataExporter type="xls" target="dataTablePhones" fileName="person phones" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/pdf.png" width="24" />
+										<p:dataExporter type="pdf" target="dataTablePhones" fileName="person phones" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/csv.png" width="24" />
+										<p:dataExporter type="csv" target="dataTablePhones" fileName="person phones" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/xml.png" width="24" />
+										<p:dataExporter type="xml" target="dataTablePhones" fileName="person phones" pageOnly="true" />
+									</h:commandLink>
+								</p:outputPanel>
+
+								<p:outputPanel id="toggleColumns">
+									<p:commandButton id="toggler" type="button" value="#{m['button.show']}" icon="ui-icon-calculator" styleClass="onTheRight" />
+									<p:columnToggler datasource="dataTablePhones" trigger="toggler" />
+								</p:outputPanel>
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column sortBy="#{phone.phoneType.description}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.type']}" />
+							</f:facet>
+							<h:outputText value="#{viewEditUserController.translateEnumValue(phone.phoneType.description)}" />
+						</p:column>
+						<p:column sortBy="#{phone.ddd}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.ddd']}" />
+							</f:facet>
+							<h:outputText value="#{phone.ddd}" />
+						</p:column>
+						<p:column sortBy="#{phone.number}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.number']}" />
+							</f:facet>
+							<h:outputText value="#{phone.number}" />
+						</p:column>
+						<p:column exportable="false">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.action']}" />
+							</f:facet>
+							<p:commandLink value="#{m['button.remove']}" update=":viewEdit:phones" process=":viewEdit:phones" styleClass="textAction">
+								<p:collector value="#{phone}" removeFrom="#{viewEditUserController.phoneController.orms}" unique="true" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
+
+				<h:panelGrid id="panelContactButtons" columns="1" rendered="#{showHideController.showHide(2, 'update')}" styleClass="onTheRight">
+					<p:spacer />
+					<p:commandButton id="contactShowEdit" value="#{m['button.edit']}" action="#{viewEditUserController.setRenderedContactView(false)}" update=":viewEdit:contactInfo" process="@this" icon="fa fa-edit"
+						rendered="#{viewEditUserController.renderedContactView}" />
+					<p:commandButton id="contactShowView" value="#{m['button.save']}" action="#{viewEditUserController.setRenderedContactView(true)}" update=":viewEdit:contactInfo" process="@this" icon="fa fa-save"
+						rendered="#{!viewEditUserController.renderedContactView}" />
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="addressInfo" legend="#{m['title.address']}">
+				<p:outputPanel id="panelAddressView" rendered="#{viewEditUserController.renderedAddressView}">
+					<p:repeat value="#{viewEditUserController.orm.addresses}" var="addresses">
+						<h:panelGrid id="panelAddressFields" columns="4" columnClasses="ui-grid-col-2, ui-grid-col-6, ui-grid-col-1, ui-grid-col-3" styleClass="widthOneHundred">
+							<p:outputLabel id="streetType" value="#{m['inplace.type']} #{viewEditUserController.translateEnumValue(addresses.streetType.description)}" styleClass="textViewStrong" />
+							<p:outputLabel id="street" value="#{m['inplace.street']} #{addresses.street}" styleClass="textViewStrong" />
+							<p:outputLabel id="streetNumber" value="#{m['inplace.number']} #{addresses.number}" styleClass="textViewStrong" />
+							<p:outputLabel id="compliment" value="#{m['inplace.compliment']} #{addresses.compliment}" styleClass="textViewStrong" />
+						</h:panelGrid>
+						<h:panelGrid id="panelAddressFields2" columns="4" columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-4, ui-grid-col-2" styleClass="widthOneHundred">
+							<p:outputLabel id="cep" value="#{m['inplace.cep']} #{addresses.cep}" styleClass="textViewStrong" />
+							<p:outputLabel id="neighborhood" value="#{m['inplace.neighborhood']} #{addresses.neighborhood}" styleClass="textViewStrong" />
+							<p:outputLabel id="city" value="#{m['inplace.city']} #{addresses.city}" styleClass="textViewStrong" />
+							<p:outputLabel id="state" value="#{m['inplace.state']} #{viewEditUserController.translateEnumValue(addresses.state.description)}" styleClass="textViewStrong" />
+						</h:panelGrid>
+						<p:spacer />
+					</p:repeat>
+				</p:outputPanel>
+
+				<h:panelGrid id="panelAddressFields" columns="4" columnClasses="ui-grid-col-2, ui-grid-col-6, ui-grid-col-1, ui-grid-col-3" cellpadding="10"
+					rendered="#{!viewEditUserController.renderedAddressView}" styleClass="widthOneHundred">
+					<p:selectOneMenu id="streetType" value="#{viewEditUserController.addressController.orm.streetType}" filter="true" styleClass="fieldInsertMediumCombo">
+						<f:selectItems value="#{viewEditUserController.addressController.streetTypes}" var="streetType" itemLabel="#{viewEditUserController.translateEnumValue(streetType.description)}" />
+					</p:selectOneMenu>
+
+					<p:inputText id="street" value="#{viewEditUserController.addressController.orm.street}" placeholder="#{m['placeHolder.street']}" maxlength="200" required="true"
+						requiredMessage="#{m['requiered.street']}" styleClass="fieldInsertText" />
+
+					<p:inputMask id="streetNumber" value="#{viewEditUserController.addressController.orm.number}" placeholder="#{m['placeHolder.number']}" mask="9?9999" required="true"
+						requiredMessage="#{m['requiered.streetNumber']}" styleClass="fieldInsertText">
+						<f:converter converterId="streetNumberConveter" />
+					</p:inputMask>
+
+					<p:inputText id="compliment" value="#{viewEditUserController.addressController.orm.compliment}" placeholder="#{m['placeHolder.compliment']}" maxlength="50" styleClass="fieldInsertText" />
+				</h:panelGrid>
+
+				<h:panelGrid id="panelAddressFields2" columns="4" columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-4, ui-grid-col-2" cellpadding="10"
+					rendered="#{!viewEditUserController.renderedAddressView}" styleClass="widthOneHundred">
+					<p:inputMask id="cep" value="#{viewEditUserController.addressController.orm.cep}" placeholder="#{m['placeHolder.cep']}" mask="99999-999" required="true" requiredMessage="#{m['requiered.cep']}"
+						styleClass="fieldInsertText">
+						<f:converter converterId="cepConverter" />
+					</p:inputMask>
+
+					<p:inputText id="neighborhood" value="#{viewEditUserController.addressController.orm.neighborhood}" placeholder="#{m['placeHolder.neighborhood']}" maxlength="50" required="true"
+						requiredMessage="#{m['requiered.neighborhood']}" styleClass="fieldInsertText" />
+
+					<p:inputText id="city" value="#{viewEditUserController.addressController.orm.city}" placeholder="#{m['placeHolder.city']}" maxlength="50" required="true" requiredMessage="#{m['requiered.city']}"
+						styleClass="fieldInsertText" />
+
+					<p:selectOneMenu id="state" value="#{viewEditUserController.addressController.orm.state}" filter="true" styleClass="fieldInsertMediumCombo">
+						<f:selectItems value="#{viewEditUserController.addressController.states}" var="state" itemLabel="#{viewEditUserController.translateEnumValue(state.description)}" />
+					</p:selectOneMenu>
+
+					<p:commandButton id="addressAdd" value="#{m['button.add']}" update="addressesPanel messages" process=":viewEdit:panelAddressFields :viewEdit:panelAddressFields2"
+						action="#{viewEditUserController.addressController.reinit}" icon="fa fa-plus">
+						<p:collector value="#{viewEditUserController.addressController.orm}" addTo="#{viewEditUserController.addressController.orms}" unique="true" />
+					</p:commandButton>
+				</h:panelGrid>
+
+				<p:spacer />
+				<p:outputPanel id="addressesPanel">
+					<p:dataTable id="dataTableAddresses" value="#{viewEditUserController.addressController.orms}" var="address" reflow="true" resizableColumns="true" scrollable="true" emptyMessage=""
+						rendered="#{!viewEditUserController.renderedAddressView}" styleClass="borderless">
+						<f:facet name="header">
+							<h:panelGrid id="panelBasicSearch" columns="2" cellpadding="10">
+								<p:outputPanel id="exporters">
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/excel.png" width="24" />
+										<p:dataExporter type="xls" target="dataTableAddresses" fileName="person addresses" pageOnly="true" selectionOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/pdf.png" width="24" />
+										<p:dataExporter type="pdf" target="dataTableAddresses" fileName="person addresses" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/csv.png" width="24" />
+										<p:dataExporter type="csv" target="dataTableAddresses" fileName="person addresses" pageOnly="true" />
+									</h:commandLink>
+									<h:commandLink styleClass="onTheLeft">
+										<p:graphicImage name="/img/exporter/xml.png" width="24" />
+										<p:dataExporter type="xml" target="dataTableAddresses" fileName="person addresses" pageOnly="true" />
+									</h:commandLink>
+								</p:outputPanel>
+
+								<p:outputPanel id="toggleColumns">
+									<p:commandButton id="toggler" type="button" value="#{m['button.show']}" icon="ui-icon-calculator" styleClass="onTheRight" />
+									<p:columnToggler datasource="dataTableAddresses" trigger="toggler" />
+								</p:outputPanel>
+							</h:panelGrid>
+						</f:facet>
+
+						<p:column sortBy="#{address.streetType.description}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.type']}" />
+							</f:facet>
+							<h:outputText value="#{viewEditUserController.translateEnumValue(address.streetType.description)}" />
+						</p:column>
+						<p:column sortBy="#{address.street}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.street']}" />
+							</f:facet>
+							<h:outputText value="#{address.street}" />
+						</p:column>
+						<p:column sortBy="#{address.number}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.number']}" />
+							</f:facet>
+							<h:outputText value="#{address.number}" converter="streetNumberConveter" />
+						</p:column>
+						<p:column sortBy="#{address.compliment}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.compliment']}" />
+							</f:facet>
+							<h:outputText value="#{address.compliment}" />
+						</p:column>
+						<p:column sortBy="#{address.cep}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.cep']}" />
+							</f:facet>
+							<h:outputText value="#{address.cep}" converter="cepConverter" />
+						</p:column>
+						<p:column sortBy="#{address.neighborhood}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.neighborhood']}" />
+							</f:facet>
+							<h:outputText value="#{address.neighborhood}" />
+						</p:column>
+						<p:column sortBy="#{address.city}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.city']}" />
+							</f:facet>
+							<h:outputText value="#{address.city}" />
+						</p:column>
+						<p:column sortBy="#{address.state.description}">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.state']}" />
+							</f:facet>
+							<h:outputText value="#{viewEditUserController.translateEnumValue(address.state.description)}" />
+						</p:column>
+						<p:column exportable="false">
+							<f:facet name="header">
+								<h:outputText value="#{m['title.action']}" />
+							</f:facet>
+							<p:commandLink value="#{m['button.remove']}" update=":viewEdit:addressesPanel" process=":viewEdit:addressesPanel" styleClass="textAction">
+								<p:collector value="#{address}" removeFrom="#{viewEditUserController.addressController.orms}" unique="true" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
+
+				<h:panelGrid id="panelAddressButtons" columns="1" rendered="#{showHideController.showHide(2, 'update')}" styleClass="onTheRight">
+					<p:spacer />
+					<p:commandButton id="addressShowEdit" value="#{m['button.edit']}" action="#{viewEditUserController.setRenderedAddressView(false)}" update=":viewEdit:addressInfo" process="@this" icon="fa fa-edit"
+						rendered="#{viewEditUserController.renderedAddressView}" />
+					<p:commandButton id="addressShowView" value="#{m['button.save']}" action="#{viewEditUserController.setRenderedAddressView(true)}" update=":viewEdit:addressInfo" process="@this" icon="fa fa-save"
+						rendered="#{!viewEditUserController.renderedAddressView}" />
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="userInfo" legend="Usuário">
+
+				<h:panelGrid id="panelUserFields" columns="3" columnClasses="ui-grid-col-4, ui-grid-col-4, ui-grid-col-4" styleClass="widthOneHundred">
+					<h:panelGrid id="pLogin" columns="1" styleClass="fieldInsertText">
+						<p:outputLabel id="oLogin" value="#{m['inplace.login']} #{viewEditUserController.orm.user.login}" rendered="#{!showHideController.showHide(2, 'update')}" />
+						<p:inplace id="iLogin" label="#{m['inplace.login']} #{viewEditUserController.orm.user.login}" editor="true" rendered="#{showHideController.showHide(2, 'update')}" styleClass="textViewStrong">
+							<p:inputMask id="login" value="#{viewEditUserController.orm.user.login}" placeholder="#{m['placeHolder.login']}" mask="aaa?aaaaaaaaaaaaaaaaa" maxlength="20" required="true"
+								requiredMessage="#{m['requiered.login']}" styleClass="fieldInsertText" />
+						</p:inplace>
+					</h:panelGrid>
+
+					<h:panelGrid id="pPosition" columns="1" styleClass="fieldInsertText">
+						<p:outputLabel id="oPosition" value="#{m['inplace.position']} #{viewEditUserController.translateEnumValue(viewEditUserController.orm.user.position.description)}"
+							rendered="#{!showHideController.showHide(2, 'update')}" />
+						<p:inplace id="iPosition" label="#{m['inplace.position']} #{viewEditUserController.translateEnumValue(viewEditUserController.orm.user.position.description)}" editor="true"
+							rendered="#{showHideController.showHide(2, 'update')}" styleClass="textViewStrong">
+							<p:selectOneMenu id="position" value="#{viewEditUserController.orm.user.position}" filter="true" styleClass="fieldInsertMediumCombo">
+								<f:selectItems value="#{viewEditUserController.positions}" var="position" itemLabel="#{viewEditUserController.translateEnumValue(position.description)}" />
+							</p:selectOneMenu>
+						</p:inplace>
+					</h:panelGrid>
+
+					<h:panelGrid id="pStatus" columns="1" styleClass="fieldInsertText">
+						<p:outputLabel id="oStatus" value="#{m['inplace.status']} #{viewEditUserController.translateEnumValue(viewEditUserController.orm.user.status.description)}"
+							rendered="#{!showHideController.showHide(2, 'update') or !showHideController.showHide(2, 'enable')}" />
+						<p:inplace id="iStatus" label="#{m['inplace.status']} #{viewEditUserController.translateEnumValue(viewEditUserController.orm.user.status.description)}" editor="true"
+							rendered="#{showHideController.showHide(2, 'update') and showHideController.showHide(2, 'enable')}" styleClass="textViewStrong">
+							<p:selectOneMenu id="status" value="#{viewEditUserController.orm.user.status}" styleClass="fieldInsertMediumCombo">
+								<f:selectItems value="#{viewEditUserController.status}" var="status" itemLabel="#{viewEditUserController.translateEnumValue(status.description)}" />
+							</p:selectOneMenu>
+						</p:inplace>
+					</h:panelGrid>
+				</h:panelGrid>
+				<h:panelGrid id="panelUserFields2" columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" styleClass="widthOneHundred">
+					<h:panelGrid id="pTopUser" columns="1" styleClass="fieldInsertText">
+						<p:outputLabel id="oTopUser" value="#{m['inplace.topUser']} #{viewEditUserController.orm.topUser.name} #{viewEditUserController.orm.topUser.lastName}"
+							rendered="#{!showHideController.showHide(2, 'update')}" />
+						<p:inplace id="iTopUser" label="#{m['inplace.topUser']} #{viewEditUserController.orm.topUser.name} #{viewEditUserController.orm.topUser.lastName}" editor="true"
+							rendered="#{showHideController.showHide(2, 'update')}" styleClass="textViewStrong">
+							<p:autoComplete id="topUser" value="#{viewEditUserController.orm.topUser}" completeMethod="#{insertUserController.searchTopUser}" var="topUser"
+								itemLabel="#{topUser ne null ? (topUser.name).concat(' ').concat(topUser.lastName).concat(' | Login: ').concat(topUser.user.login) : ''}" itemValue="#{topUser}" converter="personConverter"
+								placeholder="#{m['placeHolder.topUser']}" minQueryLength="3" maxlength="50" maxResults="5" cache="true" inputStyle="width:600px;" />
+						</p:inplace>
+					</h:panelGrid>
+
+					<h:panelGrid id="pUserGroup" columns="1" styleClass="fieldInsertText">
+						<p:outputLabel id="oUserGroup" value="#{m['inplace.userGroup']} #{viewEditUserController.orm.user.userGroup.name}" rendered="#{!showHideController.showHide(2, 'update')}" />
+						<p:inplace id="iUserGroup" label="#{m['inplace.userGroup']} #{viewEditUserController.orm.user.userGroup.name}" editor="true" rendered="#{showHideController.showHide(2, 'update')}"
+							styleClass="textViewStrong">
+							<p:autoComplete id="userGroup" value="#{viewEditUserController.orm.user.userGroup}" completeMethod="#{insertUserGroupController.searchUserGroup}" var="userGroup"
+								itemLabel="#{userGroup ne null ? userGroup.name : ''}" itemValue="#{userGroup}" converter="userGroupConverter" placeholder="#{m['placeHolder.userGroup']}" minQueryLength="3" maxlength="50"
+								maxResults="5" cache="true" inputStyle="width:600px;" />
+						</p:inplace>
+					</h:panelGrid>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="generalButtons">
+				<h:panelGrid id="formButtonsLeft" columns="2" cellpadding="10" rendered="#{showHideController.showHide(2, 'update')}" styleClass="onTheLeft">
+					<p:commandButton id="alterPassword" value="#{m['button.alterPassword']}" type="button" onclick="PF('dChangePassword').show();" icon="fa fa-lock"
+						rendered="#{showHideController.showHide(2, 'update')}" />
+				</h:panelGrid>
+
+				<h:panelGrid id="formButtonsRight" columns="2" cellpadding="10" styleClass="onTheRight">
+					<p:commandButton id="cancel" value="#{m['button.cancel']}" immediate="true" action="#{viewEditUserController.cancelUser()}" icon="fa fa-close" />
+
+					<p:commandButton id="update" value="#{m['button.update']}" validateClient="true" ajax="false" icon="fa fa-refresh" action="#{viewEditUserController.update}"
+						rendered="#{showHideController.showHide(2, 'update')}" update="messages basicInfo contactInfo addressInfo userInfo" />
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:dialog id="dialogChangePassword" header="#{m['title.alterPassword']}" focus="currentPassword" modal="true" dynamic="true" resizable="false" closeOnEscape="true" draggable="false"
+				widgetVar="dChangePassword">
+				<h:panelGrid id="panelChangePassword" columns="1" cellpadding="10">
+					<p:password id="currentPassword" value="#{viewEditUserController.currentPassword}" placeholder="#{m['placeHolder.currentPassword']}" maxlength="20" styleClass="fieldInsertText" />
+
+					<p:password id="newPassword" value="#{viewEditUserController.orm.user.password}" placeholder="#{m['placeHolder.password']}" feedback="true" inline="true" match="newPasswordConfirm"
+						promptLabel="#{m['label.enterPassword']}" weakLabel="#{m['label.passwordWeak']}" goodLabel="#{m['label.passwordMedium']}" strongLabel="#{m['label.passwordStrong']}" maxlength="20"
+						validatorMessage="#{m['label.passwordWrong']}" styleClass="fieldInsertText" />
+
+					<p:password id="newPasswordConfirm" placeholder="#{m['placeHolder.confirmPassword']}" feedback="true" inline="true" promptLabel="#{m['label.enterPassword']}"
+						weakLabel="#{m['label.passwordWeak']}" goodLabel="#{m['label.passwordMedium']}" strongLabel="#{m['label.passwordStrong']}" maxlength="20" styleClass="fieldInsertText" />
+				</h:panelGrid>
+
+				<p:spacer />
+				<h:panelGrid id="panelChangePasswordButtons" columns="1" cellpadding="10" styleClass="onTheRight">
+					<p:commandButton id="updatePassword" value="#{m['button.update']}" validateClient="true" ajax="false" icon="fa fa-refresh" actionListener="#{viewEditUserController.changePassword}" />
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

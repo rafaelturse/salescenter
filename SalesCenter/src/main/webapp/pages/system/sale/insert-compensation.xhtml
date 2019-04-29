@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<ui:composition template="/pages/template/main/main.xhtml">
+	<ui:define name="content">
+		<h:form id="register" styleClass="pageContent">
+			<p:growl id="messages" showDetail="true" />
+
+			<p:breadCrumb id="breadCrumb">
+				<p:menuitem value="#{m['menu.home']}" icon="fa fa-home" outcome="home" />
+				<p:menuitem value="#{m['menu.searchCompensation']}" outcome="search-compensation" styleClass="textAction" />
+			</p:breadCrumb>
+
+			<p:spacer />
+			<p:fieldset id="title" styleClass="textScreenTitle">
+				<h1>#{m['title.compensationRegistration']}</h1>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="basicInfo" legend="#{m['title.basicInformation']}" toggleable="true" tabindex="0">
+				<h:panelGrid id="panelBasicInfo" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-1" cellpadding="10" styleClass="widthOneHundred">
+					<p:outputPanel>
+						<p:autoComplete id="seller" value="#{insertCompensationController.seller}" completeMethod="#{insertUserController.searchPerson}" var="person"
+							itemLabel="#{person ne null ? (person.name).concat(' ').concat(person.lastName).concat(' | Login: ').concat(person.user.login) : ''}" itemValue="#{person}" converter="personConverter"
+							placeholder="#{m['placeHolder.seller']}" minQueryLength="3" maxlength="50" maxResults="5" cache="true" inputStyle="width:400px;" />
+						<p:tooltip id="toolTipSeller" for="seller" value="#{m['tip.searchPerson']}" position="bottom" />
+					</p:outputPanel>
+
+					<p:inputMask id="year" value="#{insertCompensationController.orm.year}" mask="9999" styleClass="widthOneHundred" />
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="goalInfo" legend="#{m['title.goal']}" toggleable="true" collapsed="true" tabindex="1">
+				<h:panelGrid id="panelGoalInfo" columns="4" columnClasses="ui-grid-col-3, ui-grid-col-3, ui-grid-col-3, ui-grid-col-3" cellpadding="10" styleClass="widthOneHundred">
+					<p:outputPanel>
+						<p:outputPanel>
+							<h:panelGrid id="pJanuary" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+								<p:outputLabel id="oJanuary" value="#{m['label.month.january']}" for="january" />
+								<p:inputNumber id="january" value="#{insertCompensationController.orm.january}" inputStyle="width:100%" />
+							</h:panelGrid>
+						</p:outputPanel>
+						<p:outputPanel>
+							<h:panelGrid id="pFebruary" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+								<p:outputLabel id="oFebruary" value="#{m['label.month.february']}" for="february" />
+								<p:inputNumber id="february" value="#{insertCompensationController.orm.february}" inputStyle="width:100%" />
+							</h:panelGrid>
+						</p:outputPanel>
+						<p:outputPanel>
+							<h:panelGrid id="pMarch" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+								<p:outputLabel id="oMarch" value="#{m['label.month.march']}" for="march" />
+								<p:inputNumber id="march" value="#{insertCompensationController.orm.march}" inputStyle="width:100%" />
+							</h:panelGrid>
+						</p:outputPanel>
+					</p:outputPanel>
+
+					<p:outputPanel>
+						<p:outputPanel>
+							<h:panelGrid id="pApril" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+								<p:outputLabel id="oApril" value="#{m['label.month.april']}" for="april" />
+								<p:inputNumber id="april" value="#{insertCompensationController.orm.april}" inputStyle="width:100%" />
+							</h:panelGrid>
+						</p:outputPanel>
+						<p:outputPanel>
+							<h:panelGrid id="pMay" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+								<p:outputLabel id="oMay" value="#{m['label.month.january']}" for="may" />
+								<p:inputNumber id="may" value="#{insertCompensationController.orm.may}" inputStyle="width:100%" />
+							</h:panelGrid>
+						</p:outputPanel>
+						<p:outputPanel>
+							<h:panelGrid id="pJune" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+								<p:outputLabel id="oJune" value="#{m['label.month.june']}" for="june" />
+								<p:inputNumber id="june" value="#{insertCompensationController.orm.june}" inputStyle="width:100%" />
+							</h:panelGrid>
+						</p:outputPanel>
+					</p:outputPanel>
+
+					<p:outputPanel>
+						<h:panelGrid id="pJuly" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+							<p:outputLabel id="oJuly" value="#{m['label.month.july']}" for="july" />
+							<p:inputNumber id="july" value="#{insertCompensationController.orm.july}" inputStyle="width:100%" />
+						</h:panelGrid>
+						<p:outputPanel>
+							<h:panelGrid id="pAugust" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+								<p:outputLabel id="oAugust" value="#{m['label.month.august']}" for="august" />
+								<p:inputNumber id="august" value="#{insertCompensationController.orm.august}" inputStyle="width:100%" />
+							</h:panelGrid>
+						</p:outputPanel>
+						<p:outputPanel>
+							<h:panelGrid id="pSeptember" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+								<p:outputLabel id="oSeptember" value="#{m['label.month.september']}" for="september" />
+								<p:inputNumber id="september" value="#{insertCompensationController.orm.september}" inputStyle="width:100%" />
+							</h:panelGrid>
+						</p:outputPanel>
+					</p:outputPanel>
+					<p:outputPanel>
+						<p:outputPanel>
+							<h:panelGrid id="pOctober" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+								<p:outputLabel id="oOctober" value="#{m['label.month.october']}" for="october" />
+								<p:inputNumber id="october" value="#{insertCompensationController.orm.october}" inputStyle="width:100%" />
+							</h:panelGrid>
+						</p:outputPanel>
+						<p:outputPanel>
+							<h:panelGrid id="pNovember" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+								<p:outputLabel id="oNovember" value="#{m['label.month.november']}" for="november" />
+								<p:inputNumber id="november" value="#{insertCompensationController.orm.november}" inputStyle="width:100%" />
+							</h:panelGrid>
+						</p:outputPanel>
+						<p:outputPanel>
+							<h:panelGrid id="pDecember" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" cellpadding="10" styleClass="widthOneHundred">
+								<p:outputLabel id="oDecember" value="#{m['label.month.december']}" for="december" />
+								<p:inputNumber id="december" value="#{insertCompensationController.orm.december}" inputStyle="width:100%" />
+							</h:panelGrid>
+						</p:outputPanel>
+					</p:outputPanel>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="situationInfo" legend="#{m['title.situation']}" toggleable="true" collapsed="true" tabindex="2">
+				<h:panelGrid id="panelSituationFields" columns="1" columnClasses="ui-grid-col-12" cellpadding="10">
+					<p:selectOneMenu id="status" value="#{insertCompensationController.orm.status}" styleClass="fieldInsertCombo">
+						<f:selectItems value="#{insertCompensationController.status}" var="status" itemLabel="#{insertCompensationController.translateEnumValue(status.description)}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="generalButtons" tabindex="7">
+				<h:panelGrid id="formButtons" columns="2" cellpadding="10" styleClass="onTheRight">
+					<p:commandButton id="cancel" value="#{m['button.cancel']}" immediate="true" action="#{insertCompensationController.cancel()}" icon="fa fa-close" />
+
+					<p:commandButton id="save" value="#{m['button.save']}" validateClient="true" ajax="false" icon="fa fa-save" actionListener="#{insertCompensationController.save}"
+						update="messages basicInfo representativeInfo situationInfo" rendered="#{showHideController.showHide(10, 'create')}" />
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

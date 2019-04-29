@@ -1,0 +1,58 @@
+/*****************************
+--> Aligns
+*****************************/
+.marginZero {
+	margin: 0px;
+}
+
+.noBorder {
+	border: 0px;
+}
+
+.onTheCenter {
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.onTheLeft {
+	float: left;
+}
+
+.onTheRight {
+	float: right;
+}
+
+.widthAlmostHundred {
+	width: 80%;
+}
+
+.widthFifty {
+	width: 50%;
+}
+
+.widthOneHundred {
+	width: 100%;
+}
+
+/*****************************
+--> Content
+*****************************/
+.pageContent {
+	width: 1300px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.pageMargins {
+	margin-left: auto; ! important;
+	margin-right: auto;
+	!
+	important;
+}
+
+.footer {
+	background-color: #242122; ! important;
+	border: 0px;
+	width: 100%;
+}

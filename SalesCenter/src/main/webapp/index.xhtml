@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<h:outputStylesheet library="css" name="component.css" />
+	<h:outputStylesheet library="css" name="default.css" />
+	<h:outputStylesheet library="css" name="page.css" />
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+</h:head>
+
+<h:body>
+	<h:form>
+		<p:growl id="messages" showDetail="true" sticky="true" />
+
+		<div id="pageContent" class="pageContent">
+			<p:spacer />
+			<p:outputPanel id="topUtils">
+				<p:selectOneMenu id="languages" value="#{languageController.language}" styleClass="onTheRight">
+					<f:selectItems value="#{languageController.locales}" var="language" itemLabel="#{language.displayName}" />
+					<p:ajax event="change" update="@all" listener="#{languageController.setLanguageByList}" />
+				</p:selectOneMenu>
+			</p:outputPanel>
+			<h:panelGrid id="top" cellpadding="10">
+				<p:outputPanel deferred="true">
+					<p:link id="idLink" href="http://127.0.0.1:8080/SalesCenter/index.xhtml">
+						<p:graphicImage name="/img/logo/LogoSalesCenter.png" />
+					</p:link>
+				</p:outputPanel>
+			</h:panelGrid>
+
+			<p:outputPanel id="menu">
+				<p:menubar>
+					<!-- 					<p:menuitem value="#{m['menu.company']}" style="font-weight: bold;" /> -->
+					<!-- 					<p:menuitem value="#{m['menu.soluctions']}" style="font-weight: bold;" /> -->
+					<!-- 					<p:menuitem value="#{m['menu.cases']}" style="font-weight: bold;" /> -->
+					<!-- 					<p:menuitem value="#{m['menu.partners']}" style="font-weight: bold;" /> -->
+					<!-- 					<p:menuitem value="#{m['menu.news']}" style="font-weight: bold;" /> -->
+					<!-- 					<p:menuitem value="#{m['menu.career']}" style="font-weight: bold;" /> -->
+
+					<f:facet name="options">
+						<h:panelGrid id="optionsLogin" columns="3">
+							<p:inputText id="login" placeholder="#{m['label.login']}" value="#{loginController.login}" />
+							<p:password id="password" placeholder="#{m['label.password']}" value="#{loginController.password}" />
+							<p:commandButton id="access" value="#{m['button.login']}" icon="fa fa-sign-in" action="#{loginController.login}" process="@parent" update="messages" />
+						</h:panelGrid>
+					</f:facet>
+				</p:menubar>
+			</p:outputPanel>
+
+			<p:spacer />
+			<p:carousel id="carouselNews" numVisible="1" effect="easeInStrong" headerText="" circular="true" responsive="true" cellpadding="10">
+				<p:tab title="news1">
+					<h:panelGrid columns="2" cellpadding="10">
+						<p:graphicImage name="img/notice/article1.jpg" height="300px" width="600px" />
+						<p:outputPanel id="article1">
+							<h1>
+								<b>Para que você precisa de uma solução de ECM?</b>
+							</h1>
+							<h3>Problemas de negócio atuais e a promessa de ECM</h3>
+							<div class="textAlignJustify">
+								<h4>
+									<p>A maioria das empresas decide que precisa de uma solução estratégica de gestão de conteúdo empresarial (ECM) após identificar um grande desafio de negócio – em geral, o gerenciamento
+										do excesso de documentos em papel ou informações não estruturadas, o que causa gargalos para processar, acessar e armazenar as informações. O arquivo de solicitação de empréstimo hipotecário
+										é um exemplo típico.</p>
+									<p>Muitas coisas devem ser monitoradas nesse arquivo. Se um formulário estiver faltando, a concessão do empréstimo demora muito mais. Tudo isso fica muitíssimo mais fácil com ECM. Qual é
+										o desafio que está enfrentando? Se não tem certeza, mas sabe que há um desafio a vencer, podemos começar por destacar seis dos problemas mais comuns apontados pelos clientes.</p>
+									<p>Apostamos que você reconhecerá pelo menos um deles – ou talvez todos. Leia todos eles para ter uma ideia de como ECM pode ajudá-lo a resolver esses problemas exaustivos que provocam
+										perda de tempo, prejudicam a produtividade e geram stress.</p>
+								</h4>
+							</div>
+						</p:outputPanel>
+					</h:panelGrid>
+				</p:tab>
+				<p:tab title="news2">
+					<h:panelGrid columns="2" cellpadding="10">
+						<p:graphicImage name="img/notice/article2.jpg" height="300px" width="600px" />
+						<p:outputPanel id="article2">
+							<h1>
+								<b>Mais que conceito</b>
+							</h1>
+							<div class="textAlignJustify">
+								<h4>
+									<p>Para muitos especialistas nacionais e internacionais, uma coisa é clara: o ECM (Enterprise Content Management) é um conceito amplo, um conceito “guarda-chuva” que abriga várias outras
+										modalidades da tecnologia, como o BPM (Business Process Management), Taxonomia, Records Management, Capture, Web Content Management etc., para o qual dificilmente se encontra, atualmente,
+										uma forma mais correta de definição.</p>
+									<p>Conforme reforça John Mancini, presidente da AIIM, citando um consultor e amigo, o canadense Barclay Blair, “a minha mais remota lembrança é a de que o gerenciamento das informações é
+										apenas um meio para se chegar a um fim e não uma finalidade em si mesma”, cita Mancini.</p>
+									<p>Para ele, hoje, muitas empresas se esqueceram do “E” de Enterprise e focam soluções de conteúdo, partindo para um desenvolvimento genérico nos projetos de gestão da informação, quando,
+										na verdade, o foco é o acesso e compartilhamento das informações por toda a organização. “Em alguns casos, é claro ainda que o ECM é utilizado apenas como solução departamental, como
+										acontecia no mercado nos anos 1990, e o mesmo se repete hoje para as pequenas e médias empresas em todo o mundo”, reforça.</p>
+								</h4>
+							</div>
+						</p:outputPanel>
+					</h:panelGrid>
+				</p:tab>
+				<p:tab title="news3">
+					<h:panelGrid columns="2" cellpadding="10">
+						<p:graphicImage name="img/notice/article3.jpg" height="300px" width="600px" />
+						<p:outputPanel id="article3">
+							<h1>O que é ECM: Confira alguns componentes importantes para ECM Empresa</h1>
+							<div class="textAlignJustify">
+								<h4>
+									<p>Reconhecimento Ótico de Caracteres: Capture e classifique qualquer tipo de documento, sendo ele estruturado ou não-estruturado. Com o OCR (reconhecimento ótico de caracteres) integrado
+										ao ECM, extraia os campos de dados desejados e acelere a indexação de dados no sistema, eliminando a entrada de informações manualmente, evitando erros e agilizando as operações.</p>
+									<p>Assinatura Digital de ECM: Proteja a autenticidade e a integridade do seu conteúdo imprimindo sua assinatura digital ao arquivo. Com isso, garanta a validade legal dos documentos
+										assinados, em conformidade com a CVM 531. O ECM permite a inserção de um identificador da decodificação do arquivo, gerando assinaturas seguindo as regras e especificações da ICP Brasil,
+										órgão gestor da certificação digital em nosso país.</p>
+									<p>Viewer ECM Enterprise Content Management: É possível editar formulários e campos para que atenda de maneira mais eficiente suas necessidades e, sem dependência de programação.
+										Visualize seus documentos sem a necessidade de download do arquivo; Visualize os principais tipos de arquivos do mercado, incluindo MS Office, PDF, arquivos gráficos, MODCA, PTOCA, TXT e
+										RTF; Navegue por grandes documentos com menos esforço com o page-less scrolling, capacidade de navegar pelo arquivo com menos rolagem pelo texto; Otimizado para baixo requisito de banda;
+										Qualidade de imagem configurável para o ajuste de desempenho Versionamento; Cache inteligente e suporte para streaming.</p>
+								</h4>
+							</div>
+						</p:outputPanel>
+					</h:panelGrid>
+				</p:tab>
+			</p:carousel>
+
+			<p:spacer />
+			<h:panelGrid id="noticeGridTop" columns="4" cellpadding="20" styleClass="noticeGroupTop">
+				<p:panel id="topNotice1" styleClass="noticeTop">
+					<p:graphicImage name="/img/notice/1.jpg" height="160px" width="250px" styleClass="imageCenter" />
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignCenter">
+							<h2>Internet of Things</h2>
+							<h4>Soluções inteligentes para gestão integrada de ativos corporativos</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:panel id="topNotice2" styleClass="noticeTop">
+					<p:graphicImage name="/img/notice/2.jpg" height="160px" width="250px" styleClass="imageCenter" />
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignCenter">
+							<h2>Customer Experience</h2>
+							<h4>Revolucionando a experiência do usuário</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:panel id="topNotice3" styleClass="noticeTop">
+					<p:graphicImage name="/img/notice/3.jpg" height="160px" width="250px" styleClass="imageCenter" />
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignCenter">
+							<h2>Smart Cities</h2>
+							<h4>Soluções inteligentes para cidades inteligentes</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:panel id="topNotice4" styleClass="noticeTop">
+					<p:graphicImage name="/img/notice/4.jpg" height="160px" width="250px" styleClass="imageCenter" />
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignCenter">
+							<h2>Big Data</h2>
+							<h4>Transformando dados em conhecimento e inovação</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+			</h:panelGrid>
+
+			<p:spacer />
+			<h:panelGrid id="noticeGrid2" headerClass="groupTitle" columns="4" cellpadding="10" width="1000px" styleClass="noticeGroup2">
+				<f:facet name="header">
+					<p:row>
+						<p:column>Parceiros</p:column>
+					</p:row>
+				</f:facet>
+
+				<p:panel id="partner1" header="Banco de Dados" styleClass="noticeUnit">
+					<p:graphicImage name="/img/notice/oracle.png" height="160px" width="250px" styleClass="imageCenter" />
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignCenter">
+							<h4>Banco de dados de grande porte, alta confiabilidade e disponibilidade</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:panel id="partner2" header="Microsoft" styleClass="noticeUnit">
+					<p:graphicImage name="/img/notice/microsoft.png" height="160px" width="250px" styleClass="imageCenter" />
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignCenter">
+							<h4>Padronização de informações, processos e artefatos.</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:panel id="partner3" header="Forcepoint" styleClass="noticeUnit">
+					<p:graphicImage name="/img/notice/forcepoint.png" height="160px" width="250px" styleClass="imageCenter" />
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignCenter">
+							<h4>Proteção inteligente de conteúdo web e email desde os tempos de Websense</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:panel id="partner4" header="Dropbox" styleClass="noticeUnit">
+					<p:graphicImage name="/img/notice/dropbox.png" height="160px" width="250px" styleClass="imageCenter" />
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignCenter">
+							<h4>Armazenamento confiável com quem entende do assunto</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:panel id="partner5" header="Amazon" styleClass="noticeUnit">
+					<p:graphicImage name="/img/notice/amazonwms.jpg" height="160px" width="250px" styleClass="imageCenter" />
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignCenter">
+							<h4>Apoiados por mais de uma centena de serviços</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:panel id="partner6" header="VMWare" styleClass="noticeUnit">
+					<p:graphicImage name="/img/notice/vmware.jpg" height="160px" width="250px" styleClass="imageCenter" />
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignCenter">
+							<h4>Atendidos pelas soluções de virtualização e Cloud da VMware</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:panel id="partner7" header="Kyocera" styleClass="noticeUnit">
+					<p:graphicImage name="/img/notice/kyocera.png" height="160px" width="250px" styleClass="imageCenter" />
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignCenter">
+							<h4>Equipamentos, tintas e papel, estamos bem apoiados pela poderosa Kyocera</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:panel id="partner8" header="Conquest One" styleClass="noticeUnit">
+					<p:graphicImage name="/img/notice/conquestOne.png" height="160px" width="250px" styleClass="imageCenter" />
+					<h:panelGrid columns="1" cellpadding="10">
+						<div class="textAlignCenter">
+							<h4>A Conquest One busca, seleciona, e conquista os melhores talentos de TI</h4>
+						</div>
+					</h:panelGrid>
+				</p:panel>
+			</h:panelGrid>
+		</div>
+
+		<p:spacer />
+		<div id="pageFooter" class="footer">
+			<h:panelGrid id="footer" columns="3" cellpadding="10" class="footerPanel">
+				<p:outputPanel>
+					<p:gmap center="-23.573161, -46.697705" zoom="17" type="ROADMAP" streetView="true" styleClass="maps" />
+				</p:outputPanel>
+
+				<p:outputPanel>
+					<p:panelGrid id="info" layout="grid" columns="2" columnClasses="ui-grid-col-icon, ui-grid-col-description" styleClass="noticeFooter">
+						<p:graphicImage name="/img/icons/iconLocal.png" width="30" />
+						<h3 class="footerText">#{m['message.address']}</h3>
+
+						<p:graphicImage name="/img/icons/iconEmail.png" width="30" />
+						<h3 class="footerText">#{m['message.email']}</h3>
+
+						<p:graphicImage name="/img/icons/iconPhone.png" width="30" />
+						<h3 class="footerText">#{m['message.phoneNumber']}</h3>
+					</p:panelGrid>
+				</p:outputPanel>
+
+				<p:outputPanel>
+					<p:panelGrid id="contact" layout="grid" columns="2" columnClasses="ui-grid-col-icon, ui-grid-col-description" styleClass="noticeFooter">
+						<p:graphicImage name="/img/icons/iconContact.png" />
+						<h1 class="footerTitle">#{m['title.contact']}</h1>
+
+						<p:spacer />
+						<p:inputText id="name" value="#{sendEmailController.senderName}" maxlength="50" placeholder="#{m['label.name']}" styleClass="footerField" />
+
+						<p:spacer />
+						<p:inputText id="email" value="#{sendEmailController.senderEmail}" maxlength="50" placeholder="#{m['label.email']}" styleClass="footerField" validatorMessage="#{m['message.invalidEmail']}">
+							<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						</p:inputText>
+
+						<p:spacer />
+						<p:inputText id="phone" value="#{sendEmailController.phone}" maxlength="50" placeholder="#{m['label.phone']}" styleClass="footerField" />
+
+						<p:spacer />
+						<p:inputText id="company" value="#{sendEmailController.company}" maxlength="50" placeholder="#{m['label.company']}" styleClass="footerField" />
+
+						<p:spacer />
+						<p:inputText id="subject" value="#{sendEmailController.subject}" maxlength="50" placeholder="#{m['label.subject']}" styleClass="footerField" />
+
+						<p:spacer />
+						<p:inputTextarea id="message" value="#{sendEmailController.message}" placeholder="#{m['label.message']}" rows="10" counter="display" maxlength="500"
+							counterTemplate="#{m['message.charactersRemaining']}" styleClass="footerField" />
+
+						<p:spacer />
+						<h:outputText id="display" styleClass="footerText" />
+
+						<p:spacer />
+						<div class="onTheRight">
+							<p:captcha label="Captcha" validatorMessage="#{m['message.captcha']}" size="300" language="pt_BR" />
+						</div>
+
+						<p:spacer />
+						<p:commandButton id="send" value="#{m['label.send']}" validateClient="true" ajax="false" action="#{sendEmailController.sendIndexContactEmail()}" update="messages" process="@parent"
+							icon="fa fa-send" styleClass="onTheRight" />
+
+					</p:panelGrid>
+				</p:outputPanel>
+			</h:panelGrid>
+		</div>
+
+		<div id="pageFooter" class="rights">
+			<h6 class="footerText">#{m['message.copyRight']}</h6>
+		</div>
+	</h:form>
+
+	<script src='https://www.google.com/recaptcha/api.js?hl=pt-BR'></script>
+</h:body>
+</html>

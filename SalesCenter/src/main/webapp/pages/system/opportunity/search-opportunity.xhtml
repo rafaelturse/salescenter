@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<ui:composition template="/pages/template/main/main.xhtml">
+	<ui:define name="content">
+		<h:form id="search" styleClass="pageContent">
+			<p:growl id="messages" showDetail="true" />
+
+			<p:spacer />
+			<p:fieldset id="title" styleClass="textScreenTitle">
+				<h1>#{m['title.opportunitySearch']}</h1>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="generalButtons" tabindex="0">
+				<h:panelGrid id="buttons" columns="6" cellpadding="10" styleClass="onTheRight">
+					<p:outputLabel id="oFrom" for="from" value="#{m['label.from']}" styleClass="textSearchDate" />
+					<p:calendar id="from" value="#{searchOpportunityController.filter.from}" pattern="dd/MM/yyyy" mask="true" converter="localDateConverter" navigator="true"
+						mindate="#{searchOpportunityController.maximumSearchDate()}" maxdate="#{searchOpportunityController.today()}" yearRange="#{searchOpportunityController.rangeInYearSearch()}" readonlyInput="true" />
+
+					<p:outputLabel id="oTo" for="to" value="#{m['label.to']}" styleClass="textSearchDate" />
+					<p:calendar id="to" value="#{searchOpportunityController.filter.to}" pattern="dd/MM/yyyy" mask="true" converter="localDateConverter" navigator="true"
+						mindate="#{searchOpportunityController.maximumSearchDate()}" maxdate="#{searchClientController.today()}" yearRange="#{searchOpportunityController.rangeInYearSearch()}" readonlyInput="true" />
+
+					<p:commandButton id="search" value="#{m['button.search']}" update="dataTableOpportunities messages" icon="fa fa-search" actionListener="#{searchOpportunityController.search()}" />
+
+					<p:commandButton id="new" value="#{m['button.new']}" action="#{searchOpportunityController.insert()}" update="messages" icon="fa fa-plus" rendered="#{showHideController.showHide(9, 'create')}"/>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="fields" legend="#{m['title.filters']}" tabindex="1" styleClass="filters">
+				<h:panelGrid id="panelBasicSearch" columns="4" cellpadding="10">
+					<p:inputText id="name" value="#{searchOpportunityController.filter.name}" maxlength="50" placeholder="#{m['placeHolder.search.name']}" styleClass="fieldSearchFilterText" />
+
+					<p:inputText id="manufacturerRegistration" value="#{searchOpportunityController.filter.manufacturerRegistration}" maxlength="50" placeholder="#{m['placeHolder.search.manufacturerRegistration']}"
+						styleClass="fieldSearchFilterText" />
+
+					<p:selectOneMenu id="businessType" value="#{searchOpportunityController.filter.businessType}" placeholder="#{m['placeHolder.search.businessType']}" styleClass="fieldSearchFilterCombo">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{searchOpportunityController.bussinessType}" var="businessType" itemLabel="#{searchOpportunityController.translateEnumValue(businessType.description)}" />
+					</p:selectOneMenu>
+
+					<p:calendar id="closeDate" value="#{searchOpportunityController.filter.closeDate}" pattern="dd/MM/yyyy" mask="true" converter="localDateConverter" navigator="true"
+						placeholder="#{m['placeHolder.search.closeDate']}" />
+
+					<p:selectOneMenu id="salesStage" value="#{searchOpportunityController.filter.salesStage}" placeholder="#{m['placeHolder.search.salesStage']}" styleClass="fieldSearchFilterCombo">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{searchOpportunityController.salesStage}" var="salesStage" itemLabel="#{searchOpportunityController.translateEnumValue(salesStage.description)}" />
+					</p:selectOneMenu>
+
+					<p:selectOneMenu id="forecastCategory" value="#{searchOpportunityController.filter.forecastCategory}" placeholder="#{m['placeHolder.search.forecastCategory']}" styleClass="fieldSearchFilterCombo">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{searchOpportunityController.forecastCategory}" var="forecastCategory" itemLabel="#{searchOpportunityController.translateEnumValue(forecastCategory.description)}" />
+					</p:selectOneMenu>
+
+					<p:selectOneMenu id="reason" value="#{searchOpportunityController.filter.reason}" placeholder="#{m['placeHolder.search.reason']}" styleClass="fieldSearchFilterCombo">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{searchOpportunityController.reason}" var="reason" itemLabel="#{searchOpportunityController.translateEnumValue(reason.description)}" />
+					</p:selectOneMenu>
+
+					<p:selectOneMenu id="status" value="#{searchOpportunityController.filter.status}" placeholder="#{m['placeHolder.search.status']}" styleClass="fieldSearchFilterCombo">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{searchClientController.status}" var="status" itemLabel="#{searchClientController.translateEnumValue(status.description)}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:outputPanel id="opportunities">
+				<p:dataTable id="dataTableOpportunities" value="#{searchOpportunityController.results}" var="result" rowKey="#{result.id}" lazy="true" rows="10" paginator="true" paginatorPosition="bottom"
+					resizableColumns="true" selectionMode="single" scrollable="true" scrollHeight="250" reflow="true" emptyMessage="Nenhum registro" styleClass="borderless">
+					<f:facet name="header">
+						<h:panelGrid id="panelBasicSearch" columns="2" cellpadding="10">
+							<p:outputPanel id="exporters">
+								<h:commandLink styleClass="onTheLeft">
+									<p:graphicImage name="/img/exporter/excel.png" width="24" />
+									<p:dataExporter type="xls" target="dataTableOpportunities" fileName="opportunities" pageOnly="true" selectionOnly="true" />
+								</h:commandLink>
+								<h:commandLink styleClass="onTheLeft">
+									<p:graphicImage name="/img/exporter/pdf.png" width="24" />
+									<p:dataExporter type="pdf" target="dataTableOpportunities" fileName="opportunities" pageOnly="true" />
+								</h:commandLink>
+								<h:commandLink styleClass="onTheLeft">
+									<p:graphicImage name="/img/exporter/csv.png" width="24" />
+									<p:dataExporter type="csv" target="dataTableOpportunities" fileName="opportunities" pageOnly="true" />
+								</h:commandLink>
+								<h:commandLink styleClass="onTheLeft">
+									<p:graphicImage name="/img/exporter/xml.png" width="24" />
+									<p:dataExporter type="xml" target="dataTableOpportunities" fileName="opportunities" pageOnly="true" />
+								</h:commandLink>
+							</p:outputPanel>
+
+							<p:outputPanel id="toggleColumns">
+								<p:commandButton id="toggler" type="button" value="#{m['button.show']}" icon="ui-icon-calculator" styleClass="onTheRight" />
+								<p:columnToggler datasource="dataTableOpportunities" trigger="toggler" />
+							</p:outputPanel>
+						</h:panelGrid>
+					</f:facet>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{m['title.name']}" />
+						</f:facet>
+						<h:outputText value="#{result.name}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{m['title.manufacturerRegistration']}" />
+						</f:facet>
+						<h:outputText value="#{result.manufacturerRegistration}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{m['title.businessType']}" />
+						</f:facet>
+						<h:outputText value="#{searchOpportunityController.translateEnumValue(result.businessType.description)}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{m['title.closeDate']}" />
+						</f:facet>
+						<h:outputText value="#{result.closeDate}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{m['title.salesStage']}" />
+						</f:facet>
+						<h:outputText value="#{searchOpportunityController.translateEnumValue(result.salesStage.description)}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{m['title.forecastCategory']}" />
+						</f:facet>
+						<h:outputText value="#{searchOpportunityController.translateEnumValue(result.forecastCategory.description)}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{m['title.reason']}" />
+						</f:facet>
+						<h:outputText value="#{searchOpportunityController.translateEnumValue(result.reason.description)}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{m['title.status']}" />
+						</f:facet>
+						<h:outputText value="#{searchOpportunityController.translateEnumValue(result.status.description)}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{m['title.action']}" />
+						</f:facet>
+						<h:link id="view" outcome="#{searchOpportunityController.viewEdit()}" value="#{m['button.view']}" includeViewParams="true" styleClass="textAction">
+							<f:param name="viewId" value="#{result.id}" />
+						</h:link>
+					</p:column>
+				</p:dataTable>
+			</p:outputPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

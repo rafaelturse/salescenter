@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<ui:composition template="/pages/template/main/main.xhtml">
+	<ui:define name="content">
+		<h:form id="language" styleClass="pageContent">
+			<p:growl id="messages" showDetail="true" />
+
+			<p:fieldset id="title" styleClass="textScreenTitle">
+				<h1>#{m['title.systemLanguage']}</h1>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="languageInfo">
+				<h:panelGrid id="panelLanguage" columns="1" cellpadding="10">
+					<p:selectOneMenu id="languages" value="#{languageController.language}" styleClass="onTheRight">
+						<f:selectItems value="#{languageController.locales}" var="language" itemLabel="#{language.displayName}" />
+						<p:ajax event="change" update="@all" listener="#{languageController.setLanguageByList}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<p:spacer />
+			<p:fieldset id="generalButtons" rendered="#{showHideController.showHide(5, 'update')}">
+				<h:panelGrid id="panelButtons" columns="1" cellpadding="10" styleClass="onTheRight">
+					<p:commandButton id="save" value="#{m['button.save']}" icon="fa fa-save" actionListener="#{languageController.update()}" update="messages" rendered="#{showHideController.showHide(5, 'update')}" />
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd"
+	version="2.1">
+
+	<entity name="OpportunityORM" class="br.com.salescenter.orm.opportunity.OpportunityORM">
+
+		<named-query name="OpportunityORM.amountBusinessType">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			OpportunityORM root
+            WHERE 
+                root.businessType = :businessType
+                AND
+                root.status = 1
+            ]]> 
+	        </query>
+		</named-query>
+
+		<named-query name="OpportunityORM.amountForecastCategory">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			OpportunityORM root
+            WHERE 
+                root.forecastCategory = :forecastCategory
+                AND
+                root.status = 1
+            ]]> 
+	        </query>
+		</named-query>
+
+		<named-query name="OpportunityORM.amountReason">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			OpportunityORM root
+            WHERE 
+                root.reason = :reason
+				AND
+                root.status = 1
+            ]]> 
+	        </query>
+		</named-query>
+
+		<named-query name="OpportunityORM.amountSalesStage">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			OpportunityORM root
+            WHERE 
+                root.salesStage = :salesStage
+                AND
+                root.status = 1
+            ]]> 
+	        </query>
+		</named-query>
+
+		<named-query name="OpportunityORM.amountSalesType">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			OpportunityORM root
+            WHERE 
+                root.salesType = :salesType
+                AND
+                root.status = 1 
+            ]]> 
+	        </query>
+		</named-query>
+
+		<named-query name="OpportunityORM.amountStatusOpportunities">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			OpportunityORM root
+            WHERE 
+                root.status = :status 
+            ]]> 
+	        </query>
+		</named-query>
+		
+		<named-query name="OpportunityORM.amountWonXLost">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			OpportunityORM root
+            WHERE 
+                root.forecastCategory = :forecastCategory
+                AND
+                root.status = 1
+            ]]> 
+	        </query>
+		</named-query>
+		
+		<named-query name="OpportunityORM.middleTiket">
+			<query>
+            <![CDATA[
+    		SELECT 
+    			COUNT(root.id)
+    		FROM
+    			OpportunityORM root
+            WHERE 
+                root.forecastCategory = :forecastCategory
+                AND
+                root.status = 1
+            ]]> 
+	        </query>
+		</named-query>
+	</entity>
+</entity-mappings>

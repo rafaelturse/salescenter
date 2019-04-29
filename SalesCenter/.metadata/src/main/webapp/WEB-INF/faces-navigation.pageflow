@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf15327028497580" configfile="/SalesCenter/src/main/webapp/WEB-INF/faces-navigation.xml">
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="2098" id="pf15327029339631" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf15327029339632 pf15327029339633 pf15327029339644 pf15327029339645 pf15327029339646 pf15327029339647 pf15327029339648 pf15327029339649 pf153270293396410 pf153270293396411 pf153270293396412 pf153270293396413 pf15329930970590 pf15329930970591 pf15380960861460 pf15380961362372 pf15381650761522 pf15394518689500 pf15398677772762 pf15398678289424 pf15398678289425 pf15399812676930 pf15399812676931 pf15399812676932" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="338" y="178" id="pf153270293396414" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf15327029339632 pf15327029339633" path="/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/home.xhtml" x="338" y="562" id="pf153270293396415" referenceLink="//@navigationRule.0/@navigationCase.2/@toViewId|" inlinks="pf15327029339644" path="/pages/system/home.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/user/search-user.xhtml" x="338" y="946" id="pf153270293396416" referenceLink="//@navigationRule.0/@navigationCase.3/@toViewId|" inlinks="pf15327029339645" path="/pages/system/user/search-user.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/user/insert-user.xhtml" x="338" y="1330" id="pf153270293396417" referenceLink="//@navigationRule.0/@navigationCase.4/@toViewId|" inlinks="pf15327029339646" path="/pages/system/user/insert-user.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/user/view-edit-user.xhtml" x="338" y="1714" id="pf153270293396418" referenceLink="//@navigationRule.0/@navigationCase.5/@toViewId|" inlinks="pf15327029339647" path="/pages/system/user/view-edit-user.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/client/search-client.xhtml" x="338" y="2098" id="pf153270293396419" referenceLink="//@navigationRule.0/@navigationCase.6/@toViewId|" inlinks="pf15327029339648" path="/pages/system/client/search-client.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/client/insert-client.xhtml" x="338" y="2482" id="pf153270293396420" referenceLink="//@navigationRule.0/@navigationCase.7/@toViewId|" inlinks="pf15327029339649" path="/pages/system/client/insert-client.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/client/view-edit-client.xhtml" x="338" y="2866" id="pf153270293396421" referenceLink="//@navigationRule.0/@navigationCase.8/@toViewId|" inlinks="pf153270293396410" path="/pages/system/client/view-edit-client.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/preferences/theme.xhtml" x="338" y="3250" id="pf153270293396522" referenceLink="//@navigationRule.0/@navigationCase.16/@toViewId|" inlinks="pf153270293396411" path="/pages/system/preferences/theme.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/preferences/language.xhtml" x="338" y="3634" id="pf153270293396523" referenceLink="//@navigationRule.0/@navigationCase.17/@toViewId|" inlinks="pf153270293396412" path="/pages/system/preferences/language.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/usergroup/search-user-group.xhtml" x="338" y="4018" id="pf153270293396524" referenceLink="//@navigationRule.0/@navigationCase.12/@toViewId|" inlinks="pf153270293396413" path="/pages/system/permission/search-user-group.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/permission/insert-user-group.xhtml" x="338" y="4402" id="pf15329930970602" referenceLink="//@navigationRule.0/@navigationCase.13/@toViewId|" inlinks="pf15329930970590" path="/pages/system/permission/insert-user-group.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/permission/view-edit-user-group.xhtml" id="pf15329930970603" referenceLink="//@navigationRule.0/@navigationCase.14/@toViewId|" inlinks="pf15329930970591" path="/pages/system/permission/view-edit-user-group.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/opportunity/insert-opportunity.xhtml" id="pf15380960861461" referenceLink="//@navigationRule.0/@navigationCase.10/@toViewId|" inlinks="pf15380960861460" path="/pages/system/opportunity/insert-opportunity.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/opportunity/view-edit-opportunity.xhtml" id="pf15380961362383" referenceLink="//@navigationRule.0/@navigationCase.11/@toViewId|" inlinks="pf15380961362372" path="/pages/system/opportunity/view-edit-opportunity.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/opportunity/search-opportunity.xhtml" id="pf15381650761533" referenceLink="//@navigationRule.0/@navigationCase.9/@toViewId|" inlinks="pf15381650761522" path="/pages/system/opportunity/search-opportunity.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/dashboard/dashboard.xhtml" id="pf15394518689511" referenceLink="//@navigationRule.0/@navigationCase.15/@toViewId|" inlinks="pf15394518689500" path="/pages/system/dashboard/dashboard.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/help/search-help.xhtml" id="pf15398677772763" referenceLink="//@navigationRule.0/@navigationCase.18/@toViewId|" inlinks="pf15398677772762" path="/pages/system/help/search-help.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/help/insert-help.xhtml" id="pf15398678289436" referenceLink="//@navigationRule.0/@navigationCase.19/@toViewId|" inlinks="pf15398678289424" path="/pages/system/help/insert-help.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/help/view-edit-help.xhtml" id="pf15398678289437" referenceLink="//@navigationRule.0/@navigationCase.20/@toViewId|" inlinks="pf15398678289425" path="/pages/system/help/view-edit-help.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/sale/view-edit-compensation.xhtml" id="pf15399812676953" referenceLink="//@navigationRule.0/@navigationCase.23/@toViewId|" inlinks="pf15399812676930" path="/pages/system/sale/view-edit-compensation.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/sale/insert-compensation.xhtml" id="pf15399812676954" referenceLink="//@navigationRule.0/@navigationCase.22/@toViewId|" inlinks="pf15399812676931" path="/pages/system/sale/insert-compensation.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/system/sale/search-compensation.xhtml" id="pf15399812676955" referenceLink="//@navigationRule.0/@navigationCase.21/@toViewId|" inlinks="pf15399812676932" path="/pages/system/sale/search-compensation.xhtml"/>
+  <links id="pf15327029339632" target="pf153270293396414" source="pf15327029339631" outcome="login" redirect="true"/>
+  <links id="pf15327029339633" target="pf153270293396414" source="pf15327029339631" outcome="logout" redirect="true"/>
+  <links id="pf15327029339644" target="pf153270293396415" source="pf15327029339631" outcome="home" redirect="true"/>
+  <links id="pf15327029339645" target="pf153270293396416" source="pf15327029339631" outcome="search-user" redirect="true"/>
+  <links id="pf15327029339646" target="pf153270293396417" source="pf15327029339631" outcome="insert-user" redirect="true"/>
+  <links id="pf15327029339647" target="pf153270293396418" source="pf15327029339631" outcome="view-edit-user" redirect="true"/>
+  <links id="pf15327029339648" target="pf153270293396419" source="pf15327029339631" outcome="search-client" redirect="true"/>
+  <links id="pf15327029339649" target="pf153270293396420" source="pf15327029339631" outcome="insert-client" redirect="true"/>
+  <links id="pf153270293396410" target="pf153270293396421" source="pf15327029339631" outcome="view-edit-client" redirect="true"/>
+  <links id="pf153270293396411" target="pf153270293396522" source="pf15327029339631" outcome="theme" redirect="true"/>
+  <links id="pf153270293396412" target="pf153270293396523" source="pf15327029339631" outcome="language" redirect="true"/>
+  <links id="pf153270293396413" target="pf153270293396524" source="pf15327029339631" outcome="search-user-group" redirect="true"/>
+  <links id="pf15329930970590" target="pf15329930970602" source="pf15327029339631" outcome="insert-user-group" redirect="true"/>
+  <links id="pf15329930970591" target="pf15329930970603" source="pf15327029339631" outcome="view-edit-user-group" redirect="true"/>
+  <links id="pf15380960861460" target="pf15380960861461" source="pf15327029339631" outcome="insert-opportunity" redirect="true"/>
+  <links id="pf15380961362372" target="pf15380961362383" source="pf15327029339631" outcome="view-edit-opportunity" redirect="true"/>
+  <links id="pf15381650761522" target="pf15381650761533" source="pf15327029339631" outcome="search-opportunity" redirect="true"/>
+  <links id="pf15394518689500" target="pf15394518689511" source="pf15327029339631" outcome="dashboard" redirect="true"/>
+  <links id="pf15398677772762" target="pf15398677772763" source="pf15327029339631" outcome="search-help" redirect="true"/>
+  <links id="pf15398678289424" target="pf15398678289436" source="pf15327029339631" outcome="insert-help" redirect="true"/>
+  <links id="pf15398678289425" target="pf15398678289437" source="pf15327029339631" outcome="view-edit-help" redirect="true"/>
+  <links id="pf15399812676930" target="pf15399812676953" source="pf15327029339631" outcome="view-edit-compensation" redirect="true"/>
+  <links id="pf15399812676931" target="pf15399812676954" source="pf15327029339631" outcome="insert-compensation" redirect="true"/>
+  <links id="pf15399812676932" target="pf15399812676955" source="pf15327029339631" outcome="search-compensation" redirect="true"/>
+</pageflow:Pageflow>
