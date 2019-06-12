@@ -34,7 +34,7 @@ Java 8, Reflexion, Annotation, JSF, Primefaces, HTML, XHTML, XML, CSS, Javascrip
   * Use of ENUMs
   * Use of Converters
   * Use of Regex
-  * user Activity Log
+  * User Activity Log
   * Use of MVC
     * Model
       * ORM Entities
