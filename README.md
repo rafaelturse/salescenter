@@ -69,6 +69,7 @@ Java 8, Reflexion, Annotation, JSF, Primefaces, HTML, XHTML, XML, CSS, Javascrip
   * Improve Interfaces
   * Improve Log
   * Improve Schedule
+  * Improve Bussiness Rules separation between Controllers and Services
   * Improve modules organization by layers
   * Change CID for EJB
   * Use Spring Security
