@@ -22,20 +22,21 @@ Java 8, Reflexion, Annotation, JSF, Primefaces, HTML, XHTML, XML, CSS, Javascrip
   * CRUD - Client
   * CRUD - FAQ
   * CRUD - Opportunity
-  * CRUD - Sales with  Goals
+  * CRUD - Sales with Goals
   
 # Facilities
   * CRUDs with subCRUDs of compliment information as Contacts (phone and email) and Addresses
   * Use of Native Queries for Chart queries
   * Use of Named Queries in external XML Files
   * Use of Criteria Queries for System Searchs
-  * Use XML File to control URLs
+  * Use of XML file to control URLs
 
 # TO DO
   * CRUD - Content Management
   * CRUD - Chart Management
   * Improve User CRUD for Photo Upload
   * Improve Client CRUD for Photo Upload
+  * Improve Goals Mechanism
   * Improve Preferences for Dashboard Management
   * Improve Reports with Jasper Reports and Apache POI
   * Use Spring Security
