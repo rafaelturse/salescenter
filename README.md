@@ -30,14 +30,26 @@ Java 8, Reflexion, Annotation, JSF, Primefaces, HTML, XHTML, XML, CSS, Javascrip
   * Use of Named Queries in external XML Files
   * Use of Criteria Queries for System Searchs
   * Use of XML file to control URLs
+  * Use of Messages in simple methods
   * Use of ENUMs
   * Use of Converters
   * Use of Regex
+  * user Activity Log
   * Use of MVC
-    * M
-    * V
-    * C
-  
+    * Model
+      * ORM Entities
+      * View Objects / DTO | VO
+      * Service
+    * View
+      * Primefaces
+      * HTML
+      * XHTML
+      * CSS
+      * Javascript
+      * Ajax
+    * Control
+      * Managed Beans by CRUD Function
+
 # Utils  
   * Date
   * Message
@@ -53,6 +65,12 @@ Java 8, Reflexion, Annotation, JSF, Primefaces, HTML, XHTML, XML, CSS, Javascrip
   * Improve Goals Mechanism
   * Improve Preferences for Dashboard Management
   * Improve Reports with Jasper Reports and Apache POI
+  * Improve Abstract Classes 
+  * Improve Interfaces
+  * Improve Log
+  * Improve Schedule
+  * Improve modules organization by layers
+  * Change CID for EJB
   * Use Spring Security
     * To improve the mechanism of automatic loading of menus and pages, according to User Group Permissions
     * To improve Login
