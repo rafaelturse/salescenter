@@ -30,6 +30,20 @@ Java 8, Reflexion, Annotation, JSF, Primefaces, HTML, XHTML, XML, CSS, Javascrip
   * Use of Named Queries in external XML Files
   * Use of Criteria Queries for System Searchs
   * Use of XML file to control URLs
+  * Use of ENUMs
+  * Use of Converters
+  * Use of Regex
+  * Use of MVC
+    * M
+    * V
+    * C
+  
+# Utils  
+  * Date
+  * Message
+  * Session
+  * Text
+  * Validation
 
 # TO DO
   * CRUD - Content Management
