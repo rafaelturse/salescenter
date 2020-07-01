@@ -31,7 +31,7 @@
 		<jsf-api.version>2.2.16</jsf-api.version>
 		<junit.version>4.12</junit.version>
 		<lombok.version>1.16.16</lombok.version>
-		<mysql-connector-java.version>5.1.38</mysql-connector-java.version>
+		<mysql-connector-java.version>8.0.16</mysql-connector-java.version>
 		<poi.version>3.17</poi.version>
 		<primefaces-all-themes.version>1.0.8</primefaces-all-themes.version>
 		<primefaces.version>6.2</primefaces.version>
