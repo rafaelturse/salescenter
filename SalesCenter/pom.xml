@@ -29,7 +29,7 @@
 		<jdom.version>1.1</jdom.version>
 		<jsf-impl.version>2.2.16</jsf-impl.version>
 		<jsf-api.version>2.2.16</jsf-api.version>
-		<junit.version>4.12</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<lombok.version>1.16.16</lombok.version>
 		<mysql-connector-java.version>5.1.38</mysql-connector-java.version>
 		<poi.version>3.17</poi.version>
