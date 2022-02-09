@@ -22,7 +22,7 @@
 		<commons-io.version>2.4</commons-io.version>
 		<commons-lang3.version>3.7</commons-lang3.version>
 		<ejb.version>3.2</ejb.version>
-		<hibernate-core.version>5.2.16.Final</hibernate-core.version>
+		<hibernate-core.version>5.4.24.Final</hibernate-core.version>
 		<hibernate-entitymanager.version>5.2.16.Final</hibernate-entitymanager.version>
 		<itext.version>2.1.7</itext.version>
 		<jandex.version>1.2.2.Final</jandex.version>
